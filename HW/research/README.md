@@ -6,6 +6,7 @@ Jede relevante Komponente hat einen eigenen Unterordner mit einer eigenen README
 
 Hier werden lediglich die besten Zusammenstellungen der Komponente festgehalten und zu einem gemeinsamen Kit mit den Relevanten Informationen zusammen geführt.
 
+Nach Beendigung der Recherche Phase sollen die Schriftlichen Erkenntnisse ins Wiki übertragen werden und alle Relevanten Dokumente in den Hardware Ordner integriert werden.
 
 # Kit 1 - Kostengünstig
 | Komponente | Kategorie | Bestellung / Link | Preis | Begründung der Auswahl | Pflicht |
