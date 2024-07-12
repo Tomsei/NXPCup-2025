@@ -21,7 +21,7 @@ Hier werden lediglich die besten Zusammenstellungen der Komponente festgehalten 
 | Servo                         | Elektronik | | | | &check; |
 | Kamera                        | Elektronik | | | | &check; |
 | Distanzmesser                 | Elektronik | | | | &check; |
-| Spannungswandl                | Elektronik | | | | &check; |
+| Spannungswandler              | Elektronik | | | | &check; |
 | An-Ausschalter                | Elektronik | | | | &check; |
 | WiFi                          | Elektronik | | | | &cross; |
 | IMU (Inertiale Messeinheit)   | Elektronik | | | | &cross; |
@@ -31,3 +31,4 @@ Hier werden lediglich die besten Zusammenstellungen der Komponente festgehalten 
 **Gesamtkosten:**
 
 # Kit 2 - Innovativ + Mehr Risiko...
+...
