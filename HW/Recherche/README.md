@@ -33,3 +33,10 @@ Nach Beendigung der Recherche Phase sollen die Schriftlichen Erkenntnisse ins Wi
 
 # Kit 2 - Innovativ + Mehr Risiko...
 ...
+
+
+
+# Liste von weiteren möglichen Shops:
+- [DERKUM Modellbaum](https://www.derkum-modellbau.com/)
+- [F+K MOdellbau](https://www.fundkmodellbau.de/#standort) (Vor Ort könnten ggf. spezifische Fragen gestellt werden)
+- [YFROBOT](https://yfrobot.com/en-de/collections/all)
