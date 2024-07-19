@@ -8,6 +8,32 @@ Software und Hardware für den NXP-Cup 2025
 
 Der NXP-Cup ist ein Internationaler Wettbewerb, ausgerichtet vom Unternehmen NXP (Link)...
 
+# Styleguides
+### Code
+- Sprache (Variablen, Funktionen): Englisch
+- Kommentare: Englisch
+- Schreibweise: 
+    - CamelCase
+    - Funktionen / Variablen: starten klein
+    - Typ-Klasse: starten groß
+    - Variablen:
+        - Boolen: Präfix is (isValid)
+        - constant: konsequent großschreiben von CONSTANT
+    - Leerzeichen zwischen Operatoren:  
+    ```x + y``` anstatt ```a+y```; ```[x, y]``` anstatt ```[x,y]```
+    - Klammerung: Klammer in gleicher Zeile dahinter
+        ```
+        function () {
+            ...
+        }
+        ```
+### GIT
+- Commits: Englisch
+- Dateien: Englisch
+- Verzeichnisse: Englisch
+- Wiki: Deutsch
+- Issues: Deutsch
+
 # Priorisierung der Veränderungen:
 Aktuelle Übersicht über die überlegten Veränderungen und die Priorisierung dessen in der Umsetzung.
 
