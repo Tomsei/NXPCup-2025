@@ -1,7 +1,7 @@
 # Motoren
 Sammlung aller Relevanten Informationen zu den Motoren
 
-Weitere Recherche zu Brushless Motoren: [PICHLER](https://pichler.de/Brushless-Antriebe)
+Weitere Recherche zu Brushless Motoren: [PICHLER](https://pichler.de/Brushless-Antriebe), [rotorriot](https://rotorriot.com/collections/motors-new)
 
 | Name | Beschreibung | Vorteile | Nachteile | Technische Daten | Kosten | Link | 
 | :--: | :----------: | :------: | :-------: | :--------------: | :----: | :--: |

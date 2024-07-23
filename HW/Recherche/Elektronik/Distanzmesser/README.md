@@ -17,7 +17,7 @@ Weitere Möglichkeiten zu Lider [RobotShop](https://eu.robotshop.com/collections
 | VL53L5CX ToF | ToF Sensor (2cm - 4m) | - Breiter Wertebereich | X | -Betriebsspannung: 3.3V <br> - Distanz: 2-400cm <br> - Schnittstelle I2C | 22,18€ | [RobotShop](https://eu.robotshop.com/products/vl53l5cx-tof-8x8-zone-distance-sensor-400-cm-carrier-w-voltage-regulator) | X |
 | LDROBOT LD07 | Kurzdistanz 1D Laser Radar | - Messbereich wie gewünscht <br> - ggf. Präziser als andere Modelle | - teurer | - Distanz: 30-300mm <br> - Update Rate: 28 Hz <br> - Schnittstelle UART | 43,38€ | [RobotShop](https://eu.robotshop.com/products/ldrobot-ld07-solid-state-lidar-sensor-only) | X |
 | Phidget VINT | Infrarot TOF Sensor | - soll 2 cm erkennen | X | - Distanz: 20-650mm <br> - update Rate: 30-60ms pro Sample |  33,37 | [RobotShop](https://eu.robotshop.com/products/phidget-vint-distance-sensor-650mm) | X |
-
+| Mini Laser Distance Range | Mini Laser Sensor | - hohe Messgenauigkeit im Nahen Bereich <br> - Messbereich bis zu 2 mm <br> - soll bis zu 4 Meter weit gucken können | X | - Distanz: 2-400cm <br> - Interface: I2C <br>- Update Rate: 19-38ms Antwortzeit <br> - Betriebsspannung 3.3-5V  | 12,90$ | [DFROBOT](https://www.dfrobot.com/product-2727.html) | [Produkt Wiki](https://wiki.dfrobot.com/Laser_Ranging_Sensor_4m_SKU_SEN0590) |
 
 **Ideen:** 
 - ggf. Kombination aus zwei Lidar Sensoren (Polulu Distance 5 CM + 50 cm -> doppelte Sicherheit / präzisere Steuerung möglich)
