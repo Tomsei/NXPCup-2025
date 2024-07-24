@@ -1,6 +1,16 @@
 # Prozessor - Board
 Sammlung aller Relevanten Informationen zum Prozessor - genutzes Board
 
+
+### Nutzungsfall
+- Gesamtsteuerung des Autos
+
+### Funktionale Anforderungen
+- Ausreichen Anschlussmöglichkeiten für Sensoren, Displays, Kameras, Motoren
+- Rechenstark
+- optional: USB-Host fähig
+
+
 ### Boards mit inkludierten Prozessor
 | Name | Beschreibung | Vorteile | Nachteile | Technische Details | Kosten | Link | 
 | :--: | :----------: | :------: | :-------: | :----------------: | :----: | :--: |

@@ -1,6 +1,19 @@
 # Distanzmesser
 Sammlung aller Relevanten Informationen zum Distanzmesser
 
+### Nutzungsfall
+- Erkenne des Würfels (Entfernung)
+- Erkennen eines Hindernisses / wand (stehen Bleiben) (optional)
+- Sollte in jeder Situation (Debug, Stillstand, Fahrt) angesprochen werden können. 
+
+### Funktionale Anforderung
+- Sichtweite: 
+    - kleinste sichere Distanz: 2-5cm 
+    - größte sichere Distanz: 1 Meter + Größer
+- Stüropor erkennen!
+- Farbunahbängig
+- Update Rate: möglichst schnell, aber nicht so relevant (wegen langsam Fahrt vor Würfel)
+
 Weitere Möglichkeiten zu Lider [RobotShop](https://eu.robotshop.com/collections/lidar), [Eckstein](https://eckstein-shop.de/search/?qs=Lidar), [Premium-Modellbau](https://www.premium-modellbau.de/multicopter/flightcontroller-sensorik/lidar-sensoren/?p=1), [exp-tech](https://exp-tech.de/collections/lidar-sensoren)
 
 | Name | Beschreibung | Vorteile | Nachteile | Technische Details | Kosten | Link | weitere Infos |

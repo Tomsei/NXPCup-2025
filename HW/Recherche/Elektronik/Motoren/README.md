@@ -1,6 +1,19 @@
 # Motoren
 Sammlung aller Relevanten Informationen zu den Motoren
 
+
+### Nutzungsfall
+- Bei jeder Fahrt
+
+### Funktionale Anforderungen
+- Schnell / stark (Motorenergie = Masse des Autos * gewollte Maximalgeschwindigkeit des Autos )
+- brushless
+- hohes Drehmoment
+
+
+<br>
+<br>
+
 Weitere Recherche zu Brushless Motoren: [PICHLER](https://pichler.de/Brushless-Antriebe), [rotorriot](https://rotorriot.com/collections/motors-new)
 
 | Name | Beschreibung | Vorteile | Nachteile | Technische Daten | Kosten | Link | 
