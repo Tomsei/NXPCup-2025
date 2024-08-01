@@ -14,6 +14,6 @@ Sammlung aller Relevanten Informationen zur Geschwindigkeitsmessung
 
 
 
-| Name | Beschreibung | Vorteile | Nachteile | Kosten | Link | 
-| :--: | :----------: | :------: | :-------: | :----: | :--: |
-| Maussensor | X | Seitliche Messung möglich | X | X | X | 
+| Name | Beschreibung | Vorteile | Nachteile | Technische Details | Kosten | Link | 
+| :--: | :----------: | :------: | :-------: | :----------------: | :----: | :--: |
+| PIM453 | Bewegungserkennung wie ein Muassensor | - Geschwindigkeiten in alle Richtungen erkennbar (seitliche Messung möglich) | - Funktionsfähigkeit muss zunächst geprüft werden | X | 22,32€ | [Mouser](https://www.mouser.de/ProductDetail/Pimoroni/PIM453?qs=PzGy0jfpSMuJnlsymXyulA%3D%3D)
