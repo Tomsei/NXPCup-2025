@@ -14,7 +14,8 @@ Sammlung aller Relevanten Informationen zum Prozessor - genutzes Board
 ### Boards mit inkludierten Prozessor
 | Name | Beschreibung | Vorteile | Nachteile | Technische Details | Kosten | Link | 
 | :--: | :----------: | :------: | :-------: | :----------------: | :----: | :--: |
-
+| DEBIX Model A | NXP-Single Computer | Rechenleistung, Anschlussmöglichkeiten, Ähnlichkeiten zum PI | Support / Unterstützung ist unklar | - bis zu 8 GB Memory <br> - Windows 10 IoT Enterprise <br> - 4 x Arm Cortex-A53 | ? <br> 58,82€ | [DEBIX](https://debix.io/hardware/model-a.html) <br> [Conrad](https://www.conrad.de/de/p/debix-model-a-2-gb-4-x-1-8-ghz-2625844.html)
+| FRDM-K64F | NXP Mikrocontroller Board | Board von NXP selbst | geringe Leistung | - ARM Cortex-M4 | 68,90€ | [Conrad](https://www.conrad.de/de/p/nxp-semiconductors-frdm-k64f-evaluation-board-frdm-k64f-kinetis-k-series-1271993.html)
 
 
 ### Compute Module mit zugehörigen IO-Board
@@ -26,5 +27,3 @@ Sammlung aller Relevanten Informationen zum Prozessor - genutzes Board
 
 
 Offene / zu prüfende Links: [NXP Board Conrad](https://www.conrad.de/de/p/nxp-semiconductors-frdm-k64f-evaluation-board-frdm-k64f-kinetis-k-series-1271993.html?hk=SEM&WT.mc_id=google_pla&gad_source=1&gclid=CjwKCAjw5Ky1BhAgEiwA5jGujq6W1-mqRV1Uk8HsP6iGdMMh9gRQ3QsY-L6Mo0ezBFutM6CsmqsI3RoCD0QQAvD_BwE&refresh=true)
-
-[NXP-Single Computer](https://debix.io/hardware/model-a.html)
