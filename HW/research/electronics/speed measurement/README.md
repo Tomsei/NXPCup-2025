@@ -16,4 +16,4 @@ Sammlung aller Relevanten Informationen zur Geschwindigkeitsmessung
 
 | Name | Beschreibung | Vorteile | Nachteile | Technische Details | Kosten | Link | 
 | :--: | :----------: | :------: | :-------: | :----------------: | :----: | :--: |
-| PIM453 | Optical Flow Sensor <br> Bewegungserkennung wie ein Muassensor | - Geschwindigkeiten in alle Richtungen erkennbar (seitliche Messung möglich) | - Funktionsfähigkeit muss zunächst geprüft werden | - Betriebsspannung: 3V, 5V <br> - Schnittstelle: SPI | 22,32€ | [Mouser](https://www.mouser.de/ProductDetail/Pimoroni/PIM453?qs=PzGy0jfpSMuJnlsymXyulA%3D%3D)
+| **PIM453** | **Optical Flow Sensor <br> Bewegungserkennung wie ein Muassensor** | **- Geschwindigkeiten in alle Richtungen erkennbar (seitliche Messung möglich)** | **- Funktionsfähigkeit muss zunächst geprüft werden** | **- Betriebsspannung: 3V, 5V <br> - Schnittstelle: SPI** | **22,32€** | **[Mouser](https://www.mouser.de/ProductDetail/Pimoroni/PIM453?qs=PzGy0jfpSMuJnlsymXyulA%3D%3D)**
