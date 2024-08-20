@@ -23,6 +23,19 @@ Sammlung aller Relevanten Informationen zur Kamera
 | Raspberry Pi Camera 3 NoIR | Pi Kamera Modul | - Integration zu Pi sollte einfach sein | - Orientierungswerte knapp nicht erreicht | Werte knapp nicht erfüllt: <br> - 1080 Pixel (50 FPS) <br>- 720 Pixel (100 FPS) | 28,50€ | [Reichelt](https://www.reichelt.de/raspberry-pi-kamera-12mp-76-noir-v3-rasp-cam-3-n-p339259.html) |
 | Haljia Kamera | Raspberry Pi Mini Kamera Modul | - geringe Kosten | - Orientierungswerte nicht erreicht | Werte nicht erfüllt: <br> - 1080 pixel (30 FPS) <br> - Unterstütztung von Rasbian (Rasperry Pi beorzugt) | 9,99€ | [Amazon](https://www.amazon.de/Megapixel-Sensor-ov5647-Mini-Kamera-Raspberry/dp/B01DM8NAI0/ref=sr_1_1) |
 
+# Weitereführende Informationen
+
+### Open MV Camera Details
+- **Display:** kompatibles Display vorhanden [Open MV Display](https://openmv.io/collections/openmv-cam-shields/products/lcd-shield?variant=16525320513)  
+- **IDE:** eigene Entwicklungsumgebung der Open MV Cam (Plug and Programm)
+- **Grundprogramme:** große Reihe an grundlegenden Beispielen + Möglichkeiten wie die Integration von Tenserflow
+- **Machine Learning:** bereits Beispielhafte Machine Learning Prozesse umgesetzt [Beispiel Demo](https://www.youtube.com/watch?v=PdWi_fvY9Og)
+- **Tutorial + Support:** viele Tutorials + Support Forum | [FAQ](https://openmv.io/pages/faq)
+- **Programmiersprache:** Mikro Python - C Programmierung durch veränderung der Firmware möglich! [Forum Beitrag](https://forums.openmv.io/t/is-it-possible-to-code-the-camera-intelligente-openmv-cam-h7-in-c/9172/2)
+- **Firmware Änderungen:** Änderungen sind deutlich einfacher möglich als bei Pixy [Firmware](https://github.com/openmv/openmv), [Forum Beitrag](https://forums.openmv.io/t/custom-firmware-on-openmv-h7/2081/1), [Build Anweisung](https://github.com/openmv/openmv/tree/master/src)
+- **Praxisbeispiele:** [Getting Startet](https://www.youtube.com/watch?v=6xr5K1NalBQ), [simple object tracking](https://www.youtube.com/watch?v=3c-LGLlfMd4), [eigenes Training der Cam](https://sites.hslu.ch/werkstatt/train-your-camera/)
+
+
 ### Informationen zu PI Kameras:
 - Weitere Informationen zu den besten Kameras für den PI [Beste Pi Kameras](https://wonderfulengineering.com/10-best-cameras-for-raspberry-pi-2/)
 - Weitere Informationen zu Kameras: [BERRYBASE](https://www.berrybase.de/raspberry-pi/raspberry-pi-computer/kameras/) 

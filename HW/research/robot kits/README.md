@@ -17,4 +17,17 @@ Sammlung von unterschiedlichen Kits mit denen das Auto komplett oder zum groß T
 | T410R | Car Racing Kit <br> - Bodenplatte, Bumper, Lenkung | - 4 Räder Antrieb mit 1 Motor <br> - Carbon Platten | - Änderungen an Lenkung... schwer <br> - Lenkung aus Plastick <br> - Verifiziern ob Lenkung stark genug lenken kann | 179,95€ | [Berlinski](https://www.modellbau-berlinski.de/rc-fahrzeuge-und-zubehoer/autos-und-zubehoer/elektro-onroad/t410r-1_10-4wd-touring-car-racing-kit) | [Fazit Video](https://www.youtube.com/watch?v=ygbi7cgdRmU) <br> [Fahrt 1](https://www.youtube.com/watch?v=MqAf437YUDs) <br> [Fahrt 2](https://www.youtube.com/watch?v=B4C-TcFA9as) <br> [Fahrt 3](https://www.youtube.com/watch?v=vCl3c6_rK2o) | 
 | Sakura M4 | Car Racing Kit | ToDo | ToDo | 108,95€ | [Berlinsiki](https://www.modellbau-berlinski.de/rc-fahrzeuge-und-zubehoer/autos-und-zubehoer/elektro-onroad/sakura-m4-m-chassis-4wd-tourenwagen-1_10-bausatz) | X |
 | Reely TC-04 | Car Racing Kit | - günstiger | - mäßige Bewertung | 73,99€ | [Contrad](https://www.conrad.de/de/p/reely-tc-04-onroad-chassis-1-10-rc-modellauto-elektro-strassenmodell-allradantrieb-4wd-arr-1406735.html) | X | 
-| TT01E Shaft Drive | Car Racing Kit <br> - Bodenplatte, Bumper, Lenkung, Räder | ToDo | ToDo | 139,33€ |[Ebay](https://www.ebay.de/itm/125555400870)
+| TT01E Shaft Drive | Car Racing Kit <br> - Bodenplatte, Bumper, Lenkung, Räder | ToDo | ToDo | 139,33€ |[Ebay](https://www.ebay.de/itm/125555400870) | X |
+| Tamiya 47326 TT-02R | Car Racing Kit | - Differential | ToDo | 160,98€ | [haertle](https://www.haertle.de/RC+Modellbau/RC+Autos/TAMIYA+47326+TT+02R+Chassis+Kit+RC+Tourenwagen+Bausatz+1+10.html) | X |
+| TT-02R | Car Racing Kit <br> - Bodenplatte, Bumper, Lenkung | - aktuell reduziert | ToDo | 119,95€ | [Berlinski](https://www.modellbau-berlinski.de/rc-fahrzeuge-und-zubehoer/autos-und-zubehoer/elektro-onroad/tt-02r-race-chassis-kit-1_10-tuning) | X |
+| UDIRC 1607 | Ferngesteuertes Auto | - günstiger | ToDo | 88,89€ | [Kaufland](https://www.kaufland.de/product/473507470/) | X |
+| 1/24 TG Racing | Car Racing Kit <br> sehr kleines Modell | ToDo | ToDo | 189,99$ | [Amazon](https://www.amazon.com/Abendor-Racing-Carbon-Assembled-Wheels/dp/B0CNQ5J82Y) | - [weiteres Modell](https://de.aliexpress.com/item/1005005292720617.html) |
+| M-07 | Car Racing Kit <br> - Bodenplatte, Bumper, Lenkung <br> - Frontantrieb | ToDo | ToDo | 169,99€ | [Berlinski](https://www.modellbau-berlinski.de/rc-fahrzeuge-und-zubehoer/autos-und-zubehoer/elektro-onroad/m-07-concept-chassis-kit-1_10-2wd-frontantrieb) | X |
+| M210R | Car Racing Kit <br> - Bodenplatte, Bumper, Lenkung | - Modell soll gutes Preis Leistungsverhältnis haben | ToDo | 158,95€ | [Berlinski](https://www.modellbau-berlinski.de/rc-fahrzeuge-und-zubehoer/autos-und-zubehoer/elektro-onroad/m210r-1_10-on-road-4wd-m-chassis-kohlefaser-bausatz) | - [Fahrt Video](https://www.youtube.com/watch?v=8EngTBY8sZw) |
+| M210 | Car Racing Kit <br> - Bodenplatte, Bumper, Lenkung | ToDo | ToDo |119,95€ | [Berlinski](https://www.modellbau-berlinski.de/rc-fahrzeuge-und-zubehoer/autos-und-zubehoer/elektro-onroad/m210-1_10-on-road-4wd-m-chassis-kohlefaser-bausatz) | - [Review](https://www.youtube.com/watch?v=-ci_-a7N_28) <br> - [Fahrvideo](https://www.youtube.com/watch?v=yJPYrHEhgeY) |
+
+### Weitere Modelle:
+- Weitere Modelle: [wa-rcmodellbau](https://www.wa-rcmodellbau.de/navi.php?k=636&suche=&Sortierung=3&af=0)
+
+- [TCR-M On Road](https://www.wa-rcmodellbau.de/TCR-M-On-Road-Car-KIT)
+
