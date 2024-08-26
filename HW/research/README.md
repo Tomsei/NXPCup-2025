@@ -37,7 +37,10 @@ Nach Beendigung der Recherche Phase sollen die Schriftlichen Erkenntnisse ins Wi
 | LED-Stribes-Anzeige           | NeoPixel 3094 | [Mouser](https://www.mouser.de/ProductDetail/Adafruit/3094?qs=SV%252B0z0o3NTt%2F2YK7E3w5Rg%3D%3D) | 2,70€ <br> (27,85€) | - auf eigener Platine gut positionierbar | [Datenblatt](https://www.adafruit.com/product/3094) | - par LEDS auf eigenes Board | &cross; |
 | WiFi                          | X | X | X | X | X | - auf Kamera vorliegend  | &cross; |
 
-**Gesamtkosten:** 564,25€ | Optional: verkleinert auf 519€ (Sachen "verschlechtern")
+### Weiteres Zubehör
+- [Motorritzel Set - Berlinski](https://www.modellbau-berlinski.de/rc-fahrzeuge-und-zubehoer/autos-und-zubehoer/zubehoer/zahnraeder-und-ritzel/stahl-motorritzel-14t-48dp---317mm-welle): 4,99€
+
+**Gesamtkosten:** 564,25€ (ToDo: Update!)
 
 ### Vorteile:
 - Eigene Platine bietet zuverlässigkeit und es liegt in der **eigenen Kontrolle (Veränderungen möglich)**
