@@ -34,6 +34,9 @@ Der NXP-Cup ist ein Internationaler Wettbewerb, ausgerichtet vom Unternehmen NXP
 - Wiki: Deutsch
 - Issues: Deutsch
 
+<br>
+<br>
+
 # Priorisierung der Veränderungen:
 Aktuelle Übersicht über die überlegten Veränderungen und die Priorisierung dessen in der Umsetzung.
 

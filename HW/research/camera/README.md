@@ -34,9 +34,3 @@ Sammlung aller Relevanten Informationen zur Kamera
 - **Programmiersprache:** Mikro Python - C Programmierung durch veränderung der Firmware möglich! [Forum Beitrag](https://forums.openmv.io/t/is-it-possible-to-code-the-camera-intelligente-openmv-cam-h7-in-c/9172/2)
 - **Firmware Änderungen:** Änderungen sind deutlich einfacher möglich als bei Pixy [Firmware](https://github.com/openmv/openmv), [Forum Beitrag](https://forums.openmv.io/t/custom-firmware-on-openmv-h7/2081/1), [Build Anweisung](https://github.com/openmv/openmv/tree/master/src)
 - **Praxisbeispiele:** [Getting Startet](https://www.youtube.com/watch?v=6xr5K1NalBQ), [simple object tracking](https://www.youtube.com/watch?v=3c-LGLlfMd4), [eigenes Training der Cam](https://sites.hslu.ch/werkstatt/train-your-camera/)
-
-
-### Informationen zu PI Kameras:
-- Weitere Informationen zu den besten Kameras für den PI [Beste Pi Kameras](https://wonderfulengineering.com/10-best-cameras-for-raspberry-pi-2/)
-- Weitere Informationen zu Kameras: [BERRYBASE](https://www.berrybase.de/raspberry-pi/raspberry-pi-computer/kameras/) 
-- Weitere Informationen zu kompatibelen Kameras für Compute Modules: [Kompatible Kamers](https://www.pi-shop.ch/blog/kamera-modul-komp)
