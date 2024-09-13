@@ -1,9 +1,0 @@
-# Größere Kits - All in One
-Sammlung von unterschiedlichen Kits mit denen das Auto komplett oder zum groß Teil gebaut werden könnte
-
-| Name | Beschreibung | Vorteile | Nachteile | Kosten | Link | 
-| :--: | :----------: | :------: | :-------: | :----: | :--: |
-| Waveshare JetRacer | - Kit enthällt Autokit mit Motoren, Sensoren und weiteren Komponenten <br> - Sub-Controller: Rasberry PI | - Breite Anwendung AI bzogener Prozesse <br> - Erweiterungsmöglichkeiten für Kameraverarbeitung | - weniger Individualisierung möglich | 279,90€ | [Berrybase](https://www.berrybase.de/waveshare-jetracer-professional-ros-ai-zubehoer-kit-autonomes-fahren-und-ai-projekte?c=2703#) | 
-| Picar-V | - Kit enhällt Fahrzeug, Kamera, Basissensoren | X | - Raspberry Pi ist nicht inkludiert | 79,99$ | [SundFounder](https://www.sunfounder.com/collections/robotics/products/smart-video-car)
-| 2WD RC Smar car Chassis | - Enthält Basisplatte (Metall) etc für das Auto <br> - inkludiert Motoren als auch Servo | - Basis nutzbar, aber viel individualisierung möglich | - Reifen, Servo und Motoren ggf. unnötig | ca. 48€ | [ROBOTER](https://www.roboter-bausatz.de/p/2wd-rc-smart-car-chassis) |
-| YFROBOT Chassis Kit | - Fahrzeug modell mit Lenkachse <br> - Motren sind enthalten | X | X | 54,40€ <br> 49,90€ | [ebay](https://www.ebay.de/itm/156085410313?_trkparms=amclksrc%3DITM%26aid%3D111001%26algo%3DREC.SEED%26ao%3D1%26asc%3D20240304162621%26meid%3D963254c408c24a758335c16631ff1476%26pid%3D102020%26rk%3D2%26rkt%3D4%26sd%3D305314520311%26itm%3D156085410313%26pmt%3D1%26noa%3D1%26pg%3D2332490&_trksid=p2332490.c102020.m5276) <br> [Funduino](https://funduinoshop.com/diy-werkstatt/bausaetze/chassis/yfrobot-chassis-kit-mit-lenkachse)
