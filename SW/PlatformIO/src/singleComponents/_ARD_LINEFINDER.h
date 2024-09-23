@@ -1,0 +1,3 @@
+void setupArdLinefinder();
+
+void runArdLineFinder();
