@@ -1,9 +1,9 @@
 //Source: https://github.com/bitcraze/Bitcraze_PMW3901
 
 #include "Bitcraze_PMW3901.h"
+#include "configuration/globalConfig.h"
 
-
-Bitcraze_PMW3901 flow(10);
+Bitcraze_PMW3901 flow(OpticalFlowSensor);
 int16_t deltaX, deltaY;
 
 void printOpticalFlowData();
@@ -16,12 +16,12 @@ void setupOpticalFlow() {
     }
     flow.setLed(false);
     //eigene LED
-    pinMode(32, OUTPUT);
+    pinMode(OpticalFlowLED, OUTPUT);
 }
 
 void runOpticalFlow() {
     flow.readMotionCount(&deltaX, &deltaY);
-    digitalWrite(32, HIGH);
+    digitalWrite(OpticalFlowLED, HIGH);
     printOpticalFlowData();
     
 }
