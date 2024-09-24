@@ -7,7 +7,7 @@ VL53L0X sensor;
 
 void setupTofDistanceMeasure() {
 
-    Wire.begin(); 
+    //Wire.begin(); done one time in setup
 
     sensor.setTimeout(500);
     if (!sensor.init())
