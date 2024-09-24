@@ -6,6 +6,7 @@
 #include "singleComponents/opticalFlow_PIM453.h"
 #include "singleComponents/tofDistanceMeasure_VL53L0X.h"
 #include "singleComponents/_ARD_LINEFINDER.h"
+#include "singleComponents/servo_REELYS2210.h"
 
 void setup() {
   // put your setup code here, to run once:
@@ -13,7 +14,7 @@ void setup() {
   setupOpticalFlow();
   setupTofDistanceMeasure();
   setupArdLinefinder();
-  
+  setupServo();
   //pinMode(onBoardLed, OUTPUT);
 
 }
@@ -23,6 +24,7 @@ void loop() {
   runOpticalFlow();
   runTofDistanceMeasure();
   runArdLineFinder();
+  runServo();
   //teensyBlink();
   //Serial.println("Loop");
 } 
