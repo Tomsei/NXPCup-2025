@@ -7,3 +7,4 @@ const int ardLineFinder1 = 2;
 const int ardLineFinder2 = 3;
 
 const int servoPin = 4;
+const int motorPin = 5;
