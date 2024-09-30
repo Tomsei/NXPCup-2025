@@ -7,7 +7,7 @@ Bitcraze_PMW3901 flow(OpticalFlowSensor);
 int16_t deltaX, deltaY;
 
 void printOpticalFlowData();
-
+void runOpticalFlow();
 
 void setupOpticalFlow() {
     
@@ -27,7 +27,8 @@ void runOpticalFlow() {
 }
 
 void printOpticalFlowData() {
-    if(deltaX != 0 || deltaY != 0) {
+
+    if(deltaX > 3 || deltaY > 3 || deltaX < -3 || deltaY < -3) {
         Serial.print("Optical Flow | X: ");
         Serial.print(deltaX);
         Serial.print(", Y: ");

@@ -8,18 +8,19 @@ bool nextShouldBeFast = false;
 
 void setupMotor() {
     ESC.attach(motorPin, 1000, 2000); //min pulse width, max pulse width
+    ESC.write(0);
+    delay(5000); 
 }
 
 void runMotor() {
-    if(millis() % 5000 == 0) {
-        if(nextShouldBeFast) {
-            ESC.write(15);
-            nextShouldBeFast = false;
-        } else {
-            ESC.write(12);
-            nextShouldBeFast = true;
-        }
+    if((millis() % 5000) > 2500) {
+        
+        ESC.write(27);
     }
+    else {
+        ESC.write(17);
+    }
+    
 }
 
 void calibrateMotor() {

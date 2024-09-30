@@ -1,10 +1,17 @@
-const int onBoardLed = 13;
+#define onBoardLed 13
 
-const int OpticalFlowSensor = 10;
-const int OpticalFlowLED = 9;
+#define ardLineFinder1 2
+#define ardLineFinder2 3
 
-const int ardLineFinder1 = 2;
-const int ardLineFinder2 = 3;
+#define OpticalFlowLED 7
+#define OpticalFlowInterrupt 8 //currently not used
+#define OpticalFlowSensor 9 //ToDo: rename to chip select
 
-const int servoPin = 4;
-const int motorPin = 5;
+#define imuInterupt 4  //currently not used
+
+#define motorPin 5 //reneame Motor_ESC
+#define servoPin 6
+
+//Best Practice: ON_BOARD_LED
+
+

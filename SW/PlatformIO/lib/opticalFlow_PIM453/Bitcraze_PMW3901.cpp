@@ -32,12 +32,12 @@ Bitcraze_PMW3901::Bitcraze_PMW3901(uint8_t cspin)
 { }
 
 boolean Bitcraze_PMW3901::begin(void) {
-  // Setup SPI port
-  SPI.begin();
+  // Setup SPI1 port
+  SPI1.begin();
   pinMode(_cs, OUTPUT);
-  SPI.beginTransaction(SPISettings(4000000, MSBFIRST, SPI_MODE3));
+  SPI1.beginTransaction(SPISettings(4000000, MSBFIRST, SPI_MODE3));
 
-  // Make sure the SPI bus is reset
+  // Make sure the SPI1 bus is reset
   digitalWrite(_cs, HIGH);
   delay(1);
   digitalWrite(_cs, LOW);
@@ -45,12 +45,12 @@ boolean Bitcraze_PMW3901::begin(void) {
   digitalWrite(_cs, HIGH);
   delay(1);
 
-  SPI.endTransaction();
+  SPI1.endTransaction();
 
   // Power on reset
   registerWrite(0x3A, 0x5A);
   delay(5);
-  // Test the SPI communication, checking chipId and inverse chipId
+  // Test the SPI1 communication, checking chipId and inverse chipId
   uint8_t chipId = registerRead(0x00);
   uint8_t dIpihc = registerRead(0x5F);
 
@@ -149,18 +149,18 @@ void Bitcraze_PMW3901::readFrameBuffer(char *FBuffer)
 void Bitcraze_PMW3901::registerWrite(uint8_t reg, uint8_t value) {
   reg |= 0x80u;
 
-  SPI.beginTransaction(SPISettings(4000000, MSBFIRST, SPI_MODE3));
+  SPI1.beginTransaction(SPISettings(4000000, MSBFIRST, SPI_MODE3));
 
   digitalWrite(_cs, LOW);
 
   delayMicroseconds(50);
-  SPI.transfer(reg);
-  SPI.transfer(value);
+  SPI1.transfer(reg);
+  SPI1.transfer(value);
   delayMicroseconds(50);
 
   digitalWrite(_cs, HIGH);
 
-  SPI.endTransaction();
+  SPI1.endTransaction();
 
   delayMicroseconds(200);
 }
@@ -168,21 +168,21 @@ void Bitcraze_PMW3901::registerWrite(uint8_t reg, uint8_t value) {
 uint8_t Bitcraze_PMW3901::registerRead(uint8_t reg) {
   reg &= ~0x80u;
 
-  SPI.beginTransaction(SPISettings(4000000, MSBFIRST, SPI_MODE3));
+  SPI1.beginTransaction(SPISettings(4000000, MSBFIRST, SPI_MODE3));
 
   digitalWrite(_cs, LOW);
 
   delayMicroseconds(50);
-  SPI.transfer(reg);
+  SPI1.transfer(reg);
   delayMicroseconds(50);
-  uint8_t value = SPI.transfer(0);
+  uint8_t value = SPI1.transfer(0);
   delayMicroseconds(100);
 
   digitalWrite(_cs, HIGH);
 
   //delayMicroseconds(200);
 
-  SPI.endTransaction();
+  SPI1.endTransaction();
 
   return value;
 }

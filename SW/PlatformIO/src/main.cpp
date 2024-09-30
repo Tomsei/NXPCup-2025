@@ -13,13 +13,13 @@
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
-  Wire.begin();
+  Wire.begin(); //later in I2C Modul
   setupOpticalFlow();
   setupTofDistanceMeasure();
   setupArdLinefinder();
+  setupImu();
   setupServo();
   setupMotor();
-  setupImu();
   //pinMode(onBoardLed, OUTPUT);
 
 }
@@ -29,9 +29,9 @@ void loop() {
   runOpticalFlow();
   runTofDistanceMeasure();
   runArdLineFinder();
+  runImu();
   runServo();
   runMotor();
-  runImu();
   //teensyBlink();
   //Serial.println("Loop");
 } 

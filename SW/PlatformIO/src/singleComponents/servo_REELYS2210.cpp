@@ -7,17 +7,14 @@ Servo servo;
 bool left;
 
 void setupServo() {
-    servo.attach(servoPin);
+    servo.attach(servoPin, 544, 2400);
 }
 
 void runServo() {
-    if(millis() % 5000 == 0) {
-        if(left) {
-            servo.write(45);
-            left = false;
-        } else {
-            servo.write(180);
-            left = true;
-        }
+    if(true || (millis() % 5000) > 2500) {
+        servo.write(45);
+    } else {
+        servo.write(130);
     }
+    
 }
