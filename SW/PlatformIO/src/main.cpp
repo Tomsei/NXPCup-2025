@@ -9,6 +9,7 @@
 #include "singleComponents/servo_REELYS2210.h"
 #include "singleComponents/motor_PICHLERBOOST18S.h"
 #include "singleComponents/imu_SEN0142.h"
+#include "singleComponents/camera_OPENMVCAMRT1062.h"
 
 void setup() {
   // put your setup code here, to run once:
@@ -20,6 +21,7 @@ void setup() {
   setupImu();
   setupServo();
   setupMotor();
+  setupCamera();
   //pinMode(onBoardLed, OUTPUT);
 
 }
@@ -32,6 +34,7 @@ void loop() {
   runImu();
   runServo();
   runMotor();
+  runCamera();
   //teensyBlink();
   //Serial.println("Loop");
 } 
