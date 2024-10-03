@@ -21,7 +21,7 @@ void setup() {
   setupImu();
   setupServo();
   setupMotor();
-  setupCamera();
+  //setupCamera();
   //pinMode(onBoardLed, OUTPUT);
 
 }
@@ -34,7 +34,7 @@ void loop() {
   runImu();
   runServo();
   runMotor();
-  runCamera();
+  //runCamera();
   //teensyBlink();
   //Serial.println("Loop");
 } 

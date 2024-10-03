@@ -1,9 +1,8 @@
 #include "pins_arduino.h"
 #include "Arduino.h"
 
-uint32_t spiRx[10];
-volatile int spiRxIdx;
-volatile int spiRxComplete = 0;
+#include <SPI.h>
+
 
 #include "SPISlave_T4.h"
 SPISlave_T4<&SPI, SPI_8_BITS> mySPI;
@@ -12,7 +11,7 @@ void myFunc();
 
 void setupCamera() {
   mySPI.begin();
-  mySPI.onReceive(myFunc);
+  //mySPI.onReceive(myFunc);
 }
 
 void runCamera() {
@@ -38,7 +37,7 @@ void myFunc() {
   while ( mySPI.active() ) {
     if (mySPI.available()) {
       if ( i++ > sizeof(arr) ) i = 0;
-      mySPI.pushr(arr[i]);
+      //mySPI.pushr(arr[i]);
       Serial.print("VALUE: ");
       Serial.println(mySPI.popr());
     }

@@ -13,18 +13,13 @@ void setupMotor() {
 }
 
 void runMotor() {
-    if((millis() % 5000) > 2500) {
-        
-        ESC.write(27);
+    if(((millis() % 10000) > 2500) && ((millis() % 10000) < 7500)) {
+        ESC.write(20);
+    }
+    else if((millis() % 10000) < 2500) {
+        ESC.write(15);
     }
     else {
-        ESC.write(17);
+        ESC.write(0);
     }
-    
-}
-
-void calibrateMotor() {
-    ESC.write(180);
-    delay(2000);
-    ESC.write(0);
 }
