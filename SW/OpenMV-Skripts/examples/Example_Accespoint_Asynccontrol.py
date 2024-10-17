@@ -42,20 +42,20 @@ def createHtmlString():
 
 """
 methode to setup the accespoint and to start it.
-@param _accesPoint accesPoint to start
+@param accesPoint accesPoint to start
 """
-def setupAccespoint(_accesPoint):
+def setupAccespoint(accesPoint):
     #setup accespoint
-    _accesPoint.active(False)
+    accesPoint.active(False)
     time.sleep(2)
-    _accesPoint.config(essid=ssid, password=password)
-    _accesPoint.active(True)
+    accesPoint.config(essid=ssid, password=password)
+    accesPoint.active(True)
 
     # wait until Accespoint is active
-    while _accesPoint.active() == False:
+    while accesPoint.active() == False:
         print("Waiting for active Accespoint")
         time.sleep(0.5)
-    print("Accespoint mode started. ssid: {} IP: {}".format(ssid, _accesPoint.ifconfig()[0]))
+    print("Accespoint mode started. ssid: {} IP: {}".format(ssid, accesPoint.ifconfig()[0]))
 
 #--------------------------------------------------------------------------------------------------------------------------#
 # Async Methods
