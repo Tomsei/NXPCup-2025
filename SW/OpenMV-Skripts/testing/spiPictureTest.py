@@ -19,7 +19,7 @@ rs = Pin("P8", Pin.OUT)
 
 # NOTE: The SPI clock frequency will not always be the requested frequency. The hardware only supports
 # frequencies that are the bus frequency divided by a prescaler (which can be 2, 4, 8, 16, 32, 64, 128 or 256).
-spi = SPI(1, baudrate=int(22000000), polarity=0, phase=0)
+spi = SPI(1, baudrate=int(100000000), polarity=0, phase=0)
 
 
 
@@ -46,12 +46,13 @@ def write_command(c, *data):
 
 def write_image(img):
     cs.low()
-    rs.high()
+    #rs.high()
     reversed_img = struct.unpack('H' * (img.size() // 2), img)
     reversed_array = struct.pack('>' + 'H' * len(reversed_img), *reversed_img)
 
 
-    spi.write_readinto(reversed_array, readBuffer)
+    spi.write(reversed_array)
+    time.sleep_ms(1)
     cs.high()
 
 

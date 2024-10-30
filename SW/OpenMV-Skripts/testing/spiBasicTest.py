@@ -8,7 +8,7 @@ from machine import Pin, SPI
 import rpc
 
 
-spi = SPI(1, baudrate=int(1000), polarity=0, phase=0)
+spi = SPI(1, baudrate=int(1000000), polarity=0, phase=0)
 cs = Pin("P3", Pin.OUT)
 
 
@@ -26,13 +26,15 @@ clock = time.clock()
 def write_data_byte(c, d):
     cs.low()
     #spi.write_readinto(c, d)
-    #spi.write(c)
+    spi.write(c)
     #print(spi.read(1))
     #print(spi.read(2))
-    print(spi.read(2))
+    #print(spi.read(2))
     cs.high()
     #print(d)
+    print("spi Write")
     time.sleep_ms(500)
+
 
 """def spiWriteTest(c):
     cs.low()

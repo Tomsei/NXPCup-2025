@@ -1,35 +1,43 @@
 #include "pins_arduino.h"
 #include "Arduino.h"
-
 #include <SPI.h>
 
 
 #include "SPISlave_T4.h"
 SPISlave_T4<&SPI, SPI_8_BITS> mySPI;
 
-void myFunc();
+uint32_t spiRx[20480*3];
+volatile int spiRxIdx = 0;
+volatile int spiRxComplete = 0;
+
+uint8_t lastTimeDiff;
+
 
 void setupCamera() {
   mySPI.begin();
+  Serial.print("Kamera gestartet");
   //mySPI.onReceive(myFunc);
+  mySPI.swapPins(true);
+  pinMode(12,OUTPUT);
 }
 
 void runCamera() {
-  //int i;
-
-  Serial.print("millis: "); Serial.println(millis());
-  /*if (spiRxComplete) {
-    Serial.println(spiRxIdx);
-    for (i = 0; i < spiRxIdx; i++) {
-      Serial.print(spiRx[i], HEX); Serial.print(" ");
+  if(spiRxComplete){
+    static uint32_t last = 0;
+    lastTimeDiff = millis()-last;
+    last = millis();
+    for(int i = 0; i < 10; i++){
+      Serial.print("\t"); Serial.print(spiRx[i], DEC);
     }
-    Serial.println();
-    spiRxComplete = 0;
+    Serial.print("\t"); Serial.print(spiRxIdx);
+    Serial.print("\t"); Serial.println(lastTimeDiff);
+    spiRxComplete = false;
     spiRxIdx = 0;
-    delay(500); 
-  }*/
+  }
+  //Serial.println("Loop Kamera");
 }
 
+/*
 void myFunc() {
   Serial.println("START: ");
   uint8_t arr[] = { 3, 2, 8, 3, 10, 11, 33, 13, 14 };
@@ -44,3 +52,4 @@ void myFunc() {
   }
   Serial.println("END");
 }
+*/

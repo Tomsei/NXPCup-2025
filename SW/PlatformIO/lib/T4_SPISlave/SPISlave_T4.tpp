@@ -1,6 +1,6 @@
-#include <SPISlave_T4.h>
-#include "Arduino.h"
-#include "SPI.h"
+//#include "SPISlave_T4.h"
+//#include <Arduino.h>
+//#include <SPI.h>
 
 #define SLAVE_CR spiAddr[4]
 #define SLAVE_FCR spiAddr[22]
@@ -104,42 +104,51 @@ SPISlave_T4_FUNC uint32_t SPISlave_T4_OPT::popr() {
   return data;
 }
 
+extern uint32_t spiRx[10];
+extern volatile int spiRxIdx;
 
-SPISlave_T4_FUNC void SPISlave_T4_OPT::SLAVE_ISR() {
+SPISlave_T4_FUNC void __attribute__((section(".fustrun"))) SPISlave_T4_OPT::SLAVE_ISR() {
 
   SLAVE_PORT_ADDR;
 
+#if 0
   if ( _spihandler ) {
     _spihandler();
     SLAVE_SR = 0x3F00;
     asm volatile ("dsb");
     return;
   }
+#endif
 
-  while ( !(SLAVE_SR & (1UL << 9)) ) { /* FCF: Frame Complete Flag, set when PCS deasserts */
-    if ( SLAVE_SR & (1UL << 11) ) { /* transmit error, clear flag, check cabling */
-      SLAVE_SR = (1UL << 11);
-      transmit_errors++;
-    }
-    if ( (SLAVE_SR & (1UL << 8)) ) { /* WCF set */
-      uint32_t val = SLAVE_RDR;
-      Serial.print(val); Serial.print(" ");
-      SLAVE_TDR = val;
-      SLAVE_SR = (1UL << 8); /* Clear WCF */
-    }
+  if ( SLAVE_SR & (1UL << 11) ) {
+    /* transmit error, clear flag, check cabling */
+    SLAVE_SR = (1UL << 11);
+    transmit_errors++;
   }
-  Serial.println();
-  SLAVE_SR = 0x3F00; /* Clear remaining flags on exit */
+  if ( (SLAVE_SR & (1UL << 1)) ) {
+    spiRx[spiRxIdx] = SLAVE_RDR;
+    if (spiRxIdx < 9) spiRxIdx++;
+    SLAVE_SR = (1UL << 1);
+  }
+
+  if ( (SLAVE_SR & (1UL << 0)) ) {
+    SLAVE_TDR = 0x34;
+  }
+
+   if ( (SLAVE_SR & (1UL << 9)) ) {
+    spiRxComplete = 1;
+  }
+
+  SLAVE_SR = 0x3F00;
   asm volatile ("dsb");
 }
-
 
 SPISlave_T4_FUNC void SPISlave_T4_OPT::begin() {
   SLAVE_PORT_ADDR;
   SLAVE_CR = LPSPI_CR_RST; /* Reset Module */
   SLAVE_CR = 0; /* Disable Module */
-  SLAVE_FCR = 0;//x10001; /* 1x watermark for RX and TX */
-  SLAVE_IER = 0x1; /* RX Interrupt */
+  SLAVE_FCR = 0;    //x10001; /* 1x watermark for RX and TX */
+  SLAVE_IER = 0x01 | 0x200; /* Interrupt enable bits */
   SLAVE_CFGR0 = 0;
   SLAVE_CFGR1 = 0;
   SLAVE_CR |= LPSPI_CR_MEN | LPSPI_CR_DBGEN; /* Enable Module, Debug Mode */
