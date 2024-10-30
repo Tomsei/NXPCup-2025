@@ -25,6 +25,10 @@ def write_image(img):
     reversed_array = struct.pack('>' + 'H' * len(reversed_img), *reversed_img)
 
     spi.write(reversed_array)
+
+    #example for sending individual bytes
+    #spi.write(bytes([86, 89, 25, 23]))
+
     cs.high()
 
 #setup cam
