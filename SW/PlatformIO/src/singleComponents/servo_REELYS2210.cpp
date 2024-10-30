@@ -11,10 +11,11 @@ void setupServo() {
 }
 
 void runServo() {
-    if(true || (millis() % 5000) > 2500) {
+    /*if(true || (millis() % 5000) > 2500) {
         servo.write(45);
     } else {
         servo.write(130);
-    }
+    } */
+   servo.write(90);
     
 }

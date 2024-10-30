@@ -13,6 +13,24 @@ void setupMotor() {
 }
 
 void runMotor() {
+
+    if (millis() > 10000 && millis() < 10500) {
+        ESC.write(150);
+        Serial.println("Fast");
+        Serial.print(millis());
+    }
+    else if(millis() >= 10500 && millis() < 12000) {
+        ESC.write(30);
+        Serial.println("Slow");
+        Serial.print(millis());
+    }
+    else {
+        ESC.write(0);
+        Serial.println("Stop");
+        Serial.print(millis());
+    }
+    
+    /*
     if(((millis() % 10000) > 2500) && ((millis() % 10000) < 7500)) {
         ESC.write(20);
     }
@@ -22,4 +40,5 @@ void runMotor() {
     else {
         ESC.write(0);
     }
+    */
 }
