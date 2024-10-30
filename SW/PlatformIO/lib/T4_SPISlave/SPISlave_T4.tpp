@@ -104,8 +104,9 @@ SPISlave_T4_FUNC uint32_t SPISlave_T4_OPT::popr() {
   return data;
 }
 
-extern uint32_t spiRx[10];
+extern uint32_t spiRx[20480*3];
 extern volatile int spiRxIdx;
+extern volatile int spiRxComplete;
 
 SPISlave_T4_FUNC void __attribute__((section(".fustrun"))) SPISlave_T4_OPT::SLAVE_ISR() {
 
@@ -127,7 +128,7 @@ SPISlave_T4_FUNC void __attribute__((section(".fustrun"))) SPISlave_T4_OPT::SLAV
   }
   if ( (SLAVE_SR & (1UL << 1)) ) {
     spiRx[spiRxIdx] = SLAVE_RDR;
-    if (spiRxIdx < 9) spiRxIdx++;
+    if (spiRxIdx < 20480*3-1) spiRxIdx++;
     SLAVE_SR = (1UL << 1);
   }
 

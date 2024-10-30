@@ -12,7 +12,6 @@ volatile int spiRxComplete = 0;
 
 uint8_t lastTimeDiff;
 
-
 void setupCamera() {
   mySPI.begin();
   Serial.print("Kamera gestartet");
@@ -34,22 +33,4 @@ void runCamera() {
     spiRxComplete = false;
     spiRxIdx = 0;
   }
-  //Serial.println("Loop Kamera");
 }
-
-/*
-void myFunc() {
-  Serial.println("START: ");
-  uint8_t arr[] = { 3, 2, 8, 3, 10, 11, 33, 13, 14 };
-  uint8_t i = 0;
-  while ( mySPI.active() ) {
-    if (mySPI.available()) {
-      if ( i++ > sizeof(arr) ) i = 0;
-      //mySPI.pushr(arr[i]);
-      Serial.print("VALUE: ");
-      Serial.println(mySPI.popr());
-    }
-  }
-  Serial.println("END");
-}
-*/
