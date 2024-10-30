@@ -1,3 +1,3 @@
 void setupMotor();
 
-void runMotor();
+void runMotor(bool engineState);

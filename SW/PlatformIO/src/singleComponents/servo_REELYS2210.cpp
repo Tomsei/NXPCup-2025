@@ -16,6 +16,6 @@ void runServo() {
     } else {
         servo.write(130);
     } */
-   servo.write(90);
+   servo.write(130);
     
 }

@@ -11,6 +11,9 @@
 #include "singleComponents/imu_SEN0142.h"
 #include "singleComponents/camera_OPENMVCAMRT1062.h"
 
+//Just Testing Variable
+extern bool globalEngineState;
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
@@ -19,12 +22,13 @@ void setup() {
   //setupTofDistanceMeasure();
   //setupArdLinefinder();
   //setupImu();
-  //setupServo();
-  //setupMotor();
-  
+  setupServo();
+  setupMotor();
   setupCamera();
   //pinMode(onBoardLed, OUTPUT);
 
+  //Just Testing Variable
+  globalEngineState = false;
 }
 
 void loop() {
@@ -33,9 +37,10 @@ void loop() {
   //runTofDistanceMeasure();
   //runArdLineFinder();
   //runImu();
-  //runServo();
-  //runMotor();
+  runServo();
+  runMotor(globalEngineState);
   runCamera();
   //teensyBlink();
   //Serial.println("Loop");
+  //Serial.print("Global Engine State"); Serial.println(globalEngineState);
 } 

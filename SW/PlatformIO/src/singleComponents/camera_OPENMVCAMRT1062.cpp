@@ -1,7 +1,8 @@
-#include "pins_arduino.h"
-#include "Arduino.h"
 #include <SPI.h>
+#include <pins_arduino.h>
+#include <Arduino.h>
 
+#include "configuration/globalConfig.h"
 
 #include "SPISlave_T4.h"
 SPISlave_T4<&SPI, SPI_8_BITS> mySPI;
@@ -9,6 +10,9 @@ SPISlave_T4<&SPI, SPI_8_BITS> mySPI;
 uint32_t spiRx[20480*3];
 volatile int spiRxIdx = 0;
 volatile int spiRxComplete = 0;
+
+//Just Testing Stuff:
+bool globalEngineState;
 
 uint8_t lastTimeDiff;
 
@@ -30,6 +34,7 @@ void runCamera() {
     }
     Serial.print("\t"); Serial.print(spiRxIdx);
     Serial.print("\t"); Serial.println(lastTimeDiff);
+    globalEngineState = spiRx[0];
     spiRxComplete = false;
     spiRxIdx = 0;
   }
