@@ -40,8 +40,7 @@ def createHtmlString():
         <p> The Button is ''' + str(currentButtonState) + ''' </p>
         <p> The Current Counter is ''' + str(globalCounter) + '''
     </body>
-    </html>
-    '''
+    </html>'''
     return html
 
 """
