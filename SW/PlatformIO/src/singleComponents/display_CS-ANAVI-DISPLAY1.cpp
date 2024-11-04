@@ -38,12 +38,17 @@ void setupDisplay() {
 
 void runDisplay(bool engineState) {
     display.clearDisplay();
-    for(int i = 0; i < 64; i++) {
-        display.drawLine(i, 0, i, i, WHITE);
+    if(engineState) {
+        display.println("Drive");
+        display.drawLine(0,30,127,30, WHITE);
+        display.setCursor(0,32);
+        display.print("Drive");
+    } else {
+        display.println("Stopp");
+        display.drawLine(0,30,127,30, WHITE);
+        display.setCursor(0,32);
+        display.print("Stop");
     }
-    display.drawLine(0,63,127,0, WHITE);
-
     display.display();
     Serial.print("Run Display");
-   
 }
