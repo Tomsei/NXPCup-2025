@@ -23,13 +23,13 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
   Wire.begin(); //later in I2C Modul
-  setupOpticalFlow();
-  setupTofDistanceMeasure();
-  setupArdLinefinder();
-  setupImu();
-  setupServo();
-  setupMotor();
-  setupCamera();
+  //setupOpticalFlow();
+  //setupTofDistanceMeasure();
+  //setupArdLinefinder();
+  //setupImu();
+  //setupServo();
+  //setupMotor();
+  //setupCamera();
   
   setupDisplay();
   
@@ -42,13 +42,13 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  runOpticalFlow();
-  runTofDistanceMeasure();
-  runArdLineFinder();
-  runImu();
-  runServo();
-  runMotor(globalEngineState);
-  runCamera();
+  //runOpticalFlow();
+  //runTofDistanceMeasure();
+  //runArdLineFinder();
+  //runImu();
+  //runServo();
+  //runMotor(globalEngineState);
+  //runCamera();
   runDisplay(globalEngineState);
   //teensyBlink();
   //Serial.println("Loop");

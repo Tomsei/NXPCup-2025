@@ -1,45 +1,49 @@
 #include <Arduino.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
 
-// For OLED display
-#include "U8g2lib.h"
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
 
-U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+/*  X   X   X   X   X   X   X   X   X   X
+Y   0   1   2   3   4   5   6   7   8   9   ... 127
+Y   0   1   2   3   4   5   6   7   8   9   ...
+Y   0   1   2   3   4   5   6   7   8   9   ...
+Y   0   1   2   3   4   5   6   7   8   9   ...
+Y   ... ... ... ... ... ... ... ... ... ... 
+    63  63  63  63  63  63  63  63  63  63
+*/
 
-const int pinButton = 0;
-
-void drawDisplay(const char *line1, const char *line2 = "", const char *line3 = "")
-{
-  // Write on OLED display
-  // Clear the internal memory
-  u8g2.clearBuffer();
-  // Set appropriate font
-  u8g2.setFont(u8g2_font_ncenR14_tr);
-  u8g2.drawStr(0,14, line1);
-  u8g2.drawStr(0,39, line2);
-  u8g2.drawStr(0,64, line3);
-  // Transfer internal memory to the display
-  u8g2.sendBuffer();
-}
-
+// Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
 
 void setupDisplay() {
-    u8g2.begin();
-    delay(10);
-      //Button
-    pinMode(pinButton, INPUT);
-    Serial.println("Testing the OLED I2C display...");
-    drawDisplay("Setup", "Display", "to Run");
+
+    if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for 128x64
+        Serial.println(F("SSD1306 allocation failed"));
+    }
+
+    delay(2000);
+    display.clearDisplay();
+
+    display.setTextSize(1);
+    display.setTextColor(WHITE);
+    display.setCursor(0, 0);
+    // Display static text
+    display.println("Hello, world!");
+    display.display(); 
+
 }
 
 void runDisplay(bool engineState) {
-
-    if (engineState)
-    {
-        drawDisplay("1", "", "");
-    } else {
-        drawDisplay("0", "", "");
+    display.clearDisplay();
+    for(int i = 0; i < 64; i++) {
+        display.drawLine(i, 0, i, i, WHITE);
     }
-    
+    display.drawLine(0,63,127,0, WHITE);
 
+    display.display();
+    Serial.print("Run Display");
+   
 }
