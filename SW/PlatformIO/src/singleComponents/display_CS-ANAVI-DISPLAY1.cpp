@@ -38,6 +38,7 @@ void setupDisplay() {
 
 void runDisplay(bool engineState) {
     display.clearDisplay();
+    display.setCursor(0,0);
     if(engineState) {
         display.println("Drive");
         display.drawLine(0,30,127,30, WHITE);
