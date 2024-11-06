@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include "Adafruit_MCP23X17.h"
 
-#define device_adress 0x20
 #define button1 8
 #define button2 9
 
@@ -16,7 +15,6 @@ void setupIoExpander() {
     if(!mcp.begin_I2C()) {
         Serial.println("Error");
     }
-
     mcp.pinMode(button1, INPUT_PULLUP);
     mcp.pinMode(button2, INPUT_PULLUP);
     mcp.pinMode(dipswitch1, INPUT_PULLUP);

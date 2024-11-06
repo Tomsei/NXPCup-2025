@@ -50,5 +50,4 @@ void runDisplay(bool engineState) {
         display.print("Stop");
     }
     display.display();
-    Serial.print("Run Display");
 }

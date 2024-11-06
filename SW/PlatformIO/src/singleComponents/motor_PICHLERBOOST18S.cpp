@@ -20,10 +20,8 @@ void runMotor(bool engineState) {
     /* Control Test*/
     if(engineState) {
         ESC.write(17);
-        Serial.println("Drive");
     } else {
         ESC.write(0);
-        Serial.println("Stop");
     }
 
 

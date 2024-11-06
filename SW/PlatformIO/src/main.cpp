@@ -12,7 +12,8 @@
 #include "singleComponents/imu_SEN0142.h"
 #include "singleComponents/camera_OPENMVCAMRT1062.h"
 #include "singleComponents/display_CS-ANAVI-DISPLAY1.h"
-
+#include "singleComponents/io_expander_MCP23017.h"
+#include "singleComponents/poti.h"
 //Just Testing Variable
 extern bool globalEngineState;
 
@@ -31,6 +32,7 @@ void setup() {
   setupMotor();
   setupCamera();
   setupDisplay();
+  setupIoExpander();
   
   
   //pinMode(onBoardLed, OUTPUT);
@@ -49,6 +51,8 @@ void loop() {
   runMotor(globalEngineState);
   runCamera();
   runDisplay(globalEngineState);
+  runIoExpander();
+  runPoti();
   //teensyBlink();
   //Serial.println("Loop");
   //Serial.print("Global Engine State"); Serial.println(globalEngineState);
