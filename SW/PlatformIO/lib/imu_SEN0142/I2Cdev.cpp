@@ -3,7 +3,7 @@
 // 2013-06-05 by Jeff Rowberg <jeff@rowberg.net>
 //
 // Changelog:
-//      2021-09-28 - allow custom Wire object as transaction function argument
+//		2022-01-27 - workaround for the ESP32 Wire implementation (mcpicoli)
 //      2020-01-20 - hardija : complete support for Teensy 3.x
 //      2015-10-30 - simondlevy : support i2c_t3 for Teensy3.1
 //      2013-05-06 - add Francesco Ferrara's Fastwire v0.24 implementation with small modifications
@@ -273,7 +273,11 @@ int8_t I2Cdev::readBytes(uint8_t devAddr, uint8_t regAddr, uint8_t length, uint8
             for (int k = 0; k < length; k += min((int)length, I2CDEVLIB_WIRE_BUFFER_LENGTH)) {
                 useWire->beginTransmission(devAddr);
                 useWire->write(regAddr);
-                useWire->endTransmission();
+                #ifdef ARDUINO_ARCH_ESP32
+                  useWire->endTransmission(false);
+                #else
+                  useWire->endTransmission();
+                #endif
                 useWire->requestFrom((uint8_t)devAddr, (uint8_t)min((int)length - k, I2CDEVLIB_WIRE_BUFFER_LENGTH));
                 for (; useWire->available() && (timeout == 0 || millis() - t1 < timeout); count++) {
                     data[count] = useWire->read();
