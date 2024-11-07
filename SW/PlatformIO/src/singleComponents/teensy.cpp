@@ -2,6 +2,9 @@
 
 #include "configuration/globalConfig.h"
 
+void setupTeensyBlink() {
+    pinMode(onBoardLed, OUTPUT);
+}
 /**
  * teensy test blink
  */

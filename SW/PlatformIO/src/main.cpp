@@ -6,7 +6,7 @@
 #include "singleComponents/teensy.h"
 #include "singleComponents/opticalFlow_PIM453.h"
 #include "singleComponents/tofDistanceMeasure_VL53L0X.h"
-#include "singleComponents/_ARD_LINEFINDER.h"
+#include "singleComponents/irObstacleDetection_ARD_LINEFINDER.h"
 #include "singleComponents/servo_REELYS2210.h"
 #include "singleComponents/motor_PICHLERBOOST18S.h"
 #include "singleComponents/imu_SEN0142.h"
@@ -14,13 +14,13 @@
 #include "singleComponents/display_CS-ANAVI-DISPLAY1.h"
 #include "singleComponents/io_expander_MCP23017.h"
 #include "singleComponents/poti.h"
-//Just Testing Variable
+
+//Just testing variable for engine control
 extern bool globalEngineState;
 
 
 void setup() {
 
-  
   // put your setup code here, to run once:
   Serial.begin(115200);
   Wire.begin(); //later in I2C Modul
@@ -32,12 +32,10 @@ void setup() {
   setupMotor();
   setupCamera();
   setupDisplay();
-  setupIoExpander();
-  
-  
-  //pinMode(onBoardLed, OUTPUT);
+  setupIoExpander();  
+  //void setupTeensyBlink();
 
-  //Just Testing Variable
+  //Just testing variable
   globalEngineState = false;
 }
 
@@ -54,7 +52,5 @@ void loop() {
   runIoExpander();
   runPoti();
   //teensyBlink();
-  //Serial.println("Loop");
-  //Serial.print("Global Engine State"); Serial.println(globalEngineState);
 } 
 
