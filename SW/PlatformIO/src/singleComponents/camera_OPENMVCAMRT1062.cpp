@@ -23,7 +23,7 @@ uint8_t lastTimeDiff;
 void setupCamera() {
   mySPI.begin();
   mySPI.swapPins(true);
-  pinMode(12,OUTPUT); //important!
+  pinMode(CAM_SPI_MISO, OUTPUT); //important!
   Serial.print("Kamera gestartet");
 }
 

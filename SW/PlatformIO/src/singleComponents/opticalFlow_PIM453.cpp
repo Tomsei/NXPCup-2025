@@ -3,7 +3,7 @@
 #include "Bitcraze_PMW3901.h"
 #include "configuration/globalConfig.h"
 
-Bitcraze_PMW3901 flow(OpticalFlowChipSelect);
+Bitcraze_PMW3901 flow(OPTICAL_FLOW_CHIP_SELECT);
 int16_t deltaX, deltaY;
 
 void printOpticalFlowData();
@@ -17,7 +17,7 @@ void setupOpticalFlow() {
         Serial.println("Initialization of the optical flow sensor failed");
     }
     flow.setLed(false);
-    pinMode(OpticalFlowLED, OUTPUT); //use the own led
+    pinMode(OPTICAL_FLOW_LED, OUTPUT); //use the own led
 }
 
 /**
@@ -25,7 +25,7 @@ void setupOpticalFlow() {
  */
 void runOpticalFlow() {
     flow.readMotionCount(&deltaX, &deltaY);
-    digitalWrite(OpticalFlowLED, HIGH);
+    digitalWrite(OPTICAL_FLOW_LED, HIGH);
     printOpticalFlowData();
 }
 

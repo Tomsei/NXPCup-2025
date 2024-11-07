@@ -9,7 +9,7 @@ Servo ESC;
  * setup the motor (pwm signal)
  */
 void setupMotor() {
-    ESC.attach(motorPin, 1000, 2000); //min pulse width, max pulse width
+    ESC.attach(MOTOR_ESC_PIN, 1000, 2000); //min pulse width, max pulse width
     ESC.write(0);
     delay(5000); 
 }

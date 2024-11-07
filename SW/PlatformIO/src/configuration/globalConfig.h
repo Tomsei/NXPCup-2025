@@ -1,32 +1,32 @@
-#define onBoardLed 13
+#define ON_BOARD_LED 13
 
-#define ardLineFinder1 2
-#define ardLineFinder2 3
+#define ARD_LINE_FINDER1 2
+#define ARD_LINE_FINDER2 3
 
-#define OpticalFlowLED 23
-#define OpticalFlowChipSelect 0 //ToDo: rename to chip select
+#define OPTICAL_FLOW_LED 23
+#define OPTICAL_FLOW_CHIP_SELECT 0 
 
-#define motorPin 29 //reneame Motor_ESC
-#define servoPin 28
+#define MOTOR_ESC_PIN 29 //reneame Motor_ESC
+#define SERVO_PIN 28
 
-#define ledStripe 14
-#define batteryMeasurement 38
+#define LED_STRIPE 14
+#define BATTERY_MEASUREMENT 38
 
-#define poty1 24 //Analogen 10
-#define poty2 25 //Analogen 11
+#define POTI1 24 //Analogen 10
+#define POTI2 25 //Analogen 11
 
-//Best Practice: ON_BOARD_LED
+#define CAM_SPI_MISO 12
 
 
 //IO-Expander pins
-#define BUTTON1 8
-#define BUTTON2 9
+#define IO_EX_BUTTON1 8
+#define IO_EX_BUTTON2 9
 
-#define DIPSWITCH1 0
-#define DIPSWITCH2 1
-#define DIPSWITCH3 2
-#define DIPSWITCH4 3
-#define DIPSWITCH4 4
-#define DIPSWITCH4 5
-#define DIPSWITCH4 6
-#define DIPSWITCH4 7
+#define IO_EX_DIPSWITCH1 0
+#define IO_EX_DIPSWITCH2 1
+#define IO_EX_DIPSWITCH3 2
+#define IO_EX_DIPSWITCH4 3
+#define IO_EX_DIPSWITCH4 4
+#define IO_EX_DIPSWITCH4 5
+#define IO_EX_DIPSWITCH4 6
+#define IO_EX_DIPSWITCH4 7

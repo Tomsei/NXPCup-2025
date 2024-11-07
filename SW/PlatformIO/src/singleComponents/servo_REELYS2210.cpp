@@ -10,7 +10,7 @@ bool left;
  * setup the servo
  */
 void setupServo() {
-    servo.attach(servoPin, 544, 2400);
+    servo.attach(SERVO_PIN, 544, 2400);
 }
 
 /**

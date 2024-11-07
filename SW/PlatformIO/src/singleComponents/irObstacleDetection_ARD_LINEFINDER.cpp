@@ -4,8 +4,8 @@
 #include "configuration/globalConfig.h"
 
 void setupArdLinefinder() {
-    pinMode(ardLineFinder1, INPUT);
-    pinMode(ardLineFinder2, INPUT);
+    pinMode(ARD_LINE_FINDER1, INPUT);
+    pinMode(ARD_LINE_FINDER2, INPUT);
     //ToDo: ARD LINE FINDER change to Interrupt)
 }
 
@@ -13,8 +13,8 @@ bool blackSensor1 = false;
 bool blackSensor2 = false;
 
 void runArdLineFinder() {
-    bool valSensor1 = digitalRead(ardLineFinder1);
-    bool valSensor2 = digitalRead(ardLineFinder2);
+    bool valSensor1 = digitalRead(ARD_LINE_FINDER1);
+    bool valSensor2 = digitalRead(ARD_LINE_FINDER2);
 
     if (valSensor1 == HIGH && blackSensor1) {
         Serial.println("ARD Linefinder 1: Black to White");
