@@ -2,6 +2,9 @@
 
 #include "configuration/globalConfig.h"
 
+/**
+ * teensy test blink
+ */
 void teensyBlink() {
     digitalWrite(onBoardLed, HIGH);
     delay(1000);

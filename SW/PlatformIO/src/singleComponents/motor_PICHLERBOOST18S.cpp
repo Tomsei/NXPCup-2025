@@ -4,17 +4,20 @@
 #include "configuration/globalConfig.h"
 
 Servo ESC;
-bool nextShouldBeFast = false;
 
-//Just Testing Stuff:
-//bool globalEngineState;
-
+/**
+ * setup the motor (pwm signal)
+ */
 void setupMotor() {
     ESC.attach(motorPin, 1000, 2000); //min pulse width, max pulse width
     ESC.write(0);
     delay(5000); 
 }
 
+/**
+ * control the motor
+ * @param engineState to deciede if the engine should dirve (just for testing!)
+ */
 void runMotor(bool engineState) {
 
     /* Control Test*/
@@ -23,7 +26,6 @@ void runMotor(bool engineState) {
     } else {
         ESC.write(0);
     }
-
 
     /* Speed Tests
     if (millis() > 10000 && millis() < 10500) {
@@ -43,7 +45,7 @@ void runMotor(bool engineState) {
     }
     */
 
-    /*
+    /* continuous speed changing
     if(((millis() % 10000) > 2500) && ((millis() % 10000) < 7500)) {
         ESC.write(20);
     }

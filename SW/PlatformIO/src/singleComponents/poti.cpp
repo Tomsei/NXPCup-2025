@@ -5,6 +5,9 @@ void setupPoti() {
     return;
 }
 
+/**
+ * method to call in loop to print poti values
+ */
 void runPoti() {
     int poti1 = analogRead(poty1);
     int poti2 = analogRead(poty2);

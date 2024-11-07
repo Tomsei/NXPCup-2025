@@ -5,6 +5,9 @@
 
 VL53L0X sensor;
 
+/**
+ * setup to initiate the sensor
+ */
 void setupTofDistanceMeasure() {
 
     //Wire.begin(); done one time in setup
@@ -13,11 +16,13 @@ void setupTofDistanceMeasure() {
     if (!sensor.init())
     {
         Serial.println("Failed to detect and initialize VL53L0X sensor!");
-        while (1) {Serial.println("Failed to detect and initialize VL53L0X sensor!");}
     }
     sensor.startContinuous();
 }
 
+/**
+ * method to call in loop to print the distance data of the sesnor
+ */
 void runTofDistanceMeasure() {
     int distance = sensor.readRangeContinuousMillimeters();
     if (sensor.timeoutOccurred()) {

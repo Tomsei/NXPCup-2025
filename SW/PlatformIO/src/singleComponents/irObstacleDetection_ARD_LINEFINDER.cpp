@@ -6,7 +6,6 @@
 void setupArdLinefinder() {
     pinMode(ardLineFinder1, INPUT);
     pinMode(ardLineFinder2, INPUT);
-
     //ToDo: ARD LINE FINDER change to Interrupt)
 }
 
@@ -32,5 +31,4 @@ void runArdLineFinder() {
         Serial.println("ARD Linefinder 2: White to Black");
         blackSensor2 = true;
     }
-
 }
