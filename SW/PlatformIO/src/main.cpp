@@ -2,7 +2,6 @@
 #include <Arduino.h>
 #include <Wire.h>
 
-#include "configuration/globalConfig.h"
 #include "singleComponents/teensy.h"
 #include "singleComponents/opticalFlow_PIM453.h"
 #include "singleComponents/tofDistanceMeasure_VL53L0X.h"

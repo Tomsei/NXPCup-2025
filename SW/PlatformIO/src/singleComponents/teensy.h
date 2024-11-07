@@ -1,1 +1,3 @@
+void setupTeensyBlink();
+
 void teensyBlink();
