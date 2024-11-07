@@ -1,38 +1,37 @@
 #include <Arduino.h>
 #include "Adafruit_MCP23X17.h"
 
-#define button1 8
-#define button2 9
-
-#define dipswitch1 0
-#define dipswitch2 1
-#define dipswitch3 2
-#define dipswitch4 3
+#include "configuration/globalConfig.h"
 
 Adafruit_MCP23X17 mcp;
 
+/**
+ * setup the Io-expander
+ */
 void setupIoExpander() {
     if(!mcp.begin_I2C()) {
-        Serial.println("Error");
+        Serial.println("IO-Expander Error");
     }
-    mcp.pinMode(button1, INPUT_PULLUP);
-    mcp.pinMode(button2, INPUT_PULLUP);
-    mcp.pinMode(dipswitch1, INPUT_PULLUP);
-    mcp.pinMode(dipswitch2, INPUT_PULLUP);
-    mcp.pinMode(dipswitch3, INPUT_PULLUP);
-    mcp.pinMode(dipswitch4, INPUT_PULLUP);
+    mcp.pinMode(BUTTON1, INPUT_PULLUP);
+    mcp.pinMode(BUTTON2, INPUT_PULLUP);
+    mcp.pinMode(DIPSWITCH1, INPUT_PULLUP);
+    mcp.pinMode(DIPSWITCH2, INPUT_PULLUP);
+    mcp.pinMode(DIPSWITCH3, INPUT_PULLUP);
+    mcp.pinMode(DIPSWITCH4, INPUT_PULLUP);
 }
 
+/**
+ * run method to call in loop to print the IO inputs of the io-expander (buttons, dipswitch)
+ */
 void runIoExpander() {
-
-    if(mcp.digitalRead(button1) == 0) {
+    if(mcp.digitalRead(BUTTON1) == 0) {
         Serial.print("IO Expander: \t");
-        Serial.print(mcp.digitalRead(button1)); Serial.print("\t");
-        Serial.print(mcp.digitalRead(button2)); Serial.print("\t");
-        Serial.print(mcp.digitalRead(dipswitch1)); Serial.print("\t");
-        Serial.print(mcp.digitalRead(dipswitch2)); Serial.print("\t");
-        Serial.print(mcp.digitalRead(dipswitch3)); Serial.print("\t");
-        Serial.print(mcp.digitalRead(dipswitch4)); Serial.print("\t");
+        Serial.print(mcp.digitalRead(BUTTON1)); Serial.print("\t");
+        Serial.print(mcp.digitalRead(BUTTON2)); Serial.print("\t");
+        Serial.print(mcp.digitalRead(DIPSWITCH1)); Serial.print("\t");
+        Serial.print(mcp.digitalRead(DIPSWITCH2)); Serial.print("\t");
+        Serial.print(mcp.digitalRead(DIPSWITCH3)); Serial.print("\t");
+        Serial.print(mcp.digitalRead(DIPSWITCH4)); Serial.print("\t");
         Serial.println("");
     }
 }
