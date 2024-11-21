@@ -3,7 +3,8 @@
 #include "cameraAnalysis/cameraAnalysisMain.h"
 
 //pre definition 
-void printArray(uint8_t* rowToPrint, int start, int lengt, String linePrefix);
+template<typename IntArray>
+void printArray(IntArray* rowToPrint, int start, int lengt, String linePrefix);
 
 
 
@@ -61,6 +62,29 @@ void CameraAnalysis::SingleRowAnalysis::printRow(int start /*= 0*/, int length /
     printArray(rowDataBuffer, start, length, "print img row:\t");
 }
 
+
+/**
+ * method to calculate the sobel values of the row
+ */
+void CameraAnalysis::SingleRowAnalysis::calculateSobelRow() {
+    for (int i = 0; i < VIDEO_RESOLUTION_X-2; i++) {
+        //int carsting to get negativ values
+        sobelRowDataBuffer[i] = ((int(rowDataBuffer[i] * 2)) + (int(rowDataBuffer[i+2] * -2)));
+    }
+    printSobelRow(0,30);
+}
+
+/**
+ * method to print the sobel row
+ * @param start: startpixel | default 0
+ * @param length: the amount of pixel to print | default size of the video-width -2 (2 values less)
+ */
+void CameraAnalysis::SingleRowAnalysis::printSobelRow(int start /*= 0*/, int length /*= VIDEO_RESOLUTION_X -2*/) {
+    printArray(sobelRowDataBuffer, start, length, "sobel row:\t\t");
+}
+
+
+
 /* ----- helper methods -----  */
 
 
@@ -71,8 +95,11 @@ void CameraAnalysis::SingleRowAnalysis::printRow(int start /*= 0*/, int length /
  * @param start: startvalue of the array
  * @param length: the amout of values to print
  * @param linePrefix: prefix to print before the values
+ * 
+ * template<typename IntArray> to make sure an uint8_t and uint16_t array can be printed 
  */
-void printArray(uint8_t* arrayToPrint, int start, int length, String linePrefix) {
+template<typename IntArray>
+void printArray(IntArray* arrayToPrint, int start, int length, String linePrefix) {
     String printedArray = "";
     printedArray = printedArray + linePrefix;
     for (int i = start; i < (start + length); i++) {

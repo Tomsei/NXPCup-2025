@@ -51,6 +51,7 @@ void runCamera() {
     //triger Analysis to get new Row | ToDo: find a better way!
     static CameraAnalysis::SingleRowAnalysis currentRowAnalysis;
     currentRowAnalysis.getRow();
+    currentRowAnalysis.calculateSobelRow();
 
     //reset spi transfer
     spiRxComplete = false;

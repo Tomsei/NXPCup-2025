@@ -24,9 +24,12 @@ namespace CameraAnalysis {
     struct SingleRowAnalysis {
 
         uint8_t rowDataBuffer[VIDEO_RESOLUTION_X];
+        int16_t sobelRowDataBuffer[VIDEO_RESOLUTION_X-2];
 
         void getRow();
+        void calculateSobelRow();
         void printRow(int start = 0, int length = VIDEO_RESOLUTION_X);
+        void printSobelRow(int start = 0, int length = VIDEO_RESOLUTION_X -2);
 
     };
 
