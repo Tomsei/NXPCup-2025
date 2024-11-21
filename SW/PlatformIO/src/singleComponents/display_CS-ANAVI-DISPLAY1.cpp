@@ -51,7 +51,7 @@ void runDisplay(bool engineState) {
         display.setCursor(0,32);
         display.print("Drive");
     } else {
-        display.println("Stopp");
+        display.println("Stop");
         display.drawLine(0,30,127,30, WHITE);
         display.setCursor(0,32);
         display.print("Stop");

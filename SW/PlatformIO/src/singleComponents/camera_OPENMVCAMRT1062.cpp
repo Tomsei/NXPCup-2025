@@ -24,7 +24,7 @@ void setupCamera() {
   mySPI.begin();
   mySPI.swapPins(true);
   pinMode(CAM_SPI_MISO, OUTPUT); //important!
-  Serial.print("Kamera gestartet");
+  Serial.println("cam started");
 }
 
 /**
