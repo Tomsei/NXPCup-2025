@@ -30,3 +30,12 @@
 #define IO_EX_DIPSWITCH6 5
 #define IO_EX_DIPSWITCH7 6
 #define IO_EX_DIPSWITCH8 7
+
+
+
+//video requltion
+#define VIDEO_RESOLUTION_X 360
+#define VIDEO_RESOLUTION_Y 240
+
+//Line Definition
+#define NUMBER_OF_LINES 5

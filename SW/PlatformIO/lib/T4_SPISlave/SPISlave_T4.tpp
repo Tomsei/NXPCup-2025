@@ -104,7 +104,7 @@ SPISlave_T4_FUNC uint32_t SPISlave_T4_OPT::popr() {
   return data;
 }
 
-extern uint32_t spiRx[20480*3];
+extern uint32_t spiRx[76800];
 extern volatile int spiRxIdx;
 extern volatile int spiRxComplete;
 
