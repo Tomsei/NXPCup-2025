@@ -29,7 +29,7 @@ void runTofDistanceMeasure() {
         Serial.print(" TIMEOUT VL53L0X sensor");
     }
     if (distance < 150) {
-        Serial.print("ToF VL53L0X Distanz: ");
+        Serial.print("ToF VL53L0X distance: ");
         Serial.println(distance);
     }   
 }
