@@ -38,6 +38,7 @@ void runCamera() {
     last = millis();
     
     //print the transfered values
+    /*
     Serial.print("Loop\t");
     for(int i = 0; i < 30; i++){
       //print values that were sent
@@ -46,7 +47,7 @@ void runCamera() {
     //amount of values and time difference
     Serial.print("\t"); Serial.print(spiRxIdx);
     Serial.print("\t"); Serial.println(lastTimeDiff);
-
+    */
     //triger Analysis to get new Row | ToDo: find a better way!
     static CameraAnalysis::SingleRowAnalysis currentRowAnalysis;
     currentRowAnalysis.getRow();
@@ -54,7 +55,6 @@ void runCamera() {
     //reset spi transfer
     spiRxComplete = false;
     spiRxIdx = 0;
-    Serial.println("");
   }
 }
 

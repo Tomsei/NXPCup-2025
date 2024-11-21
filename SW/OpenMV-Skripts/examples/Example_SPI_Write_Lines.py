@@ -5,17 +5,20 @@ Inspired from: Open MV - Board control - spi_control.py Example
 import sensor
 import time
 from machine import Pin, SPI
-import struct
 
 cs = Pin("P3", Pin.OUT)
 
 spi = SPI(1, baudrate=int(1000000000 / 66), polarity=0, phase=0)
 
 
+#--------------------------------------------#
+# variable / configurations
+#--------------------------------------------#
 
 #line configurations
 numberOfLines = 5
 lineWidth = 1
+
 # confrigure while choosing resolution (change lines and Pixel amount)
 horizontalPixelCount = 320
 rowLine1 = 200
@@ -24,6 +27,9 @@ rowLine3 = 198
 rowLine4 = 197
 rowLine5 = 196
 
+#--------------------------------------------#
+# method declaration
+#--------------------------------------------#
 
 """
 method to create an image out of the choosen lines
@@ -58,15 +64,26 @@ method to write an image to spi
 def writeImageSpi(img):
     cs.low()
 
-    reversed_img = struct.unpack('H' * (img.size() // 2), img)
-    reversed_array = struct.pack('>' + 'H' * len(reversed_img), *reversed_img)
-
-    spi.write(reversed_array)
-
+    spi.write(img)
+    printRowPixel(img, 0, 0, 30)
     cs.high()
 
-def debugPixelfalus(img):
-    print("pixelvalues")
+"""
+method to print the values of an image row
+@param img: the img to print the values
+@param row: the image row to pring
+@param start: the start pixel
+@param length: the amout of pixel to print after start
+"""
+def printRowPixel(img, row, start, length):
+    pixelString = "Pixels: "
+    for i in range(30):
+        pixelString = pixelString + str(img.get_pixel(i,row)) + "\t"
+    print (pixelString)
+
+#--------------------------------------------#
+# Setup
+#--------------------------------------------#
 
 #setup cam
 sensor.reset()                      # Initialize the camera sensor.
@@ -84,4 +101,4 @@ while True:
     lineImage = configureLines(img)
     writeImageSpi(lineImage)
     time.sleep_ms(100)
-    print(clock.fps())
+    #print(clock.fps())

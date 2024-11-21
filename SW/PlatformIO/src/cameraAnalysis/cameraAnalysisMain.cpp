@@ -1,3 +1,4 @@
+
 #include "configuration/globalConfig.h"
 #include "cameraAnalysis/cameraAnalysisMain.h"
 
@@ -36,8 +37,9 @@ void CameraAnalysis::ImageAnalysis::printImage(int start /*= 0*/, int length /*=
  */
 void CameraAnalysis::SingleRowAnalysis::getRow() {
     OpenMVCam::getImageRow(rowDataBuffer, 0);
-    printRow(220, 30);
+    printRow(0, 30);
     /* just testing different lines*/
+    /*
     OpenMVCam::getImageRow(rowDataBuffer, 1);
     printRow(220, 30);
     OpenMVCam::getImageRow(rowDataBuffer, 2);
@@ -46,6 +48,7 @@ void CameraAnalysis::SingleRowAnalysis::getRow() {
     printRow(220, 30);
     OpenMVCam::getImageRow(rowDataBuffer, 4);
     printRow(220, 30);
+    */
     
 }
 
