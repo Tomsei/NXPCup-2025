@@ -28,7 +28,7 @@ extern bool globalEngineState;
 
 void setup() {
   Serial.begin(115200);
-  Wire.begin(); //later in I2C Modul
+  Wire.begin();
   setupOpticalFlow();
   setupTofDistanceMeasure();
   setupArdLinefinder();
