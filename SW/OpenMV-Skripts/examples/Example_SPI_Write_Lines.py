@@ -18,11 +18,11 @@ numberOfLines = 5
 lineWidth = 1
 # confrigure while choosing resolution (change lines and Pixel amount)
 horizontalPixelCount = 320
-rowLine1 = 220
-rowLine2 = 200
-rowLine3 = 170
-rowLine4 = 150
-rowLine5 = 120
+rowLine1 = 200
+rowLine2 = 199
+rowLine3 = 198
+rowLine4 = 197
+rowLine5 = 196
 
 
 """
@@ -65,6 +65,8 @@ def writeImageSpi(img):
 
     cs.high()
 
+def debugPixelfalus(img):
+    print("pixelvalues")
 
 #setup cam
 sensor.reset()                      # Initialize the camera sensor.
@@ -81,4 +83,5 @@ while True:
     img = sensor.snapshot() # Take a picture and return the image.
     lineImage = configureLines(img)
     writeImageSpi(lineImage)
+    time.sleep_ms(100)
     print(clock.fps())

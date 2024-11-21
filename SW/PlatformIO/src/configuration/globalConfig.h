@@ -1,3 +1,5 @@
+/* ----- pin definitions -----  */
+
 #define ON_BOARD_LED 13
 
 #define ARD_LINE_FINDER1 2
@@ -33,9 +35,7 @@
 
 
 
-//video requltion
-#define VIDEO_RESOLUTION_X 360
+/* ----- cam configurations -----  */
+#define VIDEO_RESOLUTION_X 320
 #define VIDEO_RESOLUTION_Y 240
-
-//Line Definition
 #define NUMBER_OF_LINES 5

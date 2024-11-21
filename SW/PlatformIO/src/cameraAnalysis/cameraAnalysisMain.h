@@ -4,15 +4,30 @@
 
 #include "configuration/globalConfig.h"
 
-//void printPictureArray(uint32_t pictureArray[76800]);
-
 namespace CameraAnalysis {
 
+    /**
+     * structure for the analysis of a complete image
+     */
     struct ImageAnalysis {
 
-        uint8_t rowDataBuffer[320];
+        uint8_t imageDataBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
         
         void getImage();
-        void printImage(int start = 0, int length = VIDEO_RESOLUTION_X);
+        void printImage(int start = 0, int length = VIDEO_RESOLUTION_X*NUMBER_OF_LINES);
+
     };
+
+    /**
+     * structure for the analysis of a single Row
+     */
+    struct SingleRowAnalysis {
+
+        uint8_t rowDataBuffer[VIDEO_RESOLUTION_X];
+
+        void getRow();
+        void printRow(int start = 0, int length = VIDEO_RESOLUTION_X);
+
+    };
+
 }

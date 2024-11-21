@@ -1,6 +1,5 @@
-//#include "SPISlave_T4.h"
-//#include <Arduino.h>
-//#include <SPI.h>
+//changes
+#include "configuration/globalConfig.h"
 
 #define SLAVE_CR spiAddr[4]
 #define SLAVE_FCR spiAddr[22]
@@ -104,7 +103,8 @@ SPISlave_T4_FUNC uint32_t SPISlave_T4_OPT::popr() {
   return data;
 }
 
-extern uint32_t spiRx[76800];
+//changes
+extern uint32_t spiRx[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
 extern volatile int spiRxIdx;
 extern volatile int spiRxComplete;
 
