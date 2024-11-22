@@ -52,6 +52,8 @@ void runCamera() {
     static CameraAnalysis::SingleRowAnalysis currentRowAnalysis;
     currentRowAnalysis.getRow();
     currentRowAnalysis.calculateSobelRow();
+    
+    Serial.println(currentRowAnalysis.calculateTrackCenter());
 
     //reset spi transfer
     spiRxComplete = false;

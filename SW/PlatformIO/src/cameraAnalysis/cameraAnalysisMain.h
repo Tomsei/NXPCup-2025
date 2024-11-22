@@ -28,6 +28,9 @@ namespace CameraAnalysis {
 
         void getRow();
         void calculateSobelRow();
+        int calculateTrackCenter();
+        std::tuple<int, int> calculateEdges(int startSearch);
+
         void printRow(int start = 0, int length = VIDEO_RESOLUTION_X);
         void printSobelRow(int start = 0, int length = VIDEO_RESOLUTION_X -2);
 

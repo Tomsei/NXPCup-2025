@@ -6,7 +6,7 @@
 template<typename IntArray>
 void printArray(IntArray* rowToPrint, int start, int lengt, String linePrefix);
 
-
+int sobelThreshold = 50;
 
 /**
  * method to get a new row
@@ -38,7 +38,7 @@ void CameraAnalysis::ImageAnalysis::printImage(int start /*= 0*/, int length /*=
  */
 void CameraAnalysis::SingleRowAnalysis::getRow() {
     OpenMVCam::getImageRow(rowDataBuffer, 0);
-    printRow(0, 30);
+    //printRow(0, 30);
     /* just testing different lines*/
     /*
     OpenMVCam::getImageRow(rowDataBuffer, 1);
@@ -54,16 +54,6 @@ void CameraAnalysis::SingleRowAnalysis::getRow() {
 }
 
 /**
- * method to print a row
- * @param start: startpixel | default 0
- * @param length: the amount of pixel to print | default size of the video-width
- */
-void CameraAnalysis::SingleRowAnalysis::printRow(int start /*= 0*/, int length /*= VIDEO_RESOLUTION_X*/) {
-    printArray(rowDataBuffer, start, length, "print img row:\t");
-}
-
-
-/**
  * method to calculate the sobel values of the row
  */
 void CameraAnalysis::SingleRowAnalysis::calculateSobelRow() {
@@ -71,7 +61,60 @@ void CameraAnalysis::SingleRowAnalysis::calculateSobelRow() {
         //int carsting to get negativ values
         sobelRowDataBuffer[i] = ((int(rowDataBuffer[i] * 2)) + (int(rowDataBuffer[i+2] * -2)));
     }
-    printSobelRow(0,30);
+    //printSobelRow(0,30);
+}
+
+
+/**
+ * method to calculate the track center
+ * get the left and right edge and calculate the center
+ * @return trackCenter: the center of the track
+ */
+int CameraAnalysis::SingleRowAnalysis::calculateTrackCenter() {
+    auto [leftEdge, rightEdge] = calculateEdges(VIDEO_RESOLUTION_X/2);
+    int trackCenter = (leftEdge + rightEdge) / 2;
+    return trackCenter;
+}
+
+
+/**
+ * method to calculate the track edges
+ * just check if the sobelThreshold ist high enough to be an edge
+ * @param startSearch: the pixel to start the search to left an right (center to start)
+ * @return {leftEdge, rightEdge}: a tupel of the left and right Edge 
+ */
+std::tuple<int, int> CameraAnalysis::SingleRowAnalysis::calculateEdges(int startSearch) {
+    
+    //default edges at end of line
+    uint8_t leftEdge = 0;
+    int rightEdge = VIDEO_RESOLUTION_X-2;
+
+    //search left edge
+    for(int i = startSearch; i >= 0; i--) {
+        if (sobelRowDataBuffer[i] < - sobelThreshold) {
+            leftEdge = i;
+            break;
+        } 
+    }
+
+    //search right edge
+    for(int i = startSearch; i <= VIDEO_RESOLUTION_X-2; i++) {
+        if(sobelRowDataBuffer[i] > sobelThreshold) {
+            rightEdge = i;
+            break;
+        }
+    }
+    return {leftEdge, rightEdge};
+}
+
+
+/**
+ * method to print a row
+ * @param start: startpixel | default 0
+ * @param length: the amount of pixel to print | default size of the video-width
+ */
+void CameraAnalysis::SingleRowAnalysis::printRow(int start /*= 0*/, int length /*= VIDEO_RESOLUTION_X*/) {
+    printArray(rowDataBuffer, start, length, "print img row:\t");
 }
 
 /**
