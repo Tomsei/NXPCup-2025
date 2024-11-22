@@ -28,6 +28,8 @@ void setup() {
   
   setupCamera();
   setupMotor();
+  setupServo();
+  
 
   /*
   setupOpticalFlow();
@@ -48,6 +50,8 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   runCamera();
+  runMotor(true);
+  //runServo();
   //static CameraAnalysis::SingleRowAnalysis currentRowAnalysis;
   //currentRowAnalysis.printImageRow(0, 30);
 

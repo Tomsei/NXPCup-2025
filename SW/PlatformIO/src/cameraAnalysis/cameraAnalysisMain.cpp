@@ -2,6 +2,9 @@
 #include "configuration/globalConfig.h"
 #include "cameraAnalysis/cameraAnalysisMain.h"
 
+//ToDo Remove - Just testing
+#include "singleComponents/servo_REELYS2210.h"
+
 //pre definition 
 template<typename IntArray>
 void printArray(IntArray* rowToPrint, int start, int lengt, String linePrefix);
@@ -73,6 +76,13 @@ void CameraAnalysis::SingleRowAnalysis::calculateSobelRow() {
 int CameraAnalysis::SingleRowAnalysis::calculateTrackCenter() {
     auto [leftEdge, rightEdge] = calculateEdges(VIDEO_RESOLUTION_X/2);
     int trackCenter = (leftEdge + rightEdge) / 2;
+
+    int steeringTest = (VIDEO_RESOLUTION_X/2) - trackCenter;
+    steeringTest = 90 + steeringTest;
+    Serial.print("Servo Steering: "); Serial.println(steeringTest);
+    //ToDo: Just testing - remove!!
+    servoSteering(steeringTest);
+
     return trackCenter;
 }
 
