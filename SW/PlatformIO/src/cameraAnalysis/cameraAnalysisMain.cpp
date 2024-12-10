@@ -41,7 +41,7 @@ void CameraAnalysis::ImageAnalysis::printImage(int start /*= 0*/, int length /*=
  */
 void CameraAnalysis::SingleRowAnalysis::getRow() {
     OpenMVCam::getImageRow(rowDataBuffer, 0);
-    //printRow(0, 30);
+    printRow(0, 30);
     /* just testing different lines*/
     /*
     OpenMVCam::getImageRow(rowDataBuffer, 1);
@@ -81,7 +81,7 @@ int CameraAnalysis::SingleRowAnalysis::calculateTrackCenter() {
     steeringTest = 90 + steeringTest;
     Serial.print("Servo Steering: "); Serial.println(steeringTest);
     //ToDo: Just testing - remove!!
-    servoSteering(steeringTest);
+    SingleComponent::servoSteering(steeringTest);
 
     return trackCenter;
 }

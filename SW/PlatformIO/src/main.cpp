@@ -26,30 +26,34 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
   Wire.begin(); //later in I2C Modul
+
+  setupCamera();
+
   SingleComponent::setupOpticalFlow();
   SingleComponent::setupTofDistanceMeasure();
   SingleComponent::setupArdLinefinder();
   SingleComponent::setupImu();
   SingleComponent::setupServo();
   SingleComponent::setupMotor();
-  SingleComponent::setupCamera();
+  //SingleComponent::setupCamera();
   SingleComponent::setupDisplay();
   SingleComponent::setupIoExpander();
   SingleComponent::setupLedStrip();
 
   //Just testing variable
-  //globalEngineState = false;
+  globalEngineState = true;
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+  runCamera();
   SingleComponent::runOpticalFlow();
   SingleComponent::runTofDistanceMeasure();
   SingleComponent::runArdLineFinder();
   SingleComponent::runImu();
   SingleComponent::runServo();
   SingleComponent::runMotor();
-  SingleComponent::runCamera();
+  //SingleComponent::runCamera();
   SingleComponent::runDisplay();
   SingleComponent::runIoExpander();
   SingleComponent::runPoti();
