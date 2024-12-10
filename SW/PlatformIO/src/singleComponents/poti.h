@@ -1,3 +1,4 @@
-void setupPoti();
-
-void runPoti();
+namespace SingleComponent {
+    void setupPoti();
+    void runPoti();
+}

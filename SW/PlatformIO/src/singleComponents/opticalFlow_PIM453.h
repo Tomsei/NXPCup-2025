@@ -1,3 +1,4 @@
-void setupOpticalFlow();
-
-void runOpticalFlow();
+namespace SingleComponent {
+    void setupOpticalFlow();
+    void runOpticalFlow();
+}

@@ -1,3 +1,4 @@
-void setupImu();
-
-void runImu();
+namespace SingleComponent {
+    void setupImu();
+    void runImu();
+}

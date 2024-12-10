@@ -1,4 +1,3 @@
-
 #include <Arduino.h>
 #include <Wire.h>
 
@@ -14,8 +13,9 @@
 #include "singleComponents/io_expander_MCP23017.h"
 #include "singleComponents/poti.h"
 
+
 //Just testing variable for engine control
-extern bool globalEngineState;
+bool globalEngineState;
 
 
 void setup() {
@@ -23,16 +23,15 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
   Wire.begin(); //later in I2C Modul
-  setupOpticalFlow();
-  setupTofDistanceMeasure();
-  setupArdLinefinder();
-  setupImu();
-  setupServo();
-  setupMotor();
-  setupCamera();
-  setupDisplay();
-  setupIoExpander();  
-  //void setupTeensyBlink();
+  SingleComponent::setupOpticalFlow();
+  SingleComponent::setupTofDistanceMeasure();
+  SingleComponent::setupArdLinefinder();
+  SingleComponent::setupImu();
+  SingleComponent::setupServo();
+  SingleComponent::setupMotor();
+  SingleComponent::setupCamera();
+  SingleComponent::setupDisplay();
+  SingleComponent::setupIoExpander();  
 
   //Just testing variable
   globalEngineState = false;
@@ -40,16 +39,14 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  runOpticalFlow();
-  runTofDistanceMeasure();
-  runArdLineFinder();
-  runImu();
-  runServo();
-  runMotor(globalEngineState);
-  runCamera();
-  runDisplay(globalEngineState);
-  runIoExpander();
-  runPoti();
-  //teensyBlink();
+  SingleComponent::runOpticalFlow();
+  SingleComponent::runTofDistanceMeasure();
+  SingleComponent::runArdLineFinder();
+  SingleComponent::runImu();
+  SingleComponent::runServo();
+  SingleComponent::runMotor();
+  SingleComponent::runCamera();
+  SingleComponent::runDisplay();
+  SingleComponent::runIoExpander();
+  SingleComponent::runPoti();
 } 
-

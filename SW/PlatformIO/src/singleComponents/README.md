@@ -5,6 +5,8 @@ Dieser Ordner und alle Dateien die dieser beinhaltet sind Basistests der Kompone
 
 Auf der Kamera sollte das Script: ```Control_Engine_Accespoint``` ausgeführt werden. Somit kann auch die SPI Verbindung verifiziert werden, in dem das Steuersignal weitergeleitet wird.
 
+In der globalConfig.h muss folgende Definition stehen ```#define SINGLE_COMPONENTS_TEST ```
+
 In der Main Datei sollte folgender Quellcode ausgeführt werden:
 ```c++
 #include <Arduino.h>
@@ -22,39 +24,41 @@ In der Main Datei sollte folgender Quellcode ausgeführt werden:
 #include "singleComponents/io_expander_MCP23017.h"
 #include "singleComponents/poti.h"
 
+
 //Just testing variable for engine control
-extern bool globalEngineState;
+bool globalEngineState;
 
 
 void setup() {
+
+  // put your setup code here, to run once:
   Serial.begin(115200);
   Wire.begin(); //later in I2C Modul
-  setupOpticalFlow();
-  setupTofDistanceMeasure();
-  setupArdLinefinder();
-  setupImu();
-  setupServo();
-  setupMotor();
-  setupCamera();
-  setupDisplay();
-  setupIoExpander();  
-  //void setupTeensyBlink();
+  SingleComponent::setupOpticalFlow();
+  SingleComponent::setupTofDistanceMeasure();
+  SingleComponent::setupArdLinefinder();
+  SingleComponent::setupImu();
+  SingleComponent::setupServo();
+  SingleComponent::setupMotor();
+  SingleComponent::setupCamera();
+  SingleComponent::setupDisplay();
+  SingleComponent::setupIoExpander();  
 
-  //just testing variable for engine control
+  //Just testing variable
   globalEngineState = false;
 }
 
 void loop() {
-  runOpticalFlow();
-  runTofDistanceMeasure();
-  runArdLineFinder();
-  runImu();
-  runServo();
-  runMotor(globalEngineState);
-  runCamera();
-  runDisplay(globalEngineState);
-  runIoExpander();
-  runPoti();
-  //teensyBlink();
+  // put your main code here, to run repeatedly:
+  SingleComponent::runOpticalFlow();
+  SingleComponent::runTofDistanceMeasure();
+  SingleComponent::runArdLineFinder();
+  SingleComponent::runImu();
+  SingleComponent::runServo();
+  SingleComponent::runMotor();
+  SingleComponent::runCamera();
+  SingleComponent::runDisplay();
+  SingleComponent::runIoExpander();
+  SingleComponent::runPoti();
 } 
 ```

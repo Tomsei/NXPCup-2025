@@ -1,3 +1,4 @@
-void setupServo();
-
-void runServo();
+namespace SingleComponent {
+    void setupServo();
+    void runServo();
+}
