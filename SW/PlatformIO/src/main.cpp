@@ -1,4 +1,3 @@
-
 #include <Arduino.h>
 #include <Wire.h>
 
@@ -12,12 +11,14 @@
 #include "singleComponents/display_CS-ANAVI-DISPLAY1.h"
 #include "singleComponents/io_expander_MCP23017.h"
 #include "singleComponents/poti.h"
+#include "singleComponents/ledStrip_Adafruit1426.h"
+
 
 #include "cameraAnalysis/camera_OPENMVCAMRT1062.h"
 #include "cameraAnalysis/cameraAnalysisMain.h"
 
 //Just testing variable for engine control
-//extern bool globalEngineState;
+bool globalEngineState;
 
 
 void setup() {
@@ -25,23 +26,16 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
   Wire.begin(); //later in I2C Modul
-  
-  setupCamera();
-  setupMotor();
-  setupServo();
-  
-
-  /*
-  setupOpticalFlow();
-  setupTofDistanceMeasure();
-  setupArdLinefinder();
-  setupImu();
-  setupServo();
-  setupMotor();
-  setupDisplay();
-  setupIoExpander();  
-  */
-  //void setupTeensyBlink();
+  SingleComponent::setupOpticalFlow();
+  SingleComponent::setupTofDistanceMeasure();
+  SingleComponent::setupArdLinefinder();
+  SingleComponent::setupImu();
+  SingleComponent::setupServo();
+  SingleComponent::setupMotor();
+  SingleComponent::setupCamera();
+  SingleComponent::setupDisplay();
+  SingleComponent::setupIoExpander();
+  SingleComponent::setupLedStrip();
 
   //Just testing variable
   //globalEngineState = false;
@@ -49,23 +43,15 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  runCamera();
-  runMotor(true);
-  //runServo();
-  //static CameraAnalysis::SingleRowAnalysis currentRowAnalysis;
-  //currentRowAnalysis.printImageRow(0, 30);
-
-  /*
-  runTofDistanceMeasure();
-  runArdLineFinder();
-  runImu();
-  runServo();
-  runMotor(globalEngineState);
-  runCamera();
-  runDisplay(globalEngineState);
-  runIoExpander();
-  runPoti();
-  */
-  //teensyBlink();
+  SingleComponent::runOpticalFlow();
+  SingleComponent::runTofDistanceMeasure();
+  SingleComponent::runArdLineFinder();
+  SingleComponent::runImu();
+  SingleComponent::runServo();
+  SingleComponent::runMotor();
+  SingleComponent::runCamera();
+  SingleComponent::runDisplay();
+  SingleComponent::runIoExpander();
+  SingleComponent::runPoti();
+  SingleComponent::runLedStrip();
 } 
-

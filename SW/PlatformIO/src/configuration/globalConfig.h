@@ -1,3 +1,7 @@
+#define SINGLE_COMPONENTS_TEST //if SingleComponets should be used!
+
+
+
 /* ----- pin definitions -----  */
 
 #define ON_BOARD_LED 13
@@ -8,16 +12,17 @@
 #define OPTICAL_FLOW_LED 23
 #define OPTICAL_FLOW_CHIP_SELECT 0 
 
-#define MOTOR_ESC_PIN 29 //reneame Motor_ESC
+#define MOTOR_ESC_PIN 29 //
 #define SERVO_PIN 28
 
-#define LED_STRIPE 14
+#define LED_STRIP 14
 #define BATTERY_MEASUREMENT 38
 
 #define POTI1 24 //Analogen 10
 #define POTI2 25 //Analogen 11
 
 #define CAM_SPI_MISO 12
+
 
 
 //IO-Expander pins

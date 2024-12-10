@@ -1,3 +1,4 @@
-void setupIoExpander();
-
-void runIoExpander();
+namespace SingleComponent {
+    void setupIoExpander();
+    void runIoExpander();
+}

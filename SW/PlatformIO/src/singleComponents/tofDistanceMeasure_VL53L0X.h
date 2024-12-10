@@ -1,3 +1,4 @@
-void setupTofDistanceMeasure();
-
-void runTofDistanceMeasure();
+namespace SingleComponent {
+    void setupTofDistanceMeasure();
+    void runTofDistanceMeasure();
+}

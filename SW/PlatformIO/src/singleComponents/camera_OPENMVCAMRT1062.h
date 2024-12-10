@@ -1,3 +1,6 @@
-void setupCamera();
+namespace SingleComponent {
+    void setupCamera();
+    void runCamera();  
+} 
 
-void runCamera();
+

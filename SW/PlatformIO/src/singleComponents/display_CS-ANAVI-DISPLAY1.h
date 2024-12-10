@@ -1,3 +1,4 @@
-void setupDisplay();
-
-void runDisplay(bool engineState);
+namespace SingleComponent {
+    void setupDisplay();
+    void runDisplay();
+}
