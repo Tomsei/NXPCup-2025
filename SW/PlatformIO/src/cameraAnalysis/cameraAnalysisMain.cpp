@@ -9,7 +9,7 @@
 template<typename IntArray>
 void printArray(IntArray* rowToPrint, int start, int lengt, String linePrefix);
 
-int sobelThreshold = 50;
+int sobelThreshold = 45;
 
 /**
  * method to get a new row
@@ -41,7 +41,7 @@ void CameraAnalysis::ImageAnalysis::printImage(int start /*= 0*/, int length /*=
  */
 void CameraAnalysis::SingleRowAnalysis::getRow() {
     OpenMVCam::getImageRow(rowDataBuffer, 0);
-    printRow(0, 30);
+    //printRow(0, 30);
     /* just testing different lines*/
     /*
     OpenMVCam::getImageRow(rowDataBuffer, 1);
@@ -78,8 +78,9 @@ int CameraAnalysis::SingleRowAnalysis::calculateTrackCenter() {
     int trackCenter = (leftEdge + rightEdge) / 2;
 
     int steeringTest = (VIDEO_RESOLUTION_X/2) - trackCenter;
+    Serial.print("Steering Test: "); Serial.println(steeringTest);
     steeringTest = 90 + steeringTest;
-    Serial.print("Servo Steering: "); Serial.println(steeringTest);
+    Serial.print("Servo Steering: "); Serial.print(steeringTest); Serial.print("track Center: "); Serial.println(trackCenter);
     //ToDo: Just testing - remove!!
     SingleComponent::servoSteering(steeringTest);
 

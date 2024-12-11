@@ -51,7 +51,7 @@ void loop() {
   SingleComponent::runTofDistanceMeasure();
   SingleComponent::runArdLineFinder();
   SingleComponent::runImu();
-  SingleComponent::runServo();
+  //SingleComponent::runServo();
   SingleComponent::runMotor();
   //SingleComponent::runCamera();
   SingleComponent::runDisplay();
