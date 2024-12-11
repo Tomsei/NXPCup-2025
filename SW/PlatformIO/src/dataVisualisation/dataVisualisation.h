@@ -1,6 +1,5 @@
-#include <Arduino.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
+#include "dataVisualisation/display.h"
+#include "dataVisualisation/ledStrip.h"
 
 namespace DataVisualisation {
 
@@ -9,7 +8,7 @@ namespace DataVisualisation {
         VisualizeDisplay = 1, 
         VisualizeBoth = 2 
     };
-    
+
     void clear(int choose);
     void showNumber();
 

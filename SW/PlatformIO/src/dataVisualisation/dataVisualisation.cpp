@@ -1,17 +1,15 @@
 #include "dataVisualisation/dataVisualisation.h"
-#include "dataVisualisation/display.h"
-#include "dataVisualisation/ledStrip.h"
 
 namespace DataVisualisation  {
 
     void clear(VisualisationLevel level) {
         if (level == VisualizeLED)
-            clearLed();
+            return; //clearLed();
         else if (level == VisualizeLED)
-            clearDisplay();
+            return; //clearDisplay();
         else if (level == VisualizeLED) {
-            clearLed();
-            clearDisplay();
+            return; //clearLed();
+            //clearDisplay();
         }
     }
 
@@ -22,15 +20,18 @@ namespace DataVisualisation  {
     - einzige Logik war bisher, dass hier gebündelt werden konnte wenn beide 
     gleichzeitig anzeigen sollen. Dies kann aber auch mit zwei Befehlen im 
     Anfwendungsfall ohne Probleme passieren.
+
+    ToDo - Das könnte eine reine übergeordnete Steuerung werden, durch welche Display... inkludiert werden
+    und kombinationen gebündelt werden (bsp. clear - ...)
     */
     void showNumber(VisualisationLevel level) {
         if (level == VisualizeLED)
-            showNumberLed();
+            return;// showNumberLed();
         else if (level == VisualizeDisplay)
-            showNumberDisplay();
+            return;//showNumberDisplay();
         else if (level == VisualizeBoth) {
-            showNumberLed();
-            showNumberDisplay();
+            return;//showNumberLed();
+            //showNumberDisplay();
         }
     }
 }

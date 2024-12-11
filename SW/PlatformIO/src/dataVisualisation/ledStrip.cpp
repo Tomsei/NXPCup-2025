@@ -6,20 +6,21 @@
 
 namespace DataVisualisation {
 
-    Adafruit_NeoPixel ledStrip = Adafruit_NeoPixel(NUMBER_OF_LEDS, LED_STRIP);
+    Adafruit_NeoPixel libLedStrip = Adafruit_NeoPixel(NUMBER_OF_LEDS, LED_STRIP);
 
-    void clearLed() {
-        ledStrip.clear();
-        ledStrip.show();
+    void LedStrip::clear() {
+        libLedStrip.clear();
+        libLedStrip.show();
+        Serial.print("ClearLEDStrip");
     }
 
-    //todo: change to binary representation!
-    void showNumberLed() {
+    void LedStrip::showNumber() {
         int number = 7;
 
         for(int i = 0; i < number; i++) {
-            ledStrip.setPixelColor(i, ledStrip.Color(0,25,0));
+            libLedStrip.setPixelColor(i, libLedStrip.Color(0,25,0));
         }
-        ledStrip.show();
+        libLedStrip.show();
+        Serial.print("ShowNumerLEDStrip");
     }
 }

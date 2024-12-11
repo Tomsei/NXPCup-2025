@@ -17,6 +17,8 @@
 #include "cameraAnalysis/camera_OPENMVCAMRT1062.h"
 #include "cameraAnalysis/cameraAnalysisMain.h"
 
+#include "dataVisualisation/dataVisualisation.h"
+
 //Just testing variable for engine control
 bool globalEngineState;
 
@@ -51,11 +53,16 @@ void loop() {
   SingleComponent::runTofDistanceMeasure();
   SingleComponent::runArdLineFinder();
   SingleComponent::runImu();
-  //SingleComponent::runServo();
   SingleComponent::runMotor();
-  //SingleComponent::runCamera();
   SingleComponent::runDisplay();
   SingleComponent::runIoExpander();
   SingleComponent::runPoti();
   SingleComponent::runLedStrip();
+
+  DataVisualisation::LedStrip::clear();
+  DataVisualisation::Display::clear();
+
+
+  //SingleComponent::runCamera();
+  //SingleComponent::runServo();
 } 

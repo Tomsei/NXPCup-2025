@@ -3,6 +3,9 @@
 
 namespace DataVisualisation {
 
-    void clearDisplay();
-    void showNumberDisplay();
+    class Display {
+        public:
+            static void clear();
+            static void showNumber();
+    };
 }

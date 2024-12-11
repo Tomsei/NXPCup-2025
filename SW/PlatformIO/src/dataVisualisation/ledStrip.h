@@ -1,4 +1,8 @@
 namespace DataVisualisation {
-    void clearLed();
-    void showNumberLed();
+
+    class LedStrip {
+        public:
+            static void clear();
+            static void showNumber();
+    };
 }
