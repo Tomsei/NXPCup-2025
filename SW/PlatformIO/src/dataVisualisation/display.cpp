@@ -1,4 +1,6 @@
 #include "display.h"
+
+#include <Adafruit_SSD1306.h>
 /**
  * Display pixel
  *      X   X   X   X   X
@@ -18,6 +20,7 @@ namespace DataVisualisation {
 
     void clearDisplay() {
         display.clearDisplay();
+        display.display();
     }
 
     void showNumberDisplay() {
