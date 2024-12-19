@@ -17,6 +17,18 @@ namespace DataVisualisation {
     // Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
     Adafruit_SSD1306 lipDisplay(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
+    //ToDo: Error Handling
+    void Display::setup() {
+        if(!lipDisplay.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for the display
+            Serial.println(F("SSD1306 allocation failed"));
+        }
+        lipDisplay.clearDisplay();
+        lipDisplay.setTextSize(1);
+        lipDisplay.setTextColor(WHITE);
+        lipDisplay.setCursor(0,0);
+        lipDisplay.println("Display Setup Done");
+        lipDisplay.display();
+    }  
 
     void Display::clear() {
         lipDisplay.clearDisplay();

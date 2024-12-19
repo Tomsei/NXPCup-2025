@@ -5,6 +5,7 @@ namespace DataVisualisation {
 
     class Display {
         public:
+            static void setup();
             static void clear();
             static void showNumber();
     };

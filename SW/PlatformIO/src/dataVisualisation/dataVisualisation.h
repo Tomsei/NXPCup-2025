@@ -3,13 +3,15 @@
 
 namespace DataVisualisation {
 
+    //ToDo: Remove
     enum VisualisationLevel { 
         VisualizeLED = 0, 
         VisualizeDisplay = 1, 
         VisualizeBoth = 2 
     };
 
-    void clear(int choose);
+    void setup();
+    void clear();
     void showNumber();
 
 }

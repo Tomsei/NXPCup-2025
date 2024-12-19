@@ -18,6 +18,7 @@
 #include "cameraAnalysis/cameraAnalysisMain.h"
 
 #include "dataVisualisation/dataVisualisation.h"
+#include "boardInput/boardInput.h"
 
 //Just testing variable for engine control
 bool globalEngineState;
@@ -29,18 +30,26 @@ void setup() {
   Serial.begin(115200);
   Wire.begin(); //later in I2C Modul
 
-  setupCamera();
+  setupCamera(); //ToDo: structure
 
+
+  BoardInput::setup();
+  
+
+  //Single Component - 
   SingleComponent::setupOpticalFlow();
   SingleComponent::setupTofDistanceMeasure();
   SingleComponent::setupArdLinefinder();
   SingleComponent::setupImu();
   SingleComponent::setupServo();
   SingleComponent::setupMotor();
-  //SingleComponent::setupCamera();
   SingleComponent::setupDisplay();
-  SingleComponent::setupIoExpander();
   SingleComponent::setupLedStrip();
+
+  //SingleComponent::setupCamera();
+  //SingleComponent::setupIoExpander();
+  
+  
 
   //Just testing variable
   globalEngineState = true;
@@ -61,6 +70,9 @@ void loop() {
 
   DataVisualisation::LedStrip::clear();
   DataVisualisation::Display::clear();
+
+  BoardInput::update();
+  BoardInput::printData();
 
 
   //SingleComponent::runCamera();
