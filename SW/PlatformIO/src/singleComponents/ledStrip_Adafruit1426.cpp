@@ -13,8 +13,6 @@ namespace SingleComponent {
 
     bool ledState = false;
 
-
-
     /**
      * setup method to begin the led Strip
      * let all leds go on
@@ -34,14 +32,12 @@ namespace SingleComponent {
             if(ledState) {
                 changeLedState(0,0,5);
                 ledState = false;
-                Serial.print(ledState);
             }
         }
         else {
             if(!ledState) {
                 changeLedState(5,0,0);
                 ledState = true;
-                Serial.print(ledState);
             }
         }
     }

@@ -1,3 +1,4 @@
+
 #include <Arduino.h>
 #include <Wire.h>
 
@@ -30,10 +31,11 @@ void setup() {
   Serial.begin(115200);
   Wire.begin(); //later in I2C Modul
 
-  setupCamera(); //ToDo: structure
+  //setupCamera(); //ToDo: structure
 
 
   BoardInput::setup();
+  DataVisualisation::setup();
   
 
   //Single Component - 
@@ -41,11 +43,11 @@ void setup() {
   SingleComponent::setupTofDistanceMeasure();
   SingleComponent::setupArdLinefinder();
   SingleComponent::setupImu();
-  SingleComponent::setupServo();
+  //SingleComponent::setupServo();
   SingleComponent::setupMotor();
-  SingleComponent::setupDisplay();
-  SingleComponent::setupLedStrip();
-
+  
+  //SingleComponent::setupDisplay();
+  //SingleComponent::setupLedStrip();
   //SingleComponent::setupCamera();
   //SingleComponent::setupIoExpander();
   
@@ -57,24 +59,29 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  runCamera();
+  //runCamera();
   SingleComponent::runOpticalFlow();
   SingleComponent::runTofDistanceMeasure();
-  SingleComponent::runArdLineFinder();
+  //SingleComponent::runArdLineFinder();
   SingleComponent::runImu();
-  SingleComponent::runMotor();
-  SingleComponent::runDisplay();
-  SingleComponent::runIoExpander();
-  SingleComponent::runPoti();
-  SingleComponent::runLedStrip();
+  //SingleComponent::runMotor();
+  
 
-  DataVisualisation::LedStrip::clear();
-  DataVisualisation::Display::clear();
+
+
+  //DataVisualisation::LedStrip::clear();
+  //DataVisualisation::Display::clear();
 
   BoardInput::update();
   BoardInput::printData();
+  DataVisualisation::LedStrip::showNumber();
+  DataVisualisation::Display::showNumber();
 
 
   //SingleComponent::runCamera();
   //SingleComponent::runServo();
+  //SingleComponent::runPoti();
+  //SingleComponent::runLedStrip();
+  //SingleComponent::runDisplay();
+  //SingleComponent::runIoExpander();
 } 

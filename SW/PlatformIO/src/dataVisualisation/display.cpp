@@ -23,12 +23,14 @@ namespace DataVisualisation {
             Serial.println(F("SSD1306 allocation failed"));
         }
         lipDisplay.clearDisplay();
-        lipDisplay.setTextSize(1);
-        lipDisplay.setTextColor(WHITE);
+        lipDisplay.setTextSize(1);  
+        lipDisplay.setTextColor(SSD1306_WHITE);
         lipDisplay.setCursor(0,0);
-        lipDisplay.println("Display Setup Done");
+        lipDisplay.println(F("Display Setup Done"));
         lipDisplay.display();
     }  
+
+    
 
     void Display::clear() {
         lipDisplay.clearDisplay();
@@ -36,6 +38,10 @@ namespace DataVisualisation {
     }
 
     void Display::showNumber() {
-        lipDisplay.write("1");
+        lipDisplay.setCursor(0,0);
+        lipDisplay.drawLine(0,15,127,15, WHITE);
+        lipDisplay.clearDisplay();
+        lipDisplay.print("1");
+        lipDisplay.display();
     }
 }

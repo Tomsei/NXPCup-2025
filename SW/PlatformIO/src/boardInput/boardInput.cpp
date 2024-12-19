@@ -12,8 +12,8 @@ namespace BoardInput {
     void setupIoExpander();
     void setupData();
     int readPoti(int poti);
-    int readButton(int button);
-    int readDipSwitch();
+    uint8_t readButton(int button);
+    uint8_t readDipSwitch();
 
 
     /* ToDo: Error Handling!*/
@@ -44,6 +44,10 @@ namespace BoardInput {
         
     }
 
+    uint8_t getSingleDipswitch(uint8_t aDipSwitch) {
+        return ioExpander.digitalRead(aDipSwitch);
+    }
+
 
 
     /*--------------- "Privat" ---------------*/
@@ -71,13 +75,15 @@ namespace BoardInput {
         return analogRead(poti);
     }
 
-    int readButton(int button) {
-        return ioExpander.digitalRead(button);
+    uint8_t readButton(int button) {
+        return !ioExpander.digitalRead(button);
     }
 
-    int readDipSwitch() {
-        int dipSwitchvalue = 0;
-        //@ToDo: Implement
+    uint8_t readDipSwitch() {
+        uint8_t dipSwitchvalue = 15 - ioExpander.digitalRead(IO_EX_DIPSWITCH1);
+        dipSwitchvalue -= ioExpander.digitalRead(IO_EX_DIPSWITCH2) * 2;
+        dipSwitchvalue -= ioExpander.digitalRead(IO_EX_DIPSWITCH3) * 4;
+        dipSwitchvalue -= ioExpander.digitalRead(IO_EX_DIPSWITCH4) * 8;
         return dipSwitchvalue;
     }
 }

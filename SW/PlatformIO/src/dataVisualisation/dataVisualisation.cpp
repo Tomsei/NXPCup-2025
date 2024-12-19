@@ -6,6 +6,7 @@ namespace DataVisualisation  {
     */
    void setup() {
         Display::setup();
+        LedStrip::setup();
    }
 
     void clear() {

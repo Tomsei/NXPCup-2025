@@ -10,29 +10,27 @@ namespace DataVisualisation {
 
     void LedStrip::setup() {
         libLedStrip.begin();
-        //ToDo all LEDS to green
-        setAllLeds(0, 125, 0);
+        setAllLeds(0, 50, 0);
     }
 
     void LedStrip::clear() {
         libLedStrip.clear();
         libLedStrip.show();
-        Serial.print("ClearLEDStrip");
     }
 
 
     void LedStrip::showNumber() {
-        int number = 7;
-
+        int number = 2;
+        libLedStrip.clear();
+        //ToDo Update to binary!
         for(int i = 0; i < number; i++) {
             libLedStrip.setPixelColor(i, libLedStrip.Color(0,25,0));
         }
         libLedStrip.show();
-        Serial.print("ShowNumerLEDStrip");
     }
 
     /**
-     * method to change all leds
+     * method to set all leds in on color (rgb)
      * @param r: red value
      * @param g: green value
      * @param b: blue value
