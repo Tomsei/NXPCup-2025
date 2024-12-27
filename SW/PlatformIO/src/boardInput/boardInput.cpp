@@ -1,7 +1,5 @@
 #include "boardInput/boardInput.h"
-
 #include "Adafruit_MCP23X17.h"
-
 #include "configuration/globalConfig.h"
 
 namespace BoardInput {
@@ -9,6 +7,7 @@ namespace BoardInput {
     static Data data;
     Adafruit_MCP23X17 ioExpander;
     
+    //forward decleration
     void setupIoExpander();
     void setupData();
     int readPoti(int poti);
@@ -19,11 +18,14 @@ namespace BoardInput {
     /* ToDo: Error Handling!*/
 
     /*--------------- "Public" --------------- */
+
+    // documentation in .h file
     void setup() {
         setupIoExpander();
         setupData();
     }
 
+    // documentation in .h file
     void update() {
         data.poti1 = readPoti(POTI1);
         data.poti2 = readPoti(POTI2);
@@ -32,6 +34,7 @@ namespace BoardInput {
         data.dipSwitch = readDipSwitch();
     }
 
+    // documentation in .h file
     void printData() {
         String dataToPrint = "";
         dataToPrint = dataToPrint + "Poti 1: " + data.poti1 + " Poti 2: " + data.poti2 
@@ -40,17 +43,25 @@ namespace BoardInput {
         Serial.println(dataToPrint);
     }
 
+    // documentation in .h file
     void getData() {
-        
+        //ToDo: implement
     }
 
-    uint8_t getSingleDipswitch(uint8_t aDipSwitch) {
+    // documentation in .h file
+    uint8_t getSingleDipswitchValue(uint8_t aDipSwitch) {
         return ioExpander.digitalRead(aDipSwitch);
     }
 
 
 
     /*--------------- "Privat" ---------------*/
+
+    /**
+     * function to setup the IOExpander
+     * - call ioExpander begin method
+     * - initiate the pinmode for the used pins
+     */
     void setupIoExpander() {
         if(!ioExpander.begin_I2C()) {
             Serial.println("BoardInput: IO-Expander Init Error");
@@ -63,6 +74,10 @@ namespace BoardInput {
         ioExpander.pinMode(IO_EX_DIPSWITCH4, INPUT_PULLUP);
     }
 
+    /**
+     * function to setup the static 
+     * - set all data to -1
+     */
     void setupData() {
         data.poti1 = -1;
         data.poti2 = -1;
@@ -71,14 +86,29 @@ namespace BoardInput {
         data.dipSwitch = -1;
     }
 
+    /**
+     * function to read the poti data
+     * @param poti: the poti to read
+     * @return: the poti value
+     */
     int readPoti(int poti) {
         return analogRead(poti);
     }
 
+    /**
+     * function to read button Data
+     * @param button: the button to read
+     * @return: the button value
+     */
     uint8_t readButton(int button) {
         return !ioExpander.digitalRead(button);
     }
 
+    /**
+     * function to read the dip switch
+     * read the dip switch values an create a decimal representation
+     * @return: the value of all switches in on decimal number
+     */
     uint8_t readDipSwitch() {
         uint8_t dipSwitchvalue = 15 - ioExpander.digitalRead(IO_EX_DIPSWITCH1);
         dipSwitchvalue -= ioExpander.digitalRead(IO_EX_DIPSWITCH2) * 2;

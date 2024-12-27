@@ -23,7 +23,7 @@
 
 //Just testing variable for engine control
 bool globalEngineState;
-
+bool engineEnabled = false;
 
 void setup() {
 
@@ -84,4 +84,6 @@ void loop() {
   //SingleComponent::runLedStrip();
   //SingleComponent::runDisplay();
   //SingleComponent::runIoExpander();
+
+  //engineEnabled = DipswitchValu > 7 ? true : false; //Tenary Operation
 } 
