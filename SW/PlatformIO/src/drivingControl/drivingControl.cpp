@@ -3,6 +3,7 @@
 #include "drivingControl/servo.h"
 
 extern bool engineEnabled;
+extern bool steeringEnabled;
 
 namespace DrivingControl {
 
@@ -18,6 +19,8 @@ namespace DrivingControl {
         else {
             Engine::setSpeed(0);
         }
-        SteeringServo::steering(60);
+        if(steeringEnabled) {
+            SteeringServo::setSteeringAngle(60);
+        }
     }
 }
