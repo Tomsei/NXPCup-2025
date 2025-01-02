@@ -49,7 +49,7 @@ namespace BoardInput {
     }
 
     // documentation in .h file
-    uint8_t getSingleDipswitchValue(uint8_t aDipSwitch) {
+    bool getSingleDipswitchValue(DipSwitchEnum aDipSwitch) {
         return ioExpander.digitalRead(aDipSwitch);
     }
 

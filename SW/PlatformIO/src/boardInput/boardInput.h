@@ -14,6 +14,8 @@ namespace BoardInput {
         uint8_t button2;
     };
 
+    enum DipSwitchEnum {S1, S2, S3, S4};
+
     /**
      * setup function
      * - setup of IoExpander
@@ -43,5 +45,5 @@ namespace BoardInput {
      * @param aDipSwitch: the switch to get
      * @return: the value of the choosen switch 
      */
-    uint8_t getSingleDipswitchValue(uint8_t aDipSwitch);
+    bool getSingleDipswitchValue(DipSwitchEnum aDipSwitch);
 }

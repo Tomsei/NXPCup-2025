@@ -20,9 +20,9 @@
 
 #include "dataVisualisation/dataVisualisation.h"
 #include "boardInput/boardInput.h"
+#include "drivingControl/drivingControl.h"
 
-//Just testing variable for engine control
-bool globalEngineState;
+
 bool engineEnabled = false;
 
 void setup() {
@@ -36,6 +36,7 @@ void setup() {
 
   BoardInput::setup();
   DataVisualisation::setup();
+  DrivingControl::setup();
   
 
   //Single Component - 
@@ -43,47 +44,40 @@ void setup() {
   SingleComponent::setupTofDistanceMeasure();
   SingleComponent::setupArdLinefinder();
   SingleComponent::setupImu();
+  
   //SingleComponent::setupServo();
-  SingleComponent::setupMotor();
+  //SingleComponent::setupMotor();
   
   //SingleComponent::setupDisplay();
   //SingleComponent::setupLedStrip();
   //SingleComponent::setupCamera();
   //SingleComponent::setupIoExpander();
   
-  
-
-  //Just testing variable
-  globalEngineState = true;
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   //runCamera();
-  SingleComponent::runOpticalFlow();
-  SingleComponent::runTofDistanceMeasure();
+  
+  //SingleComponent::runOpticalFlow();
+  //SingleComponent::runTofDistanceMeasure();
   //SingleComponent::runArdLineFinder();
-  SingleComponent::runImu();
+  //SingleComponent::runImu();
   //SingleComponent::runMotor();
   
 
 
-
-  //DataVisualisation::LedStrip::clear();
-  //DataVisualisation::Display::clear();
-
   BoardInput::update();
-  BoardInput::printData();
+  //BoardInput::printData();
   DataVisualisation::LedStrip::showNumber();
-  DataVisualisation::Display::showNumber();
+  DataVisualisation::Display::showNumber(-2);
+  DrivingControl::drive(20, 50); 
 
 
   //SingleComponent::runCamera();
   //SingleComponent::runServo();
-  //SingleComponent::runPoti();
-  //SingleComponent::runLedStrip();
-  //SingleComponent::runDisplay();
-  //SingleComponent::runIoExpander();
 
+  engineEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S4);
+  Serial.print(engineEnabled);
   //engineEnabled = DipswitchValu > 7 ? true : false; //Tenary Operation
 } 
