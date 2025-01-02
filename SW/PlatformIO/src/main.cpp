@@ -25,6 +25,7 @@
 
 
 bool engineEnabled = false;
+bool steeringEnabled = false;
 
 void setup() {
 
@@ -43,6 +44,7 @@ void loop() {
   // put your main code here, to run repeatedly:
 
   engineEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S4);
+  steeringEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S3);
   //engineEnabled = DipswitchValu > 7 ? true : false; //Tenary Operation
 
   BoardInput::update();
