@@ -50,7 +50,7 @@ namespace BoardInput {
 
     // documentation in .h file
     bool getSingleDipswitchValue(DipSwitchEnum aDipSwitch) {
-        return ioExpander.digitalRead(aDipSwitch);
+        return !ioExpander.digitalRead(aDipSwitch);
     }
 
 

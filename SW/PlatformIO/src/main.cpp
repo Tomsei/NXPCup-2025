@@ -21,6 +21,7 @@
 #include "dataVisualisation/dataVisualisation.h"
 #include "boardInput/boardInput.h"
 #include "drivingControl/drivingControl.h"
+#include "sensors/sensors.h"
 
 
 bool engineEnabled = false;
@@ -31,53 +32,23 @@ void setup() {
   Serial.begin(115200);
   Wire.begin(); //later in I2C Modul
 
-  //setupCamera(); //ToDo: structure
-
-
   BoardInput::setup();
   DataVisualisation::setup();
   DrivingControl::setup();
-  
-
-  //Single Component - 
-  SingleComponent::setupOpticalFlow();
-  SingleComponent::setupTofDistanceMeasure();
-  SingleComponent::setupArdLinefinder();
-  SingleComponent::setupImu();
-  
-  //SingleComponent::setupServo();
-  //SingleComponent::setupMotor();
-  
-  //SingleComponent::setupDisplay();
-  //SingleComponent::setupLedStrip();
-  //SingleComponent::setupCamera();
-  //SingleComponent::setupIoExpander();
+  Sensors::setup();
   
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  //runCamera();
-  
-  //SingleComponent::runOpticalFlow();
-  //SingleComponent::runTofDistanceMeasure();
-  //SingleComponent::runArdLineFinder();
-  //SingleComponent::runImu();
-  //SingleComponent::runMotor();
-  
 
+  engineEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S4);
+  //engineEnabled = DipswitchValu > 7 ? true : false; //Tenary Operation
 
   BoardInput::update();
   //BoardInput::printData();
   DataVisualisation::LedStrip::showNumber();
   DataVisualisation::Display::showNumber(-2);
   DrivingControl::drive(20, 50); 
-
-
-  //SingleComponent::runCamera();
-  //SingleComponent::runServo();
-
-  engineEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S4);
-  Serial.print(engineEnabled);
-  //engineEnabled = DipswitchValu > 7 ? true : false; //Tenary Operation
+  Sensors::printData();
 } 
