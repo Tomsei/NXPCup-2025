@@ -7,6 +7,6 @@ namespace DataVisualisation {
         public:
             static void setup();
             static void clear();
-            static void showNumber();
+            static void showNumber(int number);
     };
 }

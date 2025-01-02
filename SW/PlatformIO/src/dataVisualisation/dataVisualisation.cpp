@@ -15,7 +15,7 @@ namespace DataVisualisation  {
     }
 
     void showNumber() {
-        Display::showNumber();
+        Display::showNumber(-1);
         LedStrip::showNumber();
     }
 }

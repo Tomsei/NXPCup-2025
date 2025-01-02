@@ -37,11 +37,11 @@ namespace DataVisualisation {
         lipDisplay.display();
     }
 
-    void Display::showNumber() {
+    void Display::showNumber(int number) {
         lipDisplay.setCursor(0,0);
         lipDisplay.drawLine(0,15,127,15, WHITE);
         lipDisplay.clearDisplay();
-        lipDisplay.print("1");
+        lipDisplay.print(number);
         lipDisplay.display();
     }
 }
