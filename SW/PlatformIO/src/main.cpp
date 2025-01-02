@@ -51,6 +51,7 @@ void loop() {
   //BoardInput::printData();
   DataVisualisation::LedStrip::showNumber();
   DataVisualisation::Display::showNumber(-2);
-  DrivingControl::drive(20, 50); 
+  DrivingControl::drive(20, 50);
+  Sensors::update();
   Sensors::printData();
 } 
