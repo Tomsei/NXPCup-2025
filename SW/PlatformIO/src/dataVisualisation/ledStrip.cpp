@@ -20,13 +20,18 @@ namespace DataVisualisation {
 
 
     void LedStrip::showNumber() {
-        int number = 2;
-        libLedStrip.clear();
-        //ToDo Update to binary!
-        for(int i = 0; i < number; i++) {
-            libLedStrip.setPixelColor(i, libLedStrip.Color(0,25,0));
+        //ToDo: Servo Bug when updating the led strip - probably just update LED every second?
+        bool updateLed = false;
+        if(updateLed) {
+
+            int number = 2;
+            libLedStrip.clear();
+            //ToDo Update to binary!
+            for(int i = 0; i < number; i++) {
+                libLedStrip.setPixelColor(i, libLedStrip.Color(0,25,0));
+            }
+            libLedStrip.show();
         }
-        libLedStrip.show();
     }
 
     /**

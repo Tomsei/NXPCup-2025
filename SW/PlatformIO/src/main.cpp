@@ -49,6 +49,7 @@ void loop() {
 
   BoardInput::update();
   //BoardInput::printData();
+  
   DataVisualisation::LedStrip::showNumber();
   DataVisualisation::Display::showNumber(-2);
   DrivingControl::drive(20, 50);

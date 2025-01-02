@@ -20,7 +20,7 @@ namespace DrivingControl {
             Engine::setSpeed(0);
         }
         if(steeringEnabled) {
-            SteeringServo::setSteeringAngle(60);
+            SteeringServo::setSteeringAngle(steeringAngle);
         }
     }
 }
