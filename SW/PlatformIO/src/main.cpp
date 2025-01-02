@@ -52,6 +52,6 @@ void loop() {
   DataVisualisation::LedStrip::showNumber();
   DataVisualisation::Display::showNumber(-2);
   DrivingControl::drive(20, 50);
-  Sensors::update();
+  Sensors::updateRawData();
   Sensors::printData();
 } 

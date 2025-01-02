@@ -1,12 +1,19 @@
+#include <Arduino.h>
 namespace Sensors {
 
     struct rawSensorData {
         int tofDistance;
-        int opticalFlowX;
-        int opticalFlowY;
+        int16_t opticalFlowX;
+        int16_t opticalFlowY;
+        int16_t imuAX;
+        int16_t imuAY;
+        int16_t imuAZ;
+        int16_t imuGX;
+        int16_t imuGY;
+        int16_t imuGZ;
     };
     
     void setup();
-    void update();
+    void updateRawData();
     void printData();
 }
