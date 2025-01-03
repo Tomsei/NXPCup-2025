@@ -5,7 +5,7 @@
 #include "SPISlave_T4.h"
 
 #include "configuration/globalConfig.h"
-#include "cameraAnalysis/cameraAnalysisMain.h"
+#include "cameraAnalysis/cameraAnalysis.h"
 
 SPISlave_T4<&SPI, SPI_8_BITS> mySPI;
 

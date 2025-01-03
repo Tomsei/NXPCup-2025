@@ -1,6 +1,6 @@
 
 #include "configuration/globalConfig.h"
-#include "cameraAnalysis/cameraAnalysisMain.h"
+#include "cameraAnalysis/cameraAnalysis.h"
 
 //ToDo Remove - Just testing
 #include "singleComponents/servo_REELYS2210.h"
