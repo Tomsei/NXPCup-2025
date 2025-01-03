@@ -137,6 +137,9 @@ SPISlave_T4_FUNC void __attribute__((section(".fustrun"))) SPISlave_T4_OPT::SLAV
   }
 
    if ( (SLAVE_SR & (1UL << 9)) ) {
+    //copy Buffer (create second Buffer) - Swap Chain (swap buffer)
+    //if spiRxComplete is 1 - throw away the new data! - dont rewrite the old data (need sulotuion)
+    //dont copy / swap Pointer (swap pointer here)
     spiRxComplete = 1;
   }
 

@@ -4,7 +4,7 @@
 
 namespace BoardInput {
 
-    static Data data;
+    Data data;
     Adafruit_MCP23X17 ioExpander;
     
     //forward decleration
@@ -26,6 +26,7 @@ namespace BoardInput {
     }
 
     // documentation in .h file
+    // ToDo: analog Read... take time - if necessary split into stept or interupting
     void update() {
         data.poti1 = readPoti(POTI1);
         data.poti2 = readPoti(POTI2);
@@ -50,7 +51,8 @@ namespace BoardInput {
 
     // documentation in .h file
     bool getSingleDipswitchValue(DipSwitchEnum aDipSwitch) {
-        return !ioExpander.digitalRead(aDipSwitch);
+        return data.dipSwitch & (uint8_t)aDipSwitch;
+        //return !ioExpander.digitalRead(aDipSwitch);
     }
 
 
@@ -110,7 +112,8 @@ namespace BoardInput {
      * @return: the value of all switches in on decimal number
      */
     uint8_t readDipSwitch() {
-        uint8_t dipSwitchvalue = 15 - ioExpander.digitalRead(IO_EX_DIPSWITCH1);
+        uint8_t dipSwitchvalue = 15;
+        dipSwitchvalue -= ioExpander.digitalRead(IO_EX_DIPSWITCH1) * 1;
         dipSwitchvalue -= ioExpander.digitalRead(IO_EX_DIPSWITCH2) * 2;
         dipSwitchvalue -= ioExpander.digitalRead(IO_EX_DIPSWITCH3) * 4;
         dipSwitchvalue -= ioExpander.digitalRead(IO_EX_DIPSWITCH4) * 8;

@@ -14,7 +14,7 @@ namespace BoardInput {
         uint8_t button2;
     };
 
-    enum DipSwitchEnum {S1, S2, S3, S4};
+    enum DipSwitchEnum : uint8_t {S1 = 1, S2 = 2, S3 = 4, S4 = 8};
 
     /**
      * setup function

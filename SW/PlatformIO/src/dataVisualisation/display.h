@@ -3,10 +3,9 @@
 
 namespace DataVisualisation {
 
-    class Display {
-        public:
-            static void setup();
-            static void clear();
-            static void showNumber(int number);
+    namespace Display { //change to namespace - no class needed - (just class if needed) // 4 byte less
+        void setup();
+        void clear();
+        void showNumber(int number);
     };
 }

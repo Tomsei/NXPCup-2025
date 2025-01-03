@@ -1,7 +1,7 @@
 #include <Arduino.h>
 namespace Sensors {
 
-    struct rawSensorData {
+    struct RawSensorData { //ToDo: test readonly
         int tofDistance;
         int16_t opticalFlowX;
         int16_t opticalFlowY;
@@ -14,6 +14,8 @@ namespace Sensors {
         bool linefinder1;
         bool linefinder2;
     };
+
+    extern RawSensorData rawData;
     
     void setup();
     void updateRawData();

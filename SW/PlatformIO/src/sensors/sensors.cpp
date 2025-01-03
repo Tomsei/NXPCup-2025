@@ -8,7 +8,7 @@
 
 namespace Sensors {
 
-    static rawSensorData rawData;
+    RawSensorData rawData;
     LineFinder lineFinder1(ARD_LINE_FINDER1); //Setup is done here
     LineFinder lineFinder2(ARD_LINE_FINDER2); //Setup is done here
 

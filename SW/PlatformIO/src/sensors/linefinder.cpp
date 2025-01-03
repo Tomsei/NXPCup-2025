@@ -1,5 +1,6 @@
 #include "sensors/lineFinder.h"
 
+// ToDo: one interrupt - then call other to check direction
 namespace Sensors {
 
     LineFinder::LineFinder(uint8_t pin) {
