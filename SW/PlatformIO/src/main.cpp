@@ -16,7 +16,7 @@
 
 
 #include "cameraAnalysis/camera_OPENMVCAMRT1062.h"
-#include "cameraAnalysis/cameraAnalysisMain.h"
+#include "cameraAnalysis/cameraAnalysis.h"
 
 #include "dataVisualisation/dataVisualisation.h"
 #include "boardInput/boardInput.h"
