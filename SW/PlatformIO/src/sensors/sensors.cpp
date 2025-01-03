@@ -3,10 +3,14 @@
 #include "sensors/tofDistance.h"
 #include "sensors/opticalFlow.h"
 #include "sensors/imu.h"
+#include "sensors/lineFinder.h"
+#include "configuration/globalConfig.h"
 
 namespace Sensors {
 
     static rawSensorData rawData;
+    LineFinder lineFinder1(ARD_LINE_FINDER1); //Setup is done here
+    LineFinder lineFinder2(ARD_LINE_FINDER2); //Setup is done here
 
     void setup() {
         TofDistance::setup();
@@ -17,6 +21,8 @@ namespace Sensors {
         rawData.tofDistance = TofDistance::getDistance();
         OpticalFlow::readMotion(&rawData.opticalFlowX, &rawData.opticalFlowY);
         Imu::getMotion(&rawData.imuAX, &rawData.imuAY, &rawData.imuAZ, &rawData.imuGX, &rawData.imuGY, &rawData.imuGZ);
+        rawData.linefinder1 = lineFinder1.getCurrentState();
+        rawData.linefinder2 = lineFinder2.getCurrentState();
     }
 
     void printData() {
@@ -29,6 +35,7 @@ namespace Sensors {
         Serial.print("\t IMU - GX:"); Serial.print(rawData.imuGX);
         Serial.print("\t IMU - GY:"); Serial.print(rawData.imuGY);
         Serial.print("\t IMU - GZ:"); Serial.print(rawData.imuGZ);
-        Serial.println("");
+        Serial.print("\t Linefinder - 1: "); Serial.print(rawData.linefinder1);
+        Serial.print("\t 2: "); Serial.println(rawData.linefinder2);
     }
 }
