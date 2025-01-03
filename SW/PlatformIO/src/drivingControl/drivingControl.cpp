@@ -14,7 +14,7 @@ namespace DrivingControl {
 
     void drive(uint8_t speed, uint8_t steeringAngle) {
         if(engineEnabled) {
-            Engine::setSpeed(20);
+            Engine::setSpeed(speed);
         }
         else {
             Engine::setSpeed(0);
