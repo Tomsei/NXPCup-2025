@@ -2,8 +2,7 @@
 
 namespace Sensors {
 
-    namespace TofDistance {
-        
+    namespace TofDistance {  
         void setup();
         uint16_t getDistance();
         void printData();

@@ -53,7 +53,7 @@ namespace CameraAnalysis {
 
       //triger Analysis to get new Row | ToDo: find a better way!
       static CameraAnalysis::SingleRowAnalysis currentRowAnalysis;
-      currentRowAnalysis.updateRow(spiRx, 0); //not needed anymore (when using swap chain)
+      currentRowAnalysis.getRow(); //not needed anymore (when using swap chain)
       currentRowAnalysis.calculateSobelRow();
       
       Serial.println(currentRowAnalysis.calculateTrackCenter());
