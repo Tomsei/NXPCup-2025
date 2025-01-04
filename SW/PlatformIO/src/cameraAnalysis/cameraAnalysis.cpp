@@ -14,7 +14,7 @@ namespace CameraAnalysis {
 
     bool newImageAvailable = false;
 
-    int sobelThreshold = 45;
+    int sobelThreshold = 40;
 
     void setup() {
         OpenMVCam::setup();
@@ -106,7 +106,7 @@ namespace CameraAnalysis {
         steeringTest = 90 + steeringTest;
         Serial.print("Servo Steering: "); Serial.print(steeringTest); Serial.print("track Center: "); Serial.println(trackCenter);
         //ToDo: Just testing - remove!!
-        DrivingControl::drive(14, steeringTest);
+        DrivingControl::drive(17, steeringTest);
 
         return trackCenter;
     }
