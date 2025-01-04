@@ -1,8 +1,7 @@
 namespace DrivingControl {
 
-    class Engine {
-        public:
-            static void setup();
-            static void setSpeed(int speed);
+    namespace Engine {
+        void setup();
+        void setSpeed(int speed);
     };
 }

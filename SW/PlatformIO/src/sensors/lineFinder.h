@@ -1,5 +1,5 @@
 #include <Arduino.h>
-
+//ToDo: When Using create new structure!
 namespace Sensors {
     
     class LineFinder {

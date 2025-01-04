@@ -7,7 +7,7 @@ namespace BoardInput {
     Data data;
     Adafruit_MCP23X17 ioExpander;
     
-    //forward decleration
+    //pre decleration
     void setupIoExpander();
     void setupData();
     int readPoti(int poti);

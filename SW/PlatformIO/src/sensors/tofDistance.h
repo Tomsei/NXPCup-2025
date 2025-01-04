@@ -2,11 +2,11 @@
 
 namespace Sensors {
 
-    class TofDistance {
-        public:
-            static void setup();
-            static uint16_t getDistance();
-            static void printData();
+    namespace TofDistance {
+        
+        void setup();
+        uint16_t getDistance();
+        void printData();
     };
 
 }

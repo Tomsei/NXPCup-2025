@@ -11,6 +11,9 @@ namespace CameraAnalysis {
     template<typename IntArray>
     void printArray(IntArray* rowToPrint, int start, int lengt, String linePrefix);
 
+
+    bool newImageAvailable = false;
+
     int sobelThreshold = 45;
 
     void setup() {
@@ -18,15 +21,35 @@ namespace CameraAnalysis {
     }
 
     /**
-     * method to get a new row
-     * the call OpenMVCam::getImage write the data into the imageDataBuffer
+     * Method to analyse the picture to get driving vector (steering Angel)
+     */
+    void analyse() {
+        if(newImageAvailable) {
+
+            newImageAvailable = false;
+        }
+    }
+
+
+    /**
+     * method to get a new row (is called when there is a new picture transferd)
+     * the call OpenMVCam::getImage write the new data into the imageDataBuffer
      * 
      * ToDo: better solution needed - currently is called in camera SPI when SPI completes - problably change!
      */
-    void ImageAnalysis::getImage() {
+    void ImageAnalysis::updateImage() {
         OpenMVCam::getImage(imageDataBuffer);
         printImage();
+        newImageAvailable = true;
     }
+    void ImageAnalysis::updateImage(uint32_t *pixelData) {
+        //write each pixel 
+        for(int i = 0; i < VIDEO_RESOLUTION_X*NUMBER_OF_LINES; i++) {
+            imageDataBuffer[i] = *(pixelData+i);
+        }
+        newImageAvailable = true;
+    }
+
 
     /**
      * method to print an image
@@ -47,18 +70,14 @@ namespace CameraAnalysis {
      */
     void SingleRowAnalysis::getRow() {
         OpenMVCam::getImageRow(rowDataBuffer, 0);
-        //printRow(0, 30);
-        /* just testing different lines*/
-        /*
-        OpenMVCam::getImageRow(rowDataBuffer, 1);
-        printRow(220, 30);
-        OpenMVCam::getImageRow(rowDataBuffer, 2);
-        printRow(220, 30);
-        OpenMVCam::getImageRow(rowDataBuffer, 3);
-        printRow(220, 30);
-        OpenMVCam::getImageRow(rowDataBuffer, 4);
-        printRow(220, 30);
-        */
+    }
+    void SingleRowAnalysis::updateRow(uint32_t *pixelData, int row) {
+        int startIndexOfLine = row * VIDEO_RESOLUTION_X;
+        //write each pixel
+        for(int i = startIndexOfLine; i < startIndexOfLine + VIDEO_RESOLUTION_X; i++) {
+            rowDataBuffer[i] = *(pixelData) +i;
+        }
+        printRow();
     }
 
     /**

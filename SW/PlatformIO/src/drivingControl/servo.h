@@ -5,9 +5,8 @@ namespace DrivingControl {
     #define MAX_STEERING_ANGLE 130
     #define MIN_STEERING_ANGLE 50
 
-    class SteeringServo {
-        public:
-            static void setup();
-            static void setSteeringAngle(int steeringAngle);
+    namespace SteeringServo {
+        void setup();
+        void setSteeringAngle(int steeringAngle);
     };
 }

@@ -7,16 +7,19 @@
 
 namespace DrivingControl {
 
-    Servo ESC;
+    namespace Engine {
+        
+        Servo ESC;
 
-    void Engine::setup() {
-        //ToDo: checkt min and max!
-        ESC.attach(MOTOR_ESC_PIN, 1000, 2000);
-        ESC.write(0);
-        delay(2500);
-    }
+        void setup() {
+            //ToDo: checkt min and max!
+            ESC.attach(MOTOR_ESC_PIN, 1000, 2000);
+            ESC.write(0);
+            delay(2500);
+        }
 
-    void Engine::setSpeed(int speed) {
-        ESC.write(speed);
-    }
+        void setSpeed(int speed) {
+            ESC.write(speed);
+        }
+    }    
 }
