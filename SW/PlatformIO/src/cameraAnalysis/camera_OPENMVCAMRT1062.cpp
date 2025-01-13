@@ -7,13 +7,13 @@
 #include "configuration/globalConfig.h"
 #include "cameraAnalysis/cameraAnalysis.h"
 
-uint32_t spiRx[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
-volatile int spiRxIdx = 0;
-volatile int spiRxComplete = 0;
+volatile int spiBufferIdx = 0;
+volatile int spiTransferComplete = 0;
 
 uint32_t spiFrontBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
-volatile int spiFrontBufferIdx = 0;
-volatile int spiTransferComplete = 0;
+uint32_t spiBackBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
+
+uint32_t* spiBufferToRead = spiBackBuffer;
 
 namespace CameraAnalysis {
 
@@ -36,7 +36,7 @@ namespace CameraAnalysis {
    */
   void OpenMVCam::runCamera() {
     //reading SPI when transfer is finished!
-    if(spiRxComplete){
+    if(spiTransferComplete){
 
       //calculate time difference
       static uint32_t last = 0;
@@ -44,23 +44,25 @@ namespace CameraAnalysis {
       last = millis();
       
       //print the transfered values
+      
       /*
       Serial.print("Loop\t");
-      for(int i = 0; i < 30; i++){
+      for(int i = 0; i < 20; i++){
         //print values that were sent
-        Serial.print("\t"); Serial.print(spiRx[i], DEC);
+        Serial.print("\t"); Serial.print(spiFrontBuffer[i], DEC);
       }  
       //amount of values and time difference
-      Serial.print("\t"); Serial.print(spiRxIdx);
+      Serial.print("\t"); Serial.print(spiBufferIdx);
       Serial.print("\t"); Serial.println(lastTimeDiff);
       */
 
       static CameraAnalysis::ImageAnalysis currentImageAnalysis;
-      currentImageAnalysis.updateImage(spiRx);
+      currentImageAnalysis.updateImage(spiBufferToRead);
 
       
       //reset spi transfer
-      spiRxComplete = false;
-      spiRxIdx = 0;
+      spiTransferComplete = false;
+      spiBufferIdx = 0;
     }
   }
+} 

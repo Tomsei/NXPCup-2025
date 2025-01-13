@@ -74,7 +74,7 @@ namespace CameraAnalysis {
             //int carsting to get negativ values
             sobelRowDataBuffer[i] = ((int(rowDataBufferPointer[i] * 2)) + (int(rowDataBufferPointer[i+2] * -2)));
         }
-        printSobelRow(0,20);
+        //printSobelRow(0,20);
     }
 
 
@@ -88,9 +88,9 @@ namespace CameraAnalysis {
         int trackCenter = (leftEdge + rightEdge) / 2;
 
         int steeringTest = (VIDEO_RESOLUTION_X/2) - trackCenter;
-        Serial.print("Steering Test: "); Serial.println(steeringTest);
+        //Serial.print("Steering Test: "); Serial.println(steeringTest);
         steeringTest = 90 + steeringTest;
-        Serial.print("Servo Steering: "); Serial.print(steeringTest); Serial.print("track Center: "); Serial.println(trackCenter);
+        //Serial.print("Servo Steering: "); Serial.print(steeringTest); Serial.print("track Center: "); Serial.println(trackCenter);
         //ToDo: Just testing - remove!!
         DrivingControl::drive(17, steeringTest);
 
