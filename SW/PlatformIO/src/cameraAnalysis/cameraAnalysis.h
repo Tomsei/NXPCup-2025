@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-#include "cameraAnalysis/camera_OPENMVCAMRT1062.h"
+#include "cameraAnalysis/camera.h"
 
 #include "configuration/globalConfig.h"
 

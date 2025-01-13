@@ -2,7 +2,7 @@
 #include <Arduino.h>
 #include <Wire.h>
 
-#include "cameraAnalysis/camera_OPENMVCAMRT1062.h"
+#include "cameraAnalysis/camera.h"
 #include "cameraAnalysis/cameraAnalysis.h"
 
 #include "dataVisualisation/dataVisualisation.h"
