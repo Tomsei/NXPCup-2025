@@ -6,8 +6,8 @@ namespace CameraAnalysis {
         public:
             static void setup();
             static void runCamera();
-            static void getImage(uint8_t *pixelData);
-            static void getImageRow(uint8_t *pixelData, u_int8_t row);
+            static void getImage(uint32_t *pixelData);
+            static void getImageRow(uint32_t *pixelData, u_int8_t row);
     };
 }
 

@@ -13,10 +13,11 @@ namespace CameraAnalysis {
      */
     class ImageAnalysis {
         public:
-            uint8_t imageDataBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
+            uint32_t imageDataBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
+            uint32_t* imageDataBufferPointer;
             
             void updateImage();
-            void updateImage(uint32_t *pixelData);
+            void updateImage(uint32_t* pixelData);
             void printImage(int start = 0, int length = VIDEO_RESOLUTION_X*NUMBER_OF_LINES);
 
     };
@@ -26,11 +27,13 @@ namespace CameraAnalysis {
      */
     class SingleRowAnalysis {
         public:
-            uint8_t rowDataBuffer[VIDEO_RESOLUTION_X];
+            uint32_t rowDataBuffer[VIDEO_RESOLUTION_X];
+            uint32_t* rowDataBufferPointer;
             int16_t sobelRowDataBuffer[VIDEO_RESOLUTION_X-2];
 
             void getRow();
-            void updateRow(uint32_t *pixelData, int row);
+            void updateRow(uint32_t* pixelData, int row);
+            void updateRowBuffer(uint32_t* pixelData, int row);
             void calculateSobelRow();
             int calculateTrackCenter();
             std::tuple<int, int> calculateEdges(int startSearch);

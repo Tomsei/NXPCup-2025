@@ -32,12 +32,12 @@ void loop() {
   steeringEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S3);
 
   BoardInput::update();
-  BoardInput::printData();
+  //BoardInput::printData();
   
   DataVisualisation::LedStrip::showNumber();
   DataVisualisation::Display::showNumber(-2);
   Sensors::updateRawData();
-  Sensors::printData();
+  //Sensors::printData();
 
   CameraAnalysis::OpenMVCam::runCamera();
 } 

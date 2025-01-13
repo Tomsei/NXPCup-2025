@@ -11,6 +11,10 @@ uint32_t spiRx[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
 volatile int spiRxIdx = 0;
 volatile int spiRxComplete = 0;
 
+uint32_t spiFrontBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
+volatile int spiFrontBufferIdx = 0;
+volatile int spiTransferComplete = 0;
+
 namespace CameraAnalysis {
 
   SPISlave_T4<&SPI, SPI_8_BITS> mySPI;
@@ -51,44 +55,12 @@ namespace CameraAnalysis {
       Serial.print("\t"); Serial.println(lastTimeDiff);
       */
 
-      //triger Analysis to get new Row | ToDo: find a better way!
-      static CameraAnalysis::SingleRowAnalysis currentRowAnalysis;
-      currentRowAnalysis.getRow(); //not needed anymore (when using swap chain)
-      currentRowAnalysis.calculateSobelRow();
-      
-      Serial.println(currentRowAnalysis.calculateTrackCenter());
+      static CameraAnalysis::ImageAnalysis currentImageAnalysis;
+      currentImageAnalysis.updateImage(spiRx);
 
+      
       //reset spi transfer
       spiRxComplete = false;
       spiRxIdx = 0;
     }
   }
-
-  /**
-   * method to provide an image
-   * @param pixelData: points to the array to write the image data in
-   */
-  void OpenMVCam::getImage(uint8_t *pixelData) {
-    if(spiRxComplete) {
-      //write each pixel 
-      for(int i = 0; i < VIDEO_RESOLUTION_X*NUMBER_OF_LINES; i++) {
-        *(pixelData+i) = spiRx[i];
-      }
-    }
-  }
-
-  /**
-   * method to provide an image
-   * @param pixelData: pointe to the array to write the image data in
-   * @param row: the imagerow to get (start by index 0)
-   */
-  void OpenMVCam::getImageRow(uint8_t *pixelData, uint8_t row) {
-    if(spiRxComplete) {
-      int startIndexOfLine = row * VIDEO_RESOLUTION_X;
-      //write each pixel
-      for(int i = startIndexOfLine; i < startIndexOfLine + VIDEO_RESOLUTION_X; i++) {
-        *(pixelData+i - startIndexOfLine) = spiRx[i];
-      }
-    }
-  }
-}

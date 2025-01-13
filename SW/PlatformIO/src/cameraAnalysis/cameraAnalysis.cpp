@@ -30,26 +30,21 @@ namespace CameraAnalysis {
         }
     }
 
-
     /**
-     * method to get a new row (is called when there is a new picture transferd)
-     * the call OpenMVCam::getImage write the new data into the imageDataBuffer
-     * 
-     * ToDo: better solution needed - currently is called in camera SPI when SPI completes - problably change!
+     * method to update the Image if there is new Image data!
+     * ToDo: comment
      */
-    void ImageAnalysis::updateImage() {
-        OpenMVCam::getImage(imageDataBuffer);
-        printImage();
-        newImageAvailable = true;
-    }
-    void ImageAnalysis::updateImage(uint32_t *pixelData) {
-        //write each pixel 
-        for(int i = 0; i < VIDEO_RESOLUTION_X*NUMBER_OF_LINES; i++) {
-            imageDataBuffer[i] = *(pixelData+i);
-        }
-        newImageAvailable = true;
-    }
+  
+    void ImageAnalysis::updateImage(uint32_t* pixelData) {
+        imageDataBufferPointer = pixelData;
+        //printImage(0,20);
 
+        //image Data Buffer ist aktualisiert! (jetzt muss entschieden werden welche Reihen ausgewertet werden)
+        static SingleRowAnalysis currentRow;
+        currentRow.updateRowBuffer(imageDataBufferPointer, 0);
+        currentRow.calculateSobelRow();
+        currentRow.calculateTrackCenter();
+    }
 
     /**
      * method to print an image
@@ -57,27 +52,18 @@ namespace CameraAnalysis {
      * @param length: the amount of pixel to print | default size of the video-width * lines (image resolution)
      */
     void ImageAnalysis::printImage(int start /*= 0*/, int length /*= VIDEO_RESOLUTION_X*NUMBER_OF_LINES*/) {
-        printArray(imageDataBuffer, start, length, "print img:\t");
+        printArray(imageDataBufferPointer, start, length, "print img:\t");
     }
-
-
 
     /**
-     * method to get a new row
-     * the call OpenMVCam::getImageRow write the data into the rowDataBuffer
      * 
-     * ToDo: better solution needed - currently is called in camera SPI when SPI completes - problably change!
+     * ToDo: comment!
      */
-    void SingleRowAnalysis::getRow() {
-        OpenMVCam::getImageRow(rowDataBuffer, 0);
-    }
-    void SingleRowAnalysis::updateRow(uint32_t *pixelData, int row) {
+ 
+     void SingleRowAnalysis::updateRowBuffer(uint32_t* pixelData, int row) {
         int startIndexOfLine = row * VIDEO_RESOLUTION_X;
-        //write each pixel
-        for(int i = startIndexOfLine; i < startIndexOfLine + VIDEO_RESOLUTION_X; i++) {
-            rowDataBuffer[i] = *(pixelData) +i;
-        }
-        printRow();
+        rowDataBufferPointer = pixelData + startIndexOfLine;
+        //printRow(0,20);
     }
 
     /**
@@ -86,9 +72,9 @@ namespace CameraAnalysis {
     void SingleRowAnalysis::calculateSobelRow() {
         for (int i = 0; i < VIDEO_RESOLUTION_X-2; i++) {
             //int carsting to get negativ values
-            sobelRowDataBuffer[i] = ((int(rowDataBuffer[i] * 2)) + (int(rowDataBuffer[i+2] * -2)));
+            sobelRowDataBuffer[i] = ((int(rowDataBufferPointer[i] * 2)) + (int(rowDataBufferPointer[i+2] * -2)));
         }
-        //printSobelRow(0,30);
+        printSobelRow(0,20);
     }
 
 
@@ -149,7 +135,7 @@ namespace CameraAnalysis {
      * @param length: the amount of pixel to print | default size of the video-width
      */
     void SingleRowAnalysis::printRow(int start /*= 0*/, int length /*= VIDEO_RESOLUTION_X*/) {
-        printArray(rowDataBuffer, start, length, "print img row:\t");
+        printArray(rowDataBufferPointer, start, length, "print img row:\t");
     }
 
     /**
