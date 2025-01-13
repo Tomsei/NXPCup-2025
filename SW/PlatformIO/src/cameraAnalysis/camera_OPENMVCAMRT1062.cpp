@@ -21,6 +21,8 @@ namespace CameraAnalysis {
 
   uint8_t lastTimeDiff;
 
+  extern ImageAnalysis currentImageAnalysis;
+
   /**
    * setup method to enable slave spi communication
    */
@@ -56,7 +58,6 @@ namespace CameraAnalysis {
       Serial.print("\t"); Serial.println(lastTimeDiff);
       */
 
-      static CameraAnalysis::ImageAnalysis currentImageAnalysis;
       currentImageAnalysis.updateImage(spiBufferToRead);
 
       

@@ -1,4 +1,3 @@
-
 #include "configuration/globalConfig.h"
 #include "cameraAnalysis/cameraAnalysis.h"
 
@@ -7,15 +6,18 @@
 
 namespace CameraAnalysis {
 
-    //pre definition 
+    //pre definition --------------------
     template<typename IntArray>
     void printArray(IntArray* rowToPrint, int start, int lengt, String linePrefix);
-
+    
+    //variables -------------------------
+    ImageAnalysis currentImageAnalysis;
 
     bool newImageAvailable = false;
-
     int sobelThreshold = 40;
 
+
+    //methods ---------------------------
     void setup() {
         OpenMVCam::setup();
     }
@@ -24,8 +26,12 @@ namespace CameraAnalysis {
      * Method to analyse the picture to get driving vector (steering Angel)
      */
     void analyse() {
-        if(newImageAvailable) {
-
+        if (newImageAvailable) {
+             
+            static SingleRowAnalysis currentRow;
+            currentRow.updateRow(currentImageAnalysis.getImage(), 0);
+            currentRow.calculateSobelRow();
+            currentRow.calculateTrackCenter();
             newImageAvailable = false;
         }
     }
@@ -35,15 +41,16 @@ namespace CameraAnalysis {
      * ToDo: comment
      */
   
-    void ImageAnalysis::updateImage(uint32_t* pixelData) {
-        imageDataBufferPointer = pixelData;
-        //printImage(0,20);
+    uint32_t* ImageAnalysis::getImage() {
+        return imageDataBuffer;
+    }
 
-        //image Data Buffer ist aktualisiert! (jetzt muss entschieden werden welche Reihen ausgewertet werden)
-        static SingleRowAnalysis currentRow;
-        currentRow.updateRowBuffer(imageDataBufferPointer, 0);
-        currentRow.calculateSobelRow();
-        currentRow.calculateTrackCenter();
+    /**
+     * ToDo: comment
+     */
+    void ImageAnalysis::updateImage(uint32_t* pixelData) {
+        imageDataBuffer = pixelData;
+        newImageAvailable = true;
     }
 
     /**
@@ -52,15 +59,14 @@ namespace CameraAnalysis {
      * @param length: the amount of pixel to print | default size of the video-width * lines (image resolution)
      */
     void ImageAnalysis::printImage(int start /*= 0*/, int length /*= VIDEO_RESOLUTION_X*NUMBER_OF_LINES*/) {
-        printArray(imageDataBufferPointer, start, length, "print img:\t");
+        printArray(imageDataBuffer, start, length, "print img:\t");
     }
 
     /**
      * 
      * ToDo: comment!
      */
- 
-     void SingleRowAnalysis::updateRowBuffer(uint32_t* pixelData, int row) {
+     void SingleRowAnalysis::updateRow(uint32_t* pixelData, int row) {
         int startIndexOfLine = row * VIDEO_RESOLUTION_X;
         rowDataBufferPointer = pixelData + startIndexOfLine;
         //printRow(0,20);
@@ -97,6 +103,25 @@ namespace CameraAnalysis {
         return trackCenter;
     }
 
+    /**
+     * method to print a row
+     * @param start: startpixel | default 0
+     * @param length: the amount of pixel to print | default size of the video-width
+     */
+    void SingleRowAnalysis::printRow(int start /*= 0*/, int length /*= VIDEO_RESOLUTION_X*/) {
+        printArray(rowDataBufferPointer, start, length, "print img row:\t");
+    }
+
+    /**
+     * method to print the sobel row
+     * @param start: startpixel | default 0
+     * @param length: the amount of pixel to print | default size of the video-width -2 (2 values less)
+     */
+    void SingleRowAnalysis::printSobelRow(int start /*= 0*/, int length /*= VIDEO_RESOLUTION_X -2*/) {
+        printArray(sobelRowDataBuffer, start, length, "sobel row:\t\t");
+    }
+
+    //--------------- private ----------------
 
     /**
      * method to calculate the track edges
@@ -126,25 +151,6 @@ namespace CameraAnalysis {
             }
         }
         return {leftEdge, rightEdge};
-    }
-
-
-    /**
-     * method to print a row
-     * @param start: startpixel | default 0
-     * @param length: the amount of pixel to print | default size of the video-width
-     */
-    void SingleRowAnalysis::printRow(int start /*= 0*/, int length /*= VIDEO_RESOLUTION_X*/) {
-        printArray(rowDataBufferPointer, start, length, "print img row:\t");
-    }
-
-    /**
-     * method to print the sobel row
-     * @param start: startpixel | default 0
-     * @param length: the amount of pixel to print | default size of the video-width -2 (2 values less)
-     */
-    void SingleRowAnalysis::printSobelRow(int start /*= 0*/, int length /*= VIDEO_RESOLUTION_X -2*/) {
-        printArray(sobelRowDataBuffer, start, length, "sobel row:\t\t");
     }
 
 

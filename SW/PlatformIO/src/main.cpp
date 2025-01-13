@@ -40,4 +40,6 @@ void loop() {
   //Sensors::printData();
 
   CameraAnalysis::OpenMVCam::runCamera();
+  CameraAnalysis::analyse();
+
 } 
