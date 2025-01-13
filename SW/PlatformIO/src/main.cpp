@@ -39,7 +39,7 @@ void loop() {
   Sensors::updateRawData();
   //Sensors::printData();
 
-  CameraAnalysis::OpenMVCam::runCamera();
+  CameraAnalysis::OpenMVCam::updateImage();
   CameraAnalysis::analyse();
 
 } 
