@@ -1,5 +1,5 @@
 /**
- * Board Input - Declaration
+ * Board Input - definition
  * 
  * Handles everything belonging to the board inputs like the poti, button
  * and dipSwitch Values. This includes the use of the IO-Expander
@@ -25,13 +25,13 @@ namespace BoardInput {
 
     /* ------- public known methods ------------------ */
 
-    // documentation in .h file
+    // comment in .h file
     void setup() {
         setupIoExpander();
         setupData();
     }
 
-    // documentation in .h file
+    // comment in .h file
     // ToDo: analog Read... take time - if necessary split into stept or interupting
     void update() {
         data.poti1 = readPoti(POTI1);
@@ -41,7 +41,7 @@ namespace BoardInput {
         data.dipSwitch = readDipSwitch();
     }
 
-    // documentation in .h file
+    // comment in .h file
     void printData() {
         String dataToPrint = "";
         dataToPrint = dataToPrint + "Poti 1: " + data.poti1 + " Poti 2: " + data.poti2 
@@ -50,12 +50,12 @@ namespace BoardInput {
         Serial.println(dataToPrint);
     }
 
-    // documentation in .h file
+    // comment in .h file
     Data* getData() {
         return &data; //ToDo: Test!
     }
 
-    // documentation in .h file
+    // comment in .h file
     bool getSingleDipswitchValue(DipSwitchEnum aDipSwitch) {
         return data.dipSwitch & (uint8_t)aDipSwitch;
         //return !ioExpander.digitalRead(aDipSwitch);

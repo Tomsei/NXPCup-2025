@@ -1,11 +1,11 @@
 /**
- * Global Configuration - Defines 
+ * Global Configuration - defines 
  * 
  * all global defines of the programm. 
  * - the definition of the used pins
  * - definition of the cam features (e.g. resolution)
  * 
- * define the SINGLE_COMPONENTS_TEST when using the Single Component source files
+ * define the SINGLE_COMPONENTS_TEST when using the single component source files
  * 
  * @author Tom Seiffert
  */

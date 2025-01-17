@@ -1,5 +1,5 @@
 /**
- * Board Input - Declaration
+ * Board Input - declaration
  * 
  * Handles everything belonging to the board inputs like the poti, button
  * and dipSwitch Values. This includes the use of the IO-Expander
