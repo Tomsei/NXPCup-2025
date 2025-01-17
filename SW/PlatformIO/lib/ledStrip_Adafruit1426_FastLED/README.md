@@ -1,4 +1,4 @@
-FastLED Library
+[FastLED Library](https://github.com/FastLED/FastLED)
 ===========
 
 
