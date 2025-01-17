@@ -1,4 +1,4 @@
-#define SINGLE_COMPONENTS_TEST //if SingleComponets should be used!
+//#define SINGLE_COMPONENTS_TEST //if SingleComponets should be used!
 
 
 
