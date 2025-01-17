@@ -1,6 +1,6 @@
 #include "ledStrip.h"
 #include "configuration/globalConfig.h"
-#include "Adafruit_NeoPixel.h"
+#include "FastLED.h"
 
 #define NUMBER_OF_LEDS 8
 
@@ -9,20 +9,22 @@ namespace DataVisualisation {
     namespace LedStrip {
         
         //pre decleration
-        void setAllLeds(uint8_t r, uint8_t g, uint8_t b);
+        void setAllLeds(CRGB color);
 
-        Adafruit_NeoPixel libLedStrip = Adafruit_NeoPixel(NUMBER_OF_LEDS, LED_STRIP);
+        CRGB lipLedStrip[NUMBER_OF_LEDS];
 
         void setup() {
-            libLedStrip.begin();
-            setAllLeds(0, 50, 0);
+            CLEDController& ledStripController = FastLED.addLeds<WS2812, LED_STRIP, GRB>(lipLedStrip, NUMBER_OF_LEDS);
+            ledStripController.clearLeds(0);
+            FastLED.setBrightness(50);
+            setAllLeds(CRGB::Red);
+            FastLED.show();
         }
 
         void clear() {
-            libLedStrip.clear();
-            libLedStrip.show();
+            FastLED.clear();
+        	FastLED.show();
         }
-
 
         void showNumber() {
             //ToDo: Servo Bug when updating the led strip - probably just update LED every second?
@@ -30,26 +32,24 @@ namespace DataVisualisation {
             if(updateLed) {
 
                 int number = 2;
-                libLedStrip.clear();
+                FastLED.clear();
                 //ToDo Update to binary!
                 for(int i = 0; i < number; i++) {
-                    libLedStrip.setPixelColor(i, libLedStrip.Color(0,25,0));
+                    lipLedStrip[i] = CRGB::Green;
                 }
-                libLedStrip.show();
+                FastLED.show();
             }
         }
 
         /**
-         * method to set all leds in on color (rgb)
-         * @param r: red value
-         * @param g: green value
-         * @param b: blue value
+         * method to set all leds in the same color
+         * @param color: the color of the leds
          */
-        void setAllLeds(uint8_t r, uint8_t g, uint8_t b) {
+        void setAllLeds(CRGB color) {
             for (int i = 0; i < NUMBER_OF_LEDS; i++) {
-                libLedStrip.setPixelColor(i, libLedStrip.Color(r, g, b));
+                lipLedStrip[i] = color;
             }
-            libLedStrip.show();	
+            FastLED.show();
         } 
     }
 }
