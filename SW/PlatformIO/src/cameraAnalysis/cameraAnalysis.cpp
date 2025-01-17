@@ -1,4 +1,6 @@
 #include "configuration/globalConfig.h"
+#ifndef SINGLE_COMPONENTS_TEST
+
 #include "cameraAnalysis/cameraAnalysis.h"
 
 //ToDo Remove - Just testing
@@ -178,3 +180,4 @@ namespace CameraAnalysis {
         Serial.println(printedArray);
     }
 }
+#endif
