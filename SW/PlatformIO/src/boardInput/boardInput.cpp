@@ -1,3 +1,12 @@
+/**
+ * Board Input - Declaration
+ * 
+ * Handles everything belonging to the board inputs like the poti, button
+ * and dipSwitch Values. This includes the use of the IO-Expander
+ * to get the values of the Buttons and DipSwitch.
+ * 
+ * @author Tom Seiffert
+ */
 #include "boardInput/boardInput.h"
 #include "Adafruit_MCP23X17.h"
 #include "configuration/globalConfig.h"
@@ -7,17 +16,14 @@ namespace BoardInput {
     Data data;
     Adafruit_MCP23X17 ioExpander;
     
-    //pre decleration
+    //forward declaration
     void setupIoExpander();
     void setupData();
     int readPoti(int poti);
     uint8_t readButton(int button);
     uint8_t readDipSwitch();
 
-
-    /* ToDo: Error Handling!*/
-
-    /*--------------- "Public" --------------- */
+    /* ------- public known methods ------------------ */
 
     // documentation in .h file
     void setup() {
@@ -45,8 +51,8 @@ namespace BoardInput {
     }
 
     // documentation in .h file
-    void getData() {
-        //ToDo: implement
+    Data* getData() {
+        return &data; //ToDo: Test!
     }
 
     // documentation in .h file
@@ -56,12 +62,11 @@ namespace BoardInput {
     }
 
 
-
-    /*--------------- "Privat" ---------------*/
+    /* ------- privat - public unknown methods ------- */
 
     /**
-     * function to setup the IOExpander
-     * - call ioExpander begin method
+     * setup the IOExpander with the given methods
+     * - begin i2C connection
      * - initiate the pinmode for the used pins
      */
     void setupIoExpander() {
@@ -77,8 +82,8 @@ namespace BoardInput {
     }
 
     /**
-     * function to setup the static 
-     * - set all data to -1
+     * setup the data struct
+     * - sets all values to -1
      */
     void setupData() {
         data.poti1 = -1;
@@ -89,7 +94,7 @@ namespace BoardInput {
     }
 
     /**
-     * function to read the poti data
+     * read poti data
      * @param poti: the poti to read
      * @return: the poti value
      */
@@ -98,7 +103,7 @@ namespace BoardInput {
     }
 
     /**
-     * function to read button Data
+     * read button Data
      * @param button: the button to read
      * @return: the button value
      */
@@ -107,9 +112,9 @@ namespace BoardInput {
     }
 
     /**
-     * function to read the dip switch
-     * read the dip switch values an create a decimal representation
-     * @return: the value of all switches in on decimal number
+     * read the dip switch
+     * - create decimal representation of dip switch values 
+     * @return: the value of all switches as decimal number
      */
     uint8_t readDipSwitch() {
         uint8_t dipSwitchvalue = 15;
