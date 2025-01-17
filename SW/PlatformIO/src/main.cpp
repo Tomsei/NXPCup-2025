@@ -2,7 +2,6 @@
 #include <Arduino.h>
 #include <Wire.h>
 
-#include "cameraAnalysis/camera.h"
 #include "cameraAnalysis/cameraAnalysis.h"
 
 #include "dataVisualisation/dataVisualisation.h"
@@ -42,4 +41,4 @@ void loop() {
   CameraAnalysis::OpenMVCam::updateImage();
   CameraAnalysis::analyse();
 
-} 
+}
