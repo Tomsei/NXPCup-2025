@@ -1,8 +1,10 @@
+#include "configuration/globalConfig.h"
+#ifndef SINGLE_COMPONENTS_TEST
+
 #include <Arduino.h>
 
 #include "cameraAnalysis/camera.h"
 
-#include "configuration/globalConfig.h"
 
 namespace CameraAnalysis {
 
@@ -43,3 +45,4 @@ namespace CameraAnalysis {
     };
 
 }
+#endif

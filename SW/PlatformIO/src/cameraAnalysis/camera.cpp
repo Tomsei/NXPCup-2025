@@ -1,9 +1,12 @@
+#include "configuration/globalConfig.h"
+#ifndef SINGLE_COMPONENTS_TEST
+
 #include <Arduino.h>
 #include "SPISlave_T4.h"
 
-#include "configuration/globalConfig.h"
 #include "cameraAnalysis/cameraAnalysis.h"
 
+//Using Single Components - remove (comment out) the next 5 variables!
 //SPI Transfer variables and buffers
 volatile int spiBufferIdx = 0;
 volatile int spiTransferComplete = 0;
@@ -12,6 +15,7 @@ uint32_t spiFrontBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
 uint32_t spiBackBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
 
 uint32_t* spiBufferToRead = spiBackBuffer;
+
 
 
 namespace CameraAnalysis {
@@ -47,3 +51,4 @@ namespace CameraAnalysis {
     }
   }
 } 
+#endif
