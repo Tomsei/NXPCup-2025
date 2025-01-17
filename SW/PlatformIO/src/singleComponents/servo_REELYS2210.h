@@ -1,6 +1,5 @@
-void setupServo();
-
-void runServo();
-
-//ToDo: Remove - just testing
-void servoSteering(int value);
+namespace SingleComponent {
+    void setupServo();
+    void runServo();
+    void servoSteering(int value);
+}

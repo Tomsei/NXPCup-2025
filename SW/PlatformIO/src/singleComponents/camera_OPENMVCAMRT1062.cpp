@@ -1,53 +1,62 @@
-// #include <Arduino.h>
-// #include <SPI.h>
-// #include <pins_arduino.h>
+#include "configuration/globalConfig.h"
 
-// #include "SPISlave_T4.h"
+#ifdef SINGLE_COMPONENTS_TEST
 
-// #include "configuration/globalConfig.h"
+#include <Arduino.h>
+#include <SPI.h>
 
-// SPISlave_T4<&SPI, SPI_8_BITS> mySPI;
+#include "SPISlave_T4.h"
 
-// uint32_t spiRx[76800];
-// volatile int spiRxIdx = 0;
-// volatile int spiRxComplete = 0;
+volatile int spiBufferIdx = 0;
+volatile int spiTransferComplete = 0;
 
-// //Just Testing Stuff (motor control)
-// bool globalEngineState;
+uint32_t spiFrontBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
+uint32_t spiBackBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
 
-// uint8_t lastTimeDiff;
+uint32_t* spiBufferToRead = spiBackBuffer;
 
-// /**
-//  * setup method to enable slave spi communication
-//  */
-// void setupCamera() {
-//   mySPI.begin();
-//   mySPI.swapPins(true);
-//   pinMode(CAM_SPI_MISO, OUTPUT); //important!
-//   Serial.println("cam started");
-// }
+extern bool globalEngineState;
 
-// /**
-//  * method to call in loop to print the transfered spi data
-//  */
-// void runCamera() {
-//   //reading SPI when transfer is finished!
-//   if(spiRxComplete){
-//     //calculate time difference
-//     static uint32_t last = 0;
-//     lastTimeDiff = millis()-last;
-//     last = millis();
-//     //print the transfered values
-//     for(int i = 0; i < 10; i++){
-//       //print values that were sent
-//       Serial.print("\t"); Serial.print(spiRx[i], DEC);
-//     }
-//     //amount of values and time difference
-//     Serial.print("\t"); Serial.print(spiRxIdx);
-//     Serial.print("\t"); Serial.println(lastTimeDiff);
-//     globalEngineState = spiRx[0];
-//     //reset 
-//     spiRxComplete = false;
-//     spiRxIdx = 0;
-//   }
-// }
+
+
+namespace SingleComponent {
+
+  SPISlave_T4<&SPI, SPI_8_BITS> mySPI;
+  uint8_t lastTimeDiff;
+
+  /**
+   * setup method to enable slave spi communication
+   */
+  void setupCamera() {
+    mySPI.begin();
+    mySPI.swapPins(true);
+    pinMode(CAM_SPI_MISO, OUTPUT); //important!
+    Serial.println("cam started");
+  }
+
+  /**
+   * method to call in loop to print the transfered spi data
+   */
+  void runCamera() {
+    //reading SPI when transfer is finished!
+    if(spiTransferComplete){
+      //calculate time difference
+      static uint32_t last = 0;
+      lastTimeDiff = millis()-last;
+      last = millis();
+      //print the transfered values
+      for(int i = 0; i < 10; i++){
+        //print values that were sent
+        Serial.print("\t"); Serial.print(spiBufferToRead[i], DEC);
+      }
+      //amount of values and time difference
+      Serial.print("\t"); Serial.print(spiBufferIdx);
+      Serial.print("\t"); Serial.println(lastTimeDiff);
+      globalEngineState = spiBufferToRead[0];
+      //reset 
+      spiTransferComplete = false;
+      spiBufferIdx = 0;
+    }
+  }
+}
+#endif

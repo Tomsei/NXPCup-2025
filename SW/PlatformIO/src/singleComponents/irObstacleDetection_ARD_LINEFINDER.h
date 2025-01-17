@@ -1,3 +1,4 @@
-void setupArdLinefinder();
-
-void runArdLineFinder();
+namespace SingleComponent {
+    void setupArdLinefinder();
+    void runArdLineFinder();
+}

@@ -1,3 +1,4 @@
-void setupMotor();
-
-void runMotor(bool engineState);
+namespace SingleComponent {
+    void setupMotor();
+    void runMotor();
+}

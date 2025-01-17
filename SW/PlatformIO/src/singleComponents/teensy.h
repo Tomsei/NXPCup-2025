@@ -1,3 +1,4 @@
-void setupTeensyBlink();
-
-void teensyBlink();
+namespace SingleComponent {
+    void setupTeensyBlink();
+    void teensyBlink();
+}
