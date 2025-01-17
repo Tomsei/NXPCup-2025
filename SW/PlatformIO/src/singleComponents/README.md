@@ -23,6 +23,7 @@ In der Main Datei sollte folgender Quellcode ausgeführt werden:
 #include "singleComponents/display_CS-ANAVI-DISPLAY1.h"
 #include "singleComponents/io_expander_MCP23017.h"
 #include "singleComponents/poti.h"
+#include "singleComponents/ledStrip_Adafruit1426.h"
 
 
 //Just testing variable for engine control
@@ -42,7 +43,8 @@ void setup() {
   SingleComponent::setupMotor();
   SingleComponent::setupCamera();
   SingleComponent::setupDisplay();
-  SingleComponent::setupIoExpander();  
+  SingleComponent::setupIoExpander();
+  SingleComponent::setupLedStrip();
 
   //Just testing variable
   globalEngineState = false;
@@ -60,5 +62,6 @@ void loop() {
   SingleComponent::runDisplay();
   SingleComponent::runIoExpander();
   SingleComponent::runPoti();
+  SingleComponent::runLedStrip();
 } 
 ```

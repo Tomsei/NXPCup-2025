@@ -105,8 +105,15 @@ SPISlave_T4_FUNC uint32_t SPISlave_T4_OPT::popr() {
 
 //changes
 extern uint32_t spiRx[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
-extern volatile int spiRxIdx;
-extern volatile int spiRxComplete;
+extern volatile int spiBufferIdx;
+extern volatile int spiTransferComplete;
+
+extern uint32_t spiFrontBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
+
+extern uint32_t spiBackBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
+extern uint32_t* spiBufferToRead;
+
+uint32_t* spiBufferToWrite = spiFrontBuffer;
 
 SPISlave_T4_FUNC void __attribute__((section(".fustrun"))) SPISlave_T4_OPT::SLAVE_ISR() {
 
@@ -127,8 +134,8 @@ SPISlave_T4_FUNC void __attribute__((section(".fustrun"))) SPISlave_T4_OPT::SLAV
     transmit_errors++;
   }
   if ( (SLAVE_SR & (1UL << 1)) ) {
-    spiRx[spiRxIdx] = SLAVE_RDR;
-    if (spiRxIdx < 20480*3-1) spiRxIdx++;
+    spiBufferToWrite[spiBufferIdx] = SLAVE_RDR;
+    if (spiBufferIdx < 20480*3-1) spiBufferIdx++;
     SLAVE_SR = (1UL << 1);
   }
 
@@ -137,12 +144,30 @@ SPISlave_T4_FUNC void __attribute__((section(".fustrun"))) SPISlave_T4_OPT::SLAV
   }
 
    if ( (SLAVE_SR & (1UL << 9)) ) {
-    spiRxComplete = 1;
+    
+    //changes
+    if(!spiTransferComplete) { //the new frame cannot be used - old isn´t finished - just write new one
+    	
+      //swap the buffers for read an write
+      if (spiBufferToWrite == spiFrontBuffer) {
+        spiBufferToWrite = spiBackBuffer;
+        spiBufferToRead = spiFrontBuffer;
+      }
+      else {
+        spiBufferToWrite = spiFrontBuffer;
+        spiBufferToRead = spiBackBuffer;
+      }
+
+      spiTransferComplete = 1;
+    }
+
   }
 
   SLAVE_SR = 0x3F00;
   asm volatile ("dsb");
 }
+
+
 
 SPISlave_T4_FUNC void SPISlave_T4_OPT::begin() {
   SLAVE_PORT_ADDR;

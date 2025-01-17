@@ -3,26 +3,29 @@
 #ifdef SINGLE_COMPONENTS_TEST
 #define NUMBER_OF_LEDS 8
 
-#include "Adafruit_NeoPixel.h"
+#include "FastLED.h"
 
 #include "ledStrip_Adafruit1426.h"
 
 namespace SingleComponent {
 
-    Adafruit_NeoPixel ledStrip = Adafruit_NeoPixel(NUMBER_OF_LEDS, LED_STRIP);
+    void setAllLeds(CRGB color);
+
+    CRGB lipLedStrip[NUMBER_OF_LEDS];
 
     bool ledState = false;
 
-
+    
 
     /**
      * setup method to begin the led Strip
      * let all leds go on
      */
     void setupLedStrip() {
-        ledStrip.begin();
-        changeLedState(0,0,125);
-        ledStrip.show();
+        CLEDController& ledStripController = FastLED.addLeds<WS2812, LED_STRIP, GRB>(lipLedStrip, NUMBER_OF_LEDS);
+        ledStripController.clearLeds(0);
+        setAllLeds(CRGB::Blue);
+        FastLED.show();
     }
     
     /** 
@@ -32,31 +35,27 @@ namespace SingleComponent {
     void runLedStrip() {
         if (millis() % 5000 <= 2500) {
             if(ledState) {
-                changeLedState(0,0,5);
+                setAllLeds(CRGB::Blue);
                 ledState = false;
-                Serial.print(ledState);
             }
         }
         else {
             if(!ledState) {
-                changeLedState(5,0,0);
+                setAllLeds(CRGB::Red);
                 ledState = true;
-                Serial.print(ledState);
             }
         }
     }
 
     /**
-     * method to change all leds
-     * @param r: red value
-     * @param g: green value
-     * @param b: blue value
+     * method to set all leds in the same color
+     * @param color: the color of the leds
      */
-    void changeLedState(int r, int g, int b) {
+    void setAllLeds(CRGB color) {
         for (int i = 0; i < NUMBER_OF_LEDS; i++) {
-            ledStrip.setPixelColor(i, ledStrip.Color(r, g, b));
+            lipLedStrip[i] = color;
         }
-        ledStrip.show();
-    }
+        FastLED.show();
+    } 
 }
 #endif
