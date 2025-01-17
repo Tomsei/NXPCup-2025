@@ -1,0 +1,26 @@
+#include "drivingControl/servo.h"
+
+#include <Servo.h>
+#include <Arduino.h>
+
+#include "configuration/globalConfig.h"
+
+namespace DrivingControl {
+    
+    namespace SteeringServo {
+        Servo libServo;
+
+        void setup() {
+            libServo.attach(SERVO_PIN, 544, 2400);
+            libServo.write(90);
+        }
+
+        void setSteeringAngle(int steeringAngle) {
+            steeringAngle = steeringAngle > MAX_STEERING_ANGLE ? MAX_STEERING_ANGLE : steeringAngle;
+            steeringAngle = steeringAngle < MIN_STEERING_ANGLE ? MIN_STEERING_ANGLE : steeringAngle;
+            //Serial.print("Servo Value: "); Serial.println( steeringAngle);
+            libServo.write(steeringAngle);
+        }
+    }
+    
+}
