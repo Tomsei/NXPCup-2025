@@ -2,7 +2,7 @@
 
 #include "sensors/tofDistance.h"
 #include "sensors/opticalFlow.h"
-#include "sensors/imu.h"
+//#include "sensors/imu.h"
 #include "sensors/lineFinder.h"
 #include "configuration/globalConfig.h"
 
@@ -20,6 +20,7 @@ namespace Sensors {
     void updateRawData() {
         rawData.tofDistance = TofDistance::getDistance();
         OpticalFlow::readMotion(&rawData.opticalFlowX, &rawData.opticalFlowY);
+        Imu::getMotion(&rawData.imu);
         Imu::getMotion(&rawData.imuAX, &rawData.imuAY, &rawData.imuAZ, &rawData.imuGX, &rawData.imuGY, &rawData.imuGZ);
         rawData.linefinder1 = lineFinder1.getCurrentState();
         rawData.linefinder2 = lineFinder2.getCurrentState();

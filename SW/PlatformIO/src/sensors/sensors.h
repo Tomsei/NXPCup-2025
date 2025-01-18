@@ -1,10 +1,14 @@
 #include <Arduino.h>
+
+#include "sensors/imu.h"
+
 namespace Sensors {
 
     struct RawSensorData { //ToDo: test readonly
         int tofDistance;
         int16_t opticalFlowX;
         int16_t opticalFlowY;
+        Imu::MotionData imu;
         int16_t imuAX;
         int16_t imuAY;
         int16_t imuAZ;
