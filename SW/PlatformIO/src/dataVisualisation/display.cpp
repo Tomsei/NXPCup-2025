@@ -1,8 +1,14 @@
-#include "display.h"
-
-#include <Adafruit_SSD1306.h>
 /**
- * Display pixel
+ * display - definition
+ * 
+ * handels everything to control the display. This includes functions
+ * to display sensor information and more (ToDo)
+ * 
+ * using the Library: Adafruit_SSD1306.h
+ * https://github.com/adafruit/Adafruit_SSD1306
+ * 
+ * Display pixels:
+ * -------------------------------------
  *      X   X   X   X   X
  *  Y   0   1   2   3   4   ... 127
  *  Y   0   1   2   3   4   ... 127
@@ -11,15 +17,24 @@
  *  Y   0   1   2   3   4   ... 127
  *  Y   ... ... ... ... ...
  *  Y   63  63  63  63  63
+ * -------------------------------------
+ * 
+ * @author Tom Seiffert
  */
 
+#include "display.h"
+
+#include <Adafruit_SSD1306.h>
+
 namespace DataVisualisation {
-    // Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
+
     namespace Display {
 
         Adafruit_SSD1306 lipDisplay(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
-        //ToDo: Error Handling
+        /* ------- public known methods ------------------ */
+
+        //comment in .h file
         void setup() {
             if(!lipDisplay.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for the display
                 Serial.println(F("SSD1306 allocation failed"));
@@ -32,11 +47,13 @@ namespace DataVisualisation {
             lipDisplay.display();
         }  
 
+        //comment in .h file
         void clear() {
             lipDisplay.clearDisplay();
             lipDisplay.display();
         }
 
+        //comment in .h file
         void showNumber(int number) {
             lipDisplay.setCursor(0,0);
             lipDisplay.drawLine(0,15,127,15, WHITE);

@@ -1,3 +1,13 @@
+/**
+ * Single component - servo definition
+ * 
+ * Basic code to test the function of the servo
+ * Control the pwm signal to control the servo
+ * 
+ * using the Library: Servo (Arduino)
+ * 
+ * @author Tom Seiffert
+ */
 #include "configuration/globalConfig.h"
 
 #ifdef SINGLE_COMPONENTS_TEST
@@ -23,6 +33,10 @@ namespace SingleComponent {
     }
 
     /* ToDo: just testing - better way needed!*/
+    /**
+     * method to set the servo steering
+     * @param value: the new servo steering value
+     */
     void servoSteering(int value) {
         if(value > 130)
             value = 130;
