@@ -1,5 +1,5 @@
 /**
- * data visualisation - declaration
+ * data visualisation - definition
  * 
  * combines the data visualisation of the display and leds to provide a combined option
  * to control both the same. Just using the led and display functions
@@ -25,8 +25,8 @@ namespace DataVisualisation  {
     }
 
     // comment in .h file
-    void showNumber() {
-        Display::showNumber(-1);
+    void showNumber(int number) {
+        Display::showNumber(number);
         LedStrip::showNumber();
     }
 }

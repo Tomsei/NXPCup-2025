@@ -23,8 +23,8 @@ namespace DataVisualisation {
     
     /**
      * show the given number on display and led strip
-     * ToDo: param for number!
+     * @param number: the number to show
      */
-    void showNumber();
+    void showNumber(int number);
 
 }
