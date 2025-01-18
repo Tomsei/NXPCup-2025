@@ -4,9 +4,11 @@
  * handels everything to control the ledstrip. This includes functions
  * to show sensor information and more (ToDo)
  * 
+ * using the Library: FastLED
+ * https://github.com/FastLED/FastLED
+ * 
  * @author Tom Seiffert
  */
-
 namespace DataVisualisation {
 
     namespace LedStrip {

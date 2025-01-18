@@ -5,6 +5,9 @@
  * and dipSwitch Values. This includes the use of the IO-Expander
  * to get the values of the Buttons and DipSwitch.
  * 
+ * using the Library: Adafruit_MCP23017.h
+ * https://github.com/adafruit/Adafruit-MCP23017-Arduino-Library
+ * 
  * @author Tom Seiffert
  */
 #include "boardInput/boardInput.h"

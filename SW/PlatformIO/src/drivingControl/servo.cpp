@@ -4,6 +4,8 @@
  * Controll the servo for driving to the correct direction.
  * This includes an engine setup and the control the steeringangle
  * 
+ * using the Library: servo.h (Arudio)
+ * 
  * @author Tom Seiffert
  */
 #include "drivingControl/servo.h"
@@ -16,6 +18,8 @@ namespace DrivingControl {
     
     namespace SteeringServo {
         Servo libServo;
+
+        /* ------- public known methods ------------------ */
 
         //comment in .h file
         void setup() {
@@ -31,5 +35,4 @@ namespace DrivingControl {
             libServo.write(steeringAngle);
         }
     }
-    
 }

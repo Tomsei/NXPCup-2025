@@ -1,5 +1,5 @@
 /**
- * imu - declaration
+ * imu - definition
  * 
  * Handels everything to control the imu. 
  * This includes functions for setup and getting data

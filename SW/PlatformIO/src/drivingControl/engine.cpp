@@ -4,6 +4,8 @@
  * Controll the engine for driving.
  * This includes an engine setup and the control of the engin speed
  * 
+ * using the Library: servo.h (Arudio)
+ * 
  * @author Tom Seiffert
  */
 #include "drivingControl/engine.h"

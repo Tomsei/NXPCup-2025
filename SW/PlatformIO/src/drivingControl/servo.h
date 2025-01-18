@@ -4,6 +4,8 @@
  * Controll the servo for driving to the correct direction.
  * This includes an engine setup and the control the steeringangle
  * 
+ * using the Library: servo.h (Arudio)
+ * 
  * @author Tom Seiffert
  */
 namespace DrivingControl {

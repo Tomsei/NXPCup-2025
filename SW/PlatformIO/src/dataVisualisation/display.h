@@ -4,6 +4,9 @@
  * handels everything to control the display. This includes functions
  * to display sensor information and more (ToDo)
  * 
+ * using the Library: Adafruit_SSD1306.h
+ * https://github.com/adafruit/Adafruit_SSD1306
+ * 
  * @author Tom Seiffert
  */
 #define SCREEN_WIDTH 128
