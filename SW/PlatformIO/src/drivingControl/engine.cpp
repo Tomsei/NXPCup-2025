@@ -24,7 +24,6 @@ namespace DrivingControl {
         //comment in .h file
         void setup() {
             //use the servo library to control the PWM Pin
-            
             //ToDo: checkt min and max!
             ESC.attach(MOTOR_ESC_PIN, 1000, 2000);
             ESC.write(0);
