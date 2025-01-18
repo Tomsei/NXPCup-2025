@@ -1,10 +1,22 @@
+/**
+ * sensor - declaration
+ * 
+ * controll all sensors and combine the data into one struct
+ * updating the raw data and store the current values
+ * provide the combined sensor data.
+ * 
+ * @author Tom Seiffert
+ */
 #include <Arduino.h>
 
 #include "sensors/imu.h"
 
 namespace Sensors {
 
-    struct RawSensorData { //ToDo: test readonly
+    //structure for basic sensor data
+    //ToDo: Remove imu single values (use imu.MotionData)
+    //ToDo: Check if readOnly is possible
+    struct RawSensorData { 
         int tofDistance;
         int16_t opticalFlowX;
         int16_t opticalFlowY;
@@ -21,7 +33,19 @@ namespace Sensors {
 
     extern RawSensorData rawData;
     
+    /**
+     * setup all sensors
+     */
     void setup();
+
+    /**
+     * update the sensor data of all sensors
+     * just call the getData functions of the sensors
+     */
     void updateRawData();
+
+    /**
+     * print the sensor data of all sensors
+     */
     void printData();
 }
