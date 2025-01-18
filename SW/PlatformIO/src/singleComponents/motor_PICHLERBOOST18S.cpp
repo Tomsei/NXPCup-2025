@@ -1,3 +1,13 @@
+/**
+ * Single component - engine definition
+ * 
+ * Basic code to test the function of the engine
+ * Control the pwm signal and control the engine speed 
+ * 
+ * using the Library: Servo (Arduino)
+ * 
+ * @author Tom Seiffert
+ */
 #include "configuration/globalConfig.h"
 
 #ifdef SINGLE_COMPONENTS_TEST
@@ -15,14 +25,13 @@ namespace SingleComponent {
      * setup the motor (pwm signal)
      */
     void setupMotor() {
-        ESC.attach(MOTOR_ESC_PIN, 1000, 2000); //min pulse width, max pulse width
+        ESC.attach(MOTOR_ESC_PIN, 1000, 2000);
         ESC.write(0);
         delay(5000); 
     }
 
     /**
-     * control the motor
-     * @param engineState to deciede if the engine should dirve (just for testing!)
+     * control the motor depending on the engin state
      */
     void runMotor() {
 
@@ -33,7 +42,8 @@ namespace SingleComponent {
             ESC.write(0);
         }
 
-        /* Speed Tests
+        // Speed Tests - Fast
+        /*
         if (millis() > 10000 && millis() < 10500) {
             ESC.write(150);
             Serial.println("Fast");
@@ -51,7 +61,8 @@ namespace SingleComponent {
         }
         */
 
-        /* continuous speed changing
+        // continuous speed changing 
+        /*
         if(((millis() % 10000) > 2500) && ((millis() % 10000) < 7500)) {
             ESC.write(20);
         }

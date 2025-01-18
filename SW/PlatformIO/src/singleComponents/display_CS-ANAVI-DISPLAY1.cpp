@@ -1,3 +1,14 @@
+/**
+ * Single component - display definition
+ * 
+ * Basic code to test the function of the display
+ * Write some text and draw a line to the display
+ * 
+ * using the Library: Adafruit_SSD1306.h
+ * https://github.com/adafruit/Adafruit_SSD1306
+ * 
+ * @author Tom Seiffert
+ */
 #include "configuration/globalConfig.h"
 
 #ifdef SINGLE_COMPONENTS_TEST
@@ -33,7 +44,7 @@ namespace SingleComponent {
      */
     void setupDisplay() {
 
-        if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for the display
+        if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
             Serial.println(F("SSD1306 allocation failed"));
         }
         delay(2000);
@@ -50,7 +61,6 @@ namespace SingleComponent {
 
     /**
      * method to call in loop to change the display
-     * @param engineState is engine running (just for testing)
      */
     void runDisplay() {
         display.clearDisplay();

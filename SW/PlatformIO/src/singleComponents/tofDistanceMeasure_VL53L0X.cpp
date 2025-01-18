@@ -1,3 +1,14 @@
+/**
+ * Single component - ToF Distance sensore definition
+ * 
+ * Basic code to test the function of the ToF Distance sensor
+ * Read and print the sensor data
+ * 
+ * using the Library: Bitcraze_PMW3901.h 
+ * https://github.com/bitcraze/Bitcraze_PMW3901
+ * 
+ * @author Tom Seiffert
+ */
 #include "configuration/globalConfig.h"
 #ifdef SINGLE_COMPONENTS_TEST
 
@@ -8,6 +19,7 @@
 
 
 namespace SingleComponent {
+    
     VL53L0X sensor;
 
     /**

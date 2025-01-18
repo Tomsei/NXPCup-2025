@@ -1,3 +1,11 @@
+/**
+ * Single component - ir obstacle detection definition
+ * 
+ * Basic code to test the function of the ard line finder
+ * Read and print the data of both sensors
+ * 
+ * @author Tom Seiffert
+ */
 #include "configuration/globalConfig.h"
 
 #ifdef SINGLE_COMPONENTS_TEST
@@ -7,15 +15,20 @@
 
 namespace SingleComponent {
 
+    /**
+     * setup the ard line finder 
+     */
     void setupArdLinefinder() {
         pinMode(ARD_LINE_FINDER1, INPUT);
         pinMode(ARD_LINE_FINDER2, INPUT);
-        //ToDo: ARD LINE FINDER change to Interrupt)
     }
 
     bool blackSensor1 = false;
     bool blackSensor2 = false;
 
+    /**
+     * method to read the values of ard line finder and print if a change is detected
+     */
     void runArdLineFinder() {
         bool valSensor1 = digitalRead(ARD_LINE_FINDER1);
         bool valSensor2 = digitalRead(ARD_LINE_FINDER2);

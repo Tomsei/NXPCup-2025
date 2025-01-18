@@ -1,3 +1,14 @@
+/**
+ * Single component - io expander definition
+ * 
+ * Basic code to test the function of the io expander 
+ * Read and print the data of the dipswitch and the buttons
+ * 
+ * using the Library: Adafruit_MCP23017.h
+ * https://github.com/adafruit/Adafruit-MCP23017-Arduino-Library
+ * 
+ * @author Tom Seiffert
+ */
 #include "configuration/globalConfig.h"
 
 #ifdef SINGLE_COMPONENTS_TEST
