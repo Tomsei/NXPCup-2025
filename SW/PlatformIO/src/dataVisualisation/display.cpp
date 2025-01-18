@@ -1,5 +1,5 @@
 /**
- * display - declaration
+ * display - definition
  * 
  * handels everything to control the display. This includes functions
  * to display sensor information and more (ToDo)

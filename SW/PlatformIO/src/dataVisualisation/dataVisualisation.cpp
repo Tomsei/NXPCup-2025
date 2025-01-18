@@ -27,6 +27,6 @@ namespace DataVisualisation  {
     // comment in .h file
     void showNumber(int number) {
         Display::showNumber(number);
-        LedStrip::showNumber();
+        LedStrip::showNumber(number);
     }
 }
