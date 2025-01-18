@@ -1,5 +1,5 @@
 /**
- * Single component - ToF Distance sensore definition
+ * Single component - ToF Distance sensor declaration
  * 
  * Basic code to test the function of the ToF Distance sensor
  * Read and print the sensor data

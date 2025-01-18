@@ -1,5 +1,5 @@
 /**
- * Single component - teensy definition
+ * Single component - teensy declaration
  * 
  * Basic code to test the teensy
  * Just make the teensy blink
