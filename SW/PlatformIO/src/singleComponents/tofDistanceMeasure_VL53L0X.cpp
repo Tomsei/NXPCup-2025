@@ -1,3 +1,14 @@
+/**
+ * Single component - ToF Distance sensor definition
+ * 
+ * Basic code to test the function of the ToF Distance sensor
+ * Read and print the sensor data
+ * 
+ * using the Library: VL53L0X.h 
+ * https://github.com/pololu/vl53l0x-arduino
+ * 
+ * @author Tom Seiffert
+ */
 #include "configuration/globalConfig.h"
 #ifdef SINGLE_COMPONENTS_TEST
 
@@ -8,6 +19,7 @@
 
 
 namespace SingleComponent {
+    
     VL53L0X sensor;
 
     /**

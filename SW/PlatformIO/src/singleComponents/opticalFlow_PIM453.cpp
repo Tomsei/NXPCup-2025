@@ -1,5 +1,14 @@
-//Source: https://github.com/bitcraze/Bitcraze_PMW3901
-
+/**
+ * Single component - optical flow definition
+ * 
+ * Basic code to test the function of the optical flow sensor
+ * Read and print the sensor data
+ * 
+ * using the Library: Bitcraze_PMW3901.h 
+ * https://github.com/bitcraze/Bitcraze_PMW3901
+ * 
+ * @author Tom Seiffert
+ */
 #include "configuration/globalConfig.h"
 
 #ifdef SINGLE_COMPONENTS_TEST
@@ -8,9 +17,11 @@
 
 
 namespace SingleComponent {
+
     Bitcraze_PMW3901 flow(OPTICAL_FLOW_CHIP_SELECT);
     int16_t deltaX, deltaY;
 
+    //forward declaration
     void printOpticalFlowData();
 
     /**

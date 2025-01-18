@@ -1,3 +1,14 @@
+/**
+ * Single component - led strip definition
+ * 
+ * Basic code to test the function of the led strip 
+ * Turn on the leds and let them blink
+ * 
+ * using the Library: FastLED
+ * https://github.com/FastLED/FastLED
+ * 
+ * @author Tom Seiffert
+ */
 #include "configuration/globalConfig.h"
 
 #ifdef SINGLE_COMPONENTS_TEST
@@ -9,17 +20,17 @@
 
 namespace SingleComponent {
 
+    //forward declaration
     void setAllLeds(CRGB color);
 
     CRGB lipLedStrip[NUMBER_OF_LEDS];
 
     bool ledState = false;
-
     
 
     /**
      * setup method to begin the led Strip
-     * let all leds go on
+     * set all leds to blue
      */
     void setupLedStrip() {
         CLEDController& ledStripController = FastLED.addLeds<WS2812, LED_STRIP, GRB>(lipLedStrip, NUMBER_OF_LEDS);
@@ -30,7 +41,7 @@ namespace SingleComponent {
     
     /** 
      * run method to show leds working
-     * turn leds on and off
+     * turn leds blue and red
      */
     void runLedStrip() {
         if (millis() % 5000 <= 2500) {
