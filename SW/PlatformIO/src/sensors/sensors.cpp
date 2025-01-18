@@ -1,34 +1,50 @@
+/**
+ * sensor - definition
+ * 
+ * controll all sensors and combine the data into one struct
+ * updating the raw data and store the current values
+ * provide the combined sensor data.
+ * 
+ * @author Tom Seiffert
+ */
 #include "sensors/sensors.h"
 
+//#include "sensors/imu.h"
 #include "sensors/tofDistance.h"
 #include "sensors/opticalFlow.h"
-#include "sensors/imu.h"
 #include "sensors/lineFinder.h"
 #include "configuration/globalConfig.h"
 
 namespace Sensors {
 
     RawSensorData rawData;
-    LineFinder lineFinder1(ARD_LINE_FINDER1); //Setup is done here
-    LineFinder lineFinder2(ARD_LINE_FINDER2); //Setup is done here
+    
+    //create lineFinder object and setup it with constructor
+    LineFinder lineFinder1(ARD_LINE_FINDER1); 
+    LineFinder lineFinder2(ARD_LINE_FINDER2);
 
+    //comment in .h file
     void setup() {
         TofDistance::setup();
         OpticalFlow::setup();
     }
 
+    //comment in .h file
     void updateRawData() {
         rawData.tofDistance = TofDistance::getDistance();
         OpticalFlow::readMotion(&rawData.opticalFlowX, &rawData.opticalFlowY);
+        Imu::getMotion(&rawData.imu); //ToDo: test if this is possible
         Imu::getMotion(&rawData.imuAX, &rawData.imuAY, &rawData.imuAZ, &rawData.imuGX, &rawData.imuGY, &rawData.imuGZ);
         rawData.linefinder1 = lineFinder1.getCurrentState();
         rawData.linefinder2 = lineFinder2.getCurrentState();
     }
 
+    //comment in .h file
     void printData() {
         Serial.print("ToF Distance: "); Serial.print(rawData.tofDistance);
         Serial.print("\t Optical Flow - X: "); Serial.print(rawData.opticalFlowX);
         Serial.print("\t Y: "); Serial.print(rawData.opticalFlowY);
+        //ToDo change to rawdata.imu.ax (if structure is working)
         Serial.print("\t IMU - AX:"); Serial.print(rawData.imuAX);
         Serial.print("\t IMU - AY:"); Serial.print(rawData.imuAY);
         Serial.print("\t IMU - AZ:"); Serial.print(rawData.imuAZ);

@@ -1,11 +1,20 @@
-
+/**
+ * Single component - imu definition
+ * 
+ * Basic code to test the function of the imu sensor
+ * Read and print the sensor data
+ * 
+ * using the Library: MPU6050.h 
+ * https://github.com/ElectronicCats/mpu6050
+ * 
+ * @author Tom Seiffert
+ */
 #include "configuration/globalConfig.h"
 
 #ifdef SINGLE_COMPONENTS_TEST
 
 #include <Wire.h>
 #include "MPU6050.h"
-
 
 
 namespace SingleComponent {

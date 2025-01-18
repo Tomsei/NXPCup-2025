@@ -1,3 +1,14 @@
+/**
+ * ledstrip - definition
+ * 
+ * handels everything to control the ledstrip. This includes functions
+ * to show sensor information and more (ToDo)
+ * 
+ * using the Library: FastLED
+ * https://github.com/FastLED/FastLED
+ * 
+ * @author Tom Seiffert
+ */
 #include "ledStrip.h"
 #include "configuration/globalConfig.h"
 #include "FastLED.h"
@@ -13,7 +24,11 @@ namespace DataVisualisation {
 
         CRGB lipLedStrip[NUMBER_OF_LEDS];
 
+        /* ------- public known methods ------------------ */
+
+        //coment in .h file
         void setup() {
+            //LED Controller needed for the use of the leds
             CLEDController& ledStripController = FastLED.addLeds<WS2812, LED_STRIP, GRB>(lipLedStrip, NUMBER_OF_LEDS);
             ledStripController.clearLeds(0);
             FastLED.setBrightness(50);
@@ -21,25 +36,37 @@ namespace DataVisualisation {
             FastLED.show();
         }
 
+        //coment in .h file
         void clear() {
             FastLED.clear();
         	FastLED.show();
         }
 
-        void showNumber() {
+        //coment in .h file
+        void showNumber(int number) {
             //ToDo: Servo Bug when updating the led strip - probably just update LED every second?
             bool updateLed = false;
-            if(updateLed) {
+            
+            //convert number to positiv and show the sign with color
+            CRGB color;
+            if(number >= 0) {
+                color = CRGB::Green;
+            } else {
+                color = CRGB::Blue;
+            }
+            number = abs(number);
 
-                int number = 2;
+            //ToDo: create binary number representation for the leds
+            if(updateLed) {
                 FastLED.clear();
-                //ToDo Update to binary!
-                for(int i = 0; i < number; i++) {
-                    lipLedStrip[i] = CRGB::Green;
+                for(int i = 0; i < number || i <= NUMBER_OF_LEDS; i++) {
+                    lipLedStrip[i] = color;
                 }
-                FastLED.show();
+                FastLED.show(); //ToDo Remove - update LED every half second
             }
         }
+
+        /* ------- privat - public unknown methods ------- */
 
         /**
          * method to set all leds in the same color
@@ -49,7 +76,7 @@ namespace DataVisualisation {
             for (int i = 0; i < NUMBER_OF_LEDS; i++) {
                 lipLedStrip[i] = color;
             }
-            FastLED.show();
+            FastLED.show(); //ToDo Remove - update LED every half second
         } 
     }
 }
