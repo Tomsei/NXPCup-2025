@@ -17,6 +17,8 @@ extern bool steeringEnabled;
 
 namespace DrivingControl {
     
+    /* ------- public known methods ------------------ */
+
     //comment in .h file
     void setup() {
         SteeringServo::setup();
