@@ -33,8 +33,7 @@ namespace Sensors {
     void updateRawData() {
         rawData.tofDistance = TofDistance::getDistance();
         OpticalFlow::readMotion(&rawData.opticalFlowX, &rawData.opticalFlowY);
-        Imu::getMotion(&rawData.imu); //ToDo: test if this is possible
-        Imu::getMotion(&rawData.imuAX, &rawData.imuAY, &rawData.imuAZ, &rawData.imuGX, &rawData.imuGY, &rawData.imuGZ);
+        Imu::getMotion(&rawData.imu);
         rawData.linefinder1 = lineFinder1.getCurrentState();
         rawData.linefinder2 = lineFinder2.getCurrentState();
     }
@@ -44,13 +43,12 @@ namespace Sensors {
         Serial.print("ToF Distance: "); Serial.print(rawData.tofDistance);
         Serial.print("\t Optical Flow - X: "); Serial.print(rawData.opticalFlowX);
         Serial.print("\t Y: "); Serial.print(rawData.opticalFlowY);
-        //ToDo change to rawdata.imu.ax (if structure is working)
-        Serial.print("\t IMU - AX:"); Serial.print(rawData.imuAX);
-        Serial.print("\t IMU - AY:"); Serial.print(rawData.imuAY);
-        Serial.print("\t IMU - AZ:"); Serial.print(rawData.imuAZ);
-        Serial.print("\t IMU - GX:"); Serial.print(rawData.imuGX);
-        Serial.print("\t IMU - GY:"); Serial.print(rawData.imuGY);
-        Serial.print("\t IMU - GZ:"); Serial.print(rawData.imuGZ);
+        Serial.print("\t IMU - AX:"); Serial.print(rawData.imu.ax);
+        Serial.print("\t IMU - AY:"); Serial.print(rawData.imu.ay);
+        Serial.print("\t IMU - AZ:"); Serial.print(rawData.imu.az);
+        Serial.print("\t IMU - GX:"); Serial.print(rawData.imu.gx);
+        Serial.print("\t IMU - GY:"); Serial.print(rawData.imu.gy);
+        Serial.print("\t IMU - GZ:"); Serial.print(rawData.imu.gz);
         Serial.print("\t Linefinder - 1: "); Serial.print(rawData.linefinder1);
         Serial.print("\t 2: "); Serial.println(rawData.linefinder2);
     }
