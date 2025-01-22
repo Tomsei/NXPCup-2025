@@ -14,9 +14,10 @@ namespace CameraAnalysis {
     
     //variables -------------------------
     ImageAnalysis currentImageAnalysis;
+    SingleRowAnalysis currentRowAnalysis;
 
     bool newImageAvailable = false;
-    int sobelThreshold = 40;
+    int sobelThreshold = 30;
 
 
     //methods ---------------------------
@@ -29,13 +30,23 @@ namespace CameraAnalysis {
      */
     void analyse() {
         if (newImageAvailable) {
-             
-            static SingleRowAnalysis currentRow;
-            currentRow.updateRow(currentImageAnalysis.getImage(), 0);
-            currentRow.calculateSobelRow();
-            currentRow.calculateTrackCenter();
+            currentRowAnalysis.updateRow(currentImageAnalysis.getImage(), 0);
+            currentRowAnalysis.calculateSobelRow();
+            currentImageAnalysis.trackCenters[0] = currentRowAnalysis.calculateTrackCenter();
+            Serial.print(currentImageAnalysis.trackCenters[0]); Serial.print("\t");
+            currentImageAnalysis.steeringAngle = (90 + ((VIDEO_RESOLUTION_X/2) - currentImageAnalysis.trackCenters[0])); //Todo outsource as Method
+            
             newImageAvailable = false;
         }
+    }
+
+    int getSteeringAngle() {
+        return currentImageAnalysis.steeringAngle;
+        //return currentImageAnalysis.steeringAngle;
+    }
+
+    uint8_t getSpeed() {
+        return 15;
     }
 
     /**
@@ -91,17 +102,9 @@ namespace CameraAnalysis {
      * get the left and right edge and calculate the center
      * @return trackCenter: the center of the track
      */
-    int SingleRowAnalysis::calculateTrackCenter() {
+    uint16_t SingleRowAnalysis::calculateTrackCenter() {
         auto [leftEdge, rightEdge] = calculateEdges(VIDEO_RESOLUTION_X/2);
-        int trackCenter = (leftEdge + rightEdge) / 2;
-
-        int steeringTest = (VIDEO_RESOLUTION_X/2) - trackCenter;
-        //Serial.print("Steering Test: "); Serial.println(steeringTest);
-        steeringTest = 90 + steeringTest;
-        //Serial.print("Servo Steering: "); Serial.print(steeringTest); Serial.print("track Center: "); Serial.println(trackCenter);
-        //ToDo: Just testing - remove!!
-        DrivingControl::drive(17, steeringTest);
-
+        uint16_t trackCenter = (leftEdge + rightEdge) / 2;
         return trackCenter;
     }
 
@@ -131,11 +134,13 @@ namespace CameraAnalysis {
      * @param startSearch: the pixel to start the search to left an right (center to start)
      * @return {leftEdge, rightEdge}: a tupel of the left and right Edge 
      */
-    std::tuple<int, int> SingleRowAnalysis::calculateEdges(int startSearch) {
+    std::tuple<uint16_t, uint16_t> SingleRowAnalysis::calculateEdges(int startSearch) {
         
         //default edges at end of line
-        uint8_t leftEdge = 0;
-        int rightEdge = VIDEO_RESOLUTION_X-2;
+        uint16_t leftEdge = 0;
+        uint16_t rightEdge = VIDEO_RESOLUTION_X-2;
+
+        //ToDo: Check if the Edge is Big enaugh!
 
         //search left edge
         for(int i = startSearch; i >= 0; i--) {

@@ -23,5 +23,5 @@ namespace DrivingControl {
      * @param speed: the engine power (car speed)
      * @param steeringAngle: the steering angle (direction) to drive
      */
-    void drive(uint8_t speed, uint8_t steeringAngle);
+    void drive(uint8_t speed, int steeringAngle);
 }

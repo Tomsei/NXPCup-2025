@@ -9,6 +9,8 @@
 #include "drivingControl/drivingControl.h"
 #include "sensors/sensors.h"
 
+#include "carLogic/carLogic.h"
+
 bool engineEnabled = false;
 bool steeringEnabled = false;
 
@@ -33,12 +35,14 @@ void loop() {
   BoardInput::update();
   //BoardInput::printData();
   
-  DataVisualisation::LedStrip::showNumber(3);
-  DataVisualisation::Display::showNumber(5);
+  //DataVisualisation::LedStrip::showNumber(3);
+  //DataVisualisation::Display::showNumber(5);
   Sensors::updateRawData();
   //Sensors::printData();
 
   CameraAnalysis::OpenMVCam::updateImage();
   CameraAnalysis::analyse();
+
+  CarLogic::runCarLogic();
 
 }

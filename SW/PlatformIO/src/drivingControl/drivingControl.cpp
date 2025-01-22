@@ -26,7 +26,7 @@ namespace DrivingControl {
     }
 
     //comment in .h file
-    void drive(uint8_t speed, uint8_t steeringAngle) {
+    void drive(uint8_t speed, int steeringAngle) {
         if(engineEnabled) {
             Engine::setSpeed(speed);
         }
