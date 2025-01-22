@@ -10,10 +10,9 @@
 #include "drivingControl/drivingControl.h"
 #include "drivingControl/engine.h"
 #include "drivingControl/servo.h"
+#include "carLogic/carLogic.h"
 
 //ToDo: check where these variables should be implementet!
-extern bool engineEnabled;
-extern bool steeringEnabled;
 
 namespace DrivingControl {
     
@@ -27,13 +26,13 @@ namespace DrivingControl {
 
     //comment in .h file
     void drive(uint8_t speed, int steeringAngle) {
-        if(engineEnabled) {
+        if(CarLogic::engineEnabled) {
             Engine::setSpeed(speed);
         }
         else {
             Engine::setSpeed(0);
         }
-        if(steeringEnabled) {
+        if(CarLogic::steeringEnabled) {
             SteeringServo::setSteeringAngle(steeringAngle);
         }
     }

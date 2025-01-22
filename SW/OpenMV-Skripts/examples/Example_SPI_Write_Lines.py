@@ -21,7 +21,7 @@ lineWidth = 1
 
 # confrigure while choosing resolution (change lines and Pixel amount)
 horizontalPixelCount = 320
-rowLine1 = 200
+rowLine1 = 220
 rowLine2 = 199
 rowLine3 = 198
 rowLine4 = 197

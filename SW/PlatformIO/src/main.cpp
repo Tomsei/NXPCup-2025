@@ -11,9 +11,6 @@
 
 #include "carLogic/carLogic.h"
 
-bool engineEnabled = false;
-bool steeringEnabled = false;
-
 void setup() {
 
   Serial.begin(115200);
@@ -29,19 +26,13 @@ void setup() {
 
 void loop() {
 
-  engineEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S4);
-  steeringEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S3);
-
   BoardInput::update();
-  //BoardInput::printData();
-  
-  //DataVisualisation::LedStrip::showNumber(3);
-  //DataVisualisation::Display::showNumber(5);
   Sensors::updateRawData();
-  //Sensors::printData();
-
   CameraAnalysis::OpenMVCam::updateImage();
   CameraAnalysis::analyse();
+  //Sensors::printData();
+
+
 
   CarLogic::runCarLogic();
 

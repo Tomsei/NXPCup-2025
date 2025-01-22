@@ -3,9 +3,6 @@
 
 #include "cameraAnalysis/cameraAnalysis.h"
 
-//ToDo Remove - Just testing
-#include "drivingControl/drivingControl.h"
-
 namespace CameraAnalysis {
 
     //pre definition --------------------
@@ -17,7 +14,7 @@ namespace CameraAnalysis {
     SingleRowAnalysis currentRowAnalysis;
 
     bool newImageAvailable = false;
-    int sobelThreshold = 30;
+    int sobelThreshold = 60;
 
 
     //methods ---------------------------
@@ -60,10 +57,16 @@ namespace CameraAnalysis {
 
     /**
      * ToDo: comment
+     * @todo Check if there is stil an analyses (then the image should not be overwritten)
+     * that should also be 
      */
     void ImageAnalysis::updateImage(uint32_t* pixelData) {
-        imageDataBuffer = pixelData;
-        newImageAvailable = true;
+        //ToDo Testing this here!!
+        if(!newImageAvailable) {
+            imageDataBuffer = pixelData;
+            newImageAvailable = true;
+        }
+
     }
 
     /**
