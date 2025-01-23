@@ -16,7 +16,7 @@ namespace CameraAnalysis {
     SingleRowAnalysis currentRowAnalysis;
 
     bool newImageAvailable = false;
-    int sobelThreshold = 40;
+    int sobelThreshold = 30;
 
 
     //methods ---------------------------
@@ -90,7 +90,7 @@ namespace CameraAnalysis {
         int tempSteeringAngle = 0;
         tempSteeringAngle = (VIDEO_RESOLUTION_X/2) - trackCenters[0];
 
-        tempSteeringAngle *= 0.5;
+        tempSteeringAngle *= 0.55;
         /*
         if (steeringAngle > -20 && steeringAngle < 20) {
             steeringAngle = steeringAngle * 0.8;
