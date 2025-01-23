@@ -23,11 +23,13 @@ namespace CameraAnalysis {
         public:
             uint32_t* imageDataBuffer;
             uint16_t trackCenters[NUMBER_OF_LINES];
+            uint16_t lastTrackCenters[NUMBER_OF_LINES];
             int steeringAngle;
 
             u_int32_t* getImage();
             void updateImage(uint32_t* pixelData);
             void printImage(int start = 0, int length = VIDEO_RESOLUTION_X*NUMBER_OF_LINES);
+            void calculateSteeringAngle();
     };
 
     /**
@@ -40,7 +42,7 @@ namespace CameraAnalysis {
 
             void updateRow(uint32_t* pixelData, int row);
             void calculateSobelRow();
-            uint16_t calculateTrackCenter();
+            uint16_t calculateTrackCenter(int startSearch);
 
             void printRow(int start = 0, int length = VIDEO_RESOLUTION_X);
             void printSobelRow(int start = 0, int length = VIDEO_RESOLUTION_X -2);

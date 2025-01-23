@@ -3,6 +3,8 @@
 
 #include "cameraAnalysis/cameraAnalysis.h"
 
+#define CAM_OFFSET 0
+
 namespace CameraAnalysis {
 
     //pre definition --------------------
@@ -14,14 +16,14 @@ namespace CameraAnalysis {
     SingleRowAnalysis currentRowAnalysis;
 
     bool newImageAvailable = false;
-    int sobelThreshold = 60;
+    int sobelThreshold = 40;
 
 
     //methods ---------------------------
     void setup() {
         OpenMVCam::setup();
+        currentImageAnalysis.trackCenters[0] = 160; //Todo noch für alle Zeilen durchführen und berechnen!
     }
-
     /**
      * Method to analyse the picture to get driving vector (steering Angel)
      */
@@ -29,21 +31,24 @@ namespace CameraAnalysis {
         if (newImageAvailable) {
             currentRowAnalysis.updateRow(currentImageAnalysis.getImage(), 0);
             currentRowAnalysis.calculateSobelRow();
-            currentImageAnalysis.trackCenters[0] = currentRowAnalysis.calculateTrackCenter();
-            Serial.print(currentImageAnalysis.trackCenters[0]); Serial.print("\t");
-            currentImageAnalysis.steeringAngle = (90 + ((VIDEO_RESOLUTION_X/2) - currentImageAnalysis.trackCenters[0])); //Todo outsource as Method
+
+            currentImageAnalysis.lastTrackCenters[0] = currentImageAnalysis.trackCenters[0];
+            Serial.print("\t"); Serial.print("lastTrackCencter: "); Serial.print(currentImageAnalysis.lastTrackCenters[0]); Serial.print("\t");
+            currentImageAnalysis.trackCenters[0] = currentRowAnalysis.calculateTrackCenter(currentImageAnalysis.lastTrackCenters[0]);
             
+            Serial.print(currentImageAnalysis.trackCenters[0]); Serial.print("\t");
+            currentImageAnalysis.calculateSteeringAngle();
+
             newImageAvailable = false;
         }
     }
 
     int getSteeringAngle() {
-        return currentImageAnalysis.steeringAngle;
-        //return currentImageAnalysis.steeringAngle;
+        return 90 + currentImageAnalysis.steeringAngle;
     }
 
     uint8_t getSpeed() {
-        return 15;
+        return 16;
     }
 
     /**
@@ -79,6 +84,26 @@ namespace CameraAnalysis {
     }
 
     /**
+     * @todo Comment
+     */
+    void ImageAnalysis::calculateSteeringAngle() {
+        int tempSteeringAngle = 0;
+        tempSteeringAngle = (VIDEO_RESOLUTION_X/2) - trackCenters[0];
+
+        tempSteeringAngle *= 0.5;
+        /*
+        if (steeringAngle > -20 && steeringAngle < 20) {
+            steeringAngle = steeringAngle * 0.8;
+        }
+        else if (steeringAngle < -30 || steeringAngle > 30) {
+            steeringAngle = steeringAngle * 1.1;
+        }*/
+
+        steeringAngle = tempSteeringAngle;
+        Serial.print("Steering Angle: "); Serial.println(steeringAngle);
+    }
+
+    /**
      * 
      * ToDo: comment!
      */
@@ -105,10 +130,10 @@ namespace CameraAnalysis {
      * get the left and right edge and calculate the center
      * @return trackCenter: the center of the track
      */
-    uint16_t SingleRowAnalysis::calculateTrackCenter() {
-        auto [leftEdge, rightEdge] = calculateEdges(VIDEO_RESOLUTION_X/2);
+    uint16_t SingleRowAnalysis::calculateTrackCenter(int startSearch) {
+        auto [leftEdge, rightEdge] = calculateEdges(startSearch); 
         uint16_t trackCenter = (leftEdge + rightEdge) / 2;
-        return trackCenter;
+        return trackCenter - CAM_OFFSET; //ToDo Remove offset
     }
 
     /**
