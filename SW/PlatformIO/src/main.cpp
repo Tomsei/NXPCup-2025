@@ -30,7 +30,7 @@ void loop() {
   Sensors::updateRawData();
   CameraAnalysis::OpenMVCam::updateImage();
   CameraAnalysis::analyse();
-  //Sensors::printData();
+  Sensors::printData();
 
 
 

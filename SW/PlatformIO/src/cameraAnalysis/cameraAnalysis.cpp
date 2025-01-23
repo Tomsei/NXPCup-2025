@@ -33,10 +33,10 @@ namespace CameraAnalysis {
             currentRowAnalysis.calculateSobelRow();
 
             currentImageAnalysis.lastTrackCenters[0] = currentImageAnalysis.trackCenters[0];
-            Serial.print("\t"); Serial.print("lastTrackCencter: "); Serial.print(currentImageAnalysis.lastTrackCenters[0]); Serial.print("\t");
+            //Serial.print("\t"); Serial.print("lastTrackCencter: "); Serial.print(currentImageAnalysis.lastTrackCenters[0]); Serial.print("\t");
             currentImageAnalysis.trackCenters[0] = currentRowAnalysis.calculateTrackCenter(currentImageAnalysis.lastTrackCenters[0]);
             
-            Serial.print(currentImageAnalysis.trackCenters[0]); Serial.print("\t");
+            //Serial.print(currentImageAnalysis.trackCenters[0]); Serial.print("\t");
             currentImageAnalysis.calculateSteeringAngle();
 
             newImageAvailable = false;
@@ -90,7 +90,7 @@ namespace CameraAnalysis {
         int tempSteeringAngle = 0;
         tempSteeringAngle = (VIDEO_RESOLUTION_X/2) - trackCenters[0];
 
-        tempSteeringAngle *= 0.55;
+        tempSteeringAngle *= 0.6;
         /*
         if (steeringAngle > -20 && steeringAngle < 20) {
             steeringAngle = steeringAngle * 0.8;
@@ -100,7 +100,7 @@ namespace CameraAnalysis {
         }*/
 
         steeringAngle = tempSteeringAngle;
-        Serial.print("Steering Angle: "); Serial.println(steeringAngle);
+        //Serial.print("Steering Angle: "); Serial.println(steeringAngle);
     }
 
     /**

@@ -3,6 +3,7 @@
 #include "cameraAnalysis/cameraAnalysis.h"
 #include "boardInput/boardInput.h"
 #include "sensors/sensors.h"
+#include "dataVisualisation/display.h"
 
 namespace CarLogic {
 
@@ -14,7 +15,9 @@ namespace CarLogic {
         engineEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S4);
         steeringEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S3);
 
-        if (Sensors::rawData.tofDistance < 220) {
+        DataVisualisation::Display::showNumber(Sensors::rawData.opticalFlowY);
+
+        if (Sensors::rawData.tofDistance < 300) {
             engineEnabled = false;
         }
         
