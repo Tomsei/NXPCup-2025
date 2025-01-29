@@ -11,8 +11,8 @@
 namespace DrivingControl {
 
     //ToDo determine the correct values!
-    #define MAX_STEERING_ANGLE 130
-    #define MIN_STEERING_ANGLE 50
+    #define MAX_STEERING_ANGLE 145
+    #define MIN_STEERING_ANGLE 35
 
     namespace SteeringServo {
         

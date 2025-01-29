@@ -15,7 +15,7 @@ namespace CarLogic {
         engineEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S4);
         steeringEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S3);
 
-        DataVisualisation::Display::showNumber(Sensors::rawData.opticalFlowY);
+        //DataVisualisation::Display::showNumber(Sensors::rawData.opticalFlowY);
 
         if (Sensors::rawData.tofDistance < 300) {
             engineEnabled = false;

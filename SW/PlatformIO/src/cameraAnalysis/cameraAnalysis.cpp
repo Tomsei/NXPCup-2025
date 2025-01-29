@@ -22,20 +22,33 @@ namespace CameraAnalysis {
     //methods ---------------------------
     void setup() {
         OpenMVCam::setup();
-        currentImageAnalysis.trackCenters[0] = 160; //Todo noch für alle Zeilen durchführen und berechnen!
+        for (int i = 0; i < NUMBER_OF_LINES; i++) {
+            currentImageAnalysis.trackCenters[i] = 160;
+        }
+        //currentImageAnalysis.trackCenters[0] = 160; //Todo noch für alle Zeilen durchführen und berechnen!
     }
     /**
      * Method to analyse the picture to get driving vector (steering Angel)
      */
     void analyse() {
         if (newImageAvailable) {
-            currentRowAnalysis.updateRow(currentImageAnalysis.getImage(), 0);
-            currentRowAnalysis.calculateSobelRow();
+            for (int i = 0; i <NUMBER_OF_LINES; i++) {
+                currentRowAnalysis.updateRow(currentImageAnalysis.getImage(), i);
+                currentRowAnalysis.calculateSobelRow();
 
-            currentImageAnalysis.lastTrackCenters[0] = currentImageAnalysis.trackCenters[0];
-            //Serial.print("\t"); Serial.print("lastTrackCencter: "); Serial.print(currentImageAnalysis.lastTrackCenters[0]); Serial.print("\t");
-            currentImageAnalysis.trackCenters[0] = currentRowAnalysis.calculateTrackCenter(currentImageAnalysis.lastTrackCenters[0]);
-            
+                currentImageAnalysis.lastTrackCenters[i] = currentImageAnalysis.trackCenters[i];
+                currentImageAnalysis.trackCenters[i] = currentRowAnalysis.calculateTrackCenter(currentImageAnalysis.lastTrackCenters[i]);
+                currentImageAnalysis.trackCenterOffsets[i] = abs(currentImageAnalysis.trackCenters[i] - (VIDEO_RESOLUTION_X/2));
+                
+                //Serial.print(currentImageAnalysis.trackCenterOffsets[i]); Serial.print("\t");
+                //Serial.println(currentImageAnalysis.trackCenters[i]);
+                //ToDo Jump Out if it is a turn
+                if(currentImageAnalysis.trackCenterOffsets[i] > 30) {
+                    //Serial.println("Break");
+                    currentImageAnalysis.straightLinesAhead = i;
+                    break;
+                }
+            }
             //Serial.print(currentImageAnalysis.trackCenters[0]); Serial.print("\t");
             currentImageAnalysis.calculateSteeringAngle();
 
@@ -48,7 +61,28 @@ namespace CameraAnalysis {
     }
 
     uint8_t getSpeed() {
-        return 16;
+        //Serial.println(currentImageAnalysis.straightLinesAhead);
+        int speed = 0;
+        if(currentImageAnalysis.trackCenterOffsets[4] < 25 && currentImageAnalysis.straightLinesAhead > 3 ) {
+            speed = 24;
+        }
+        else if(currentImageAnalysis.trackCenterOffsets[3] < 25 && currentImageAnalysis.straightLinesAhead > 2 ) {
+            speed = 22;
+        }
+        else if(currentImageAnalysis.trackCenterOffsets[2] < 25  && currentImageAnalysis.straightLinesAhead > 1 ) {
+            speed = 20;
+        }
+        else if(currentImageAnalysis.trackCenterOffsets[1] < 25  && currentImageAnalysis.straightLinesAhead > 0) {
+            speed = 18;
+        }
+        else {
+            speed = 17;
+        }
+        
+        //try speed change /ToDo change
+        if(abs(currentImageAnalysis.steeringAngle) > 50)
+            speed *= 1.2;
+        return speed;   
     }
 
     /**
@@ -74,6 +108,12 @@ namespace CameraAnalysis {
 
     }
 
+    //ToDo: check and move to better Place!
+
+    unsigned long lastTimeUpdated = 0;
+    int lastSteeringAngle = 0;
+
+
     /**
      * method to print an image
      * @param start: startpixel | default 0
@@ -87,17 +127,30 @@ namespace CameraAnalysis {
      * @todo Comment
      */
     void ImageAnalysis::calculateSteeringAngle() {
-        int tempSteeringAngle = 0;
+        float tempSteeringAngle = 0;
         tempSteeringAngle = (VIDEO_RESOLUTION_X/2) - trackCenters[0];
 
-        tempSteeringAngle *= 0.6;
-        /*
-        if (steeringAngle > -20 && steeringAngle < 20) {
-            steeringAngle = steeringAngle * 0.8;
+        //quadratische Lenkung
+        tempSteeringAngle *= 0.12;
+        if(tempSteeringAngle < 0) {
+            tempSteeringAngle *= tempSteeringAngle;
+            tempSteeringAngle = -tempSteeringAngle;    
         }
-        else if (steeringAngle < -30 || steeringAngle > 30) {
-            steeringAngle = steeringAngle * 1.1;
-        }*/
+        else {
+            tempSteeringAngle *= tempSteeringAngle;
+        }
+
+        /*
+        if(tempSteeringAngle > -35 && tempSteeringAngle < 35) {
+            tempSteeringAngle *= 0.5;
+        }
+        else if (tempSteeringAngle > 50 || tempSteeringAngle < -50 ) {
+            tempSteeringAngle *= 0.9;
+        }
+        else {
+            tempSteeringAngle *= 0.6;
+        }
+        */
 
         steeringAngle = tempSteeringAngle;
         //Serial.print("Steering Angle: "); Serial.println(steeringAngle);

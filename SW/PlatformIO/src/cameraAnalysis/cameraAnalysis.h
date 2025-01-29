@@ -24,7 +24,9 @@ namespace CameraAnalysis {
             uint32_t* imageDataBuffer;
             uint16_t trackCenters[NUMBER_OF_LINES];
             uint16_t lastTrackCenters[NUMBER_OF_LINES];
+            uint16_t trackCenterOffsets[NUMBER_OF_LINES];
             int steeringAngle;
+            uint8_t straightLinesAhead;
 
             u_int32_t* getImage();
             void updateImage(uint32_t* pixelData);
