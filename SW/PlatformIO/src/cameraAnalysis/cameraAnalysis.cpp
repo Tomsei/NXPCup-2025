@@ -16,7 +16,7 @@ namespace CameraAnalysis {
     SingleRowAnalysis currentRowAnalysis;
 
     bool newImageAvailable = false;
-    int sobelThreshold = 30;
+    int sobelThreshold = 25;
 
 
     //methods ---------------------------
@@ -64,13 +64,13 @@ namespace CameraAnalysis {
         //Serial.println(currentImageAnalysis.straightLinesAhead);
         int speed = 0;
         if(currentImageAnalysis.trackCenterOffsets[4] < 25 && currentImageAnalysis.straightLinesAhead > 3 ) {
-            speed = 24;
+            speed = 25;
         }
         else if(currentImageAnalysis.trackCenterOffsets[3] < 25 && currentImageAnalysis.straightLinesAhead > 2 ) {
-            speed = 22;
+            speed = 19;
         }
         else if(currentImageAnalysis.trackCenterOffsets[2] < 25  && currentImageAnalysis.straightLinesAhead > 1 ) {
-            speed = 20;
+            speed = 18;
         }
         else if(currentImageAnalysis.trackCenterOffsets[1] < 25  && currentImageAnalysis.straightLinesAhead > 0) {
             speed = 18;
@@ -131,13 +131,13 @@ namespace CameraAnalysis {
         tempSteeringAngle = (VIDEO_RESOLUTION_X/2) - trackCenters[0];
 
         //quadratische Lenkung
-        tempSteeringAngle *= 0.12;
+        tempSteeringAngle *= 0.1;
         if(tempSteeringAngle < 0) {
             tempSteeringAngle *= tempSteeringAngle;
             tempSteeringAngle = -tempSteeringAngle;    
         }
         else {
-            tempSteeringAngle *= tempSteeringAngle;
+            tempSteeringAngle *= (tempSteeringAngle*1.2);
         }
 
         /*
