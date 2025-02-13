@@ -1,3 +1,4 @@
+#include "configuration/globalConfig.h"
 namespace CarLogic {
 
     extern bool engineEnabled;

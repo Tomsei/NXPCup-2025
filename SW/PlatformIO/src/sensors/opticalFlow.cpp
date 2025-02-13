@@ -25,7 +25,7 @@ namespace Sensors {
         //comment in .h file
         void setup() {
             if(!opticalFlowSensor.begin()) {
-                Serial.println("Error Optical Flow: Initialization failed");
+                CONSOLE.println("Error Optical Flow: Initialization failed");
             }
             opticalFlowSensor.setLed(false);
             pinMode(OPTICAL_FLOW_LED, OUTPUT);

@@ -9,6 +9,9 @@
  * 
  * @author Tom Seiffert
  */
+
+#include "configuration/globalConfig.h"
+
 namespace DataVisualisation {
 
     namespace LedStrip {

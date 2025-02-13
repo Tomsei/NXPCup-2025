@@ -37,7 +37,7 @@ namespace DataVisualisation {
         //comment in .h file
         void setup() {
             if(!lipDisplay.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for the display
-                Serial.println(F("SSD1306 allocation failed"));
+                CONSOLE.println(F("SSD1306 allocation failed"));
             }
             lipDisplay.clearDisplay();
             lipDisplay.setTextSize(1);  

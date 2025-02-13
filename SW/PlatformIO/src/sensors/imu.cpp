@@ -24,7 +24,7 @@ namespace Sensors {
         //comment in .h file
         void setup() {
             accelGyro.initialize();
-            Serial.println(accelGyro.testConnection() ? "IMU connection successful" : "IMU connection failed");
+            CONSOLE.println(accelGyro.testConnection() ? "IMU connection successful" : "IMU connection failed");
         }
 
         //comment in .h file

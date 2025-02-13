@@ -4,6 +4,7 @@
 #include "boardInput/boardInput.h"
 #include "sensors/sensors.h"
 #include "dataVisualisation/display.h"
+#include "dataVisualisation/ledStrip.h"
 
 namespace CarLogic {
 
@@ -16,6 +17,7 @@ namespace CarLogic {
         steeringEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S3);
 
         //DataVisualisation::Display::showNumber(Sensors::rawData.opticalFlowY);
+        //DataVisualisation::LedStrip::showNumber(Sensors::rawData.opticalFlowY);
 
         if (Sensors::rawData.tofDistance < 300) {
             engineEnabled = false;

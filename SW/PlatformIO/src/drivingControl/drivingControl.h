@@ -9,6 +9,8 @@
  */
 #include <Arduino.h>
 
+#include "configuration/globalConfig.h"
+
 namespace DrivingControl {
 
     /**

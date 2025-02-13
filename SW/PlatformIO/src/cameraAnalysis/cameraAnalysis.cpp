@@ -16,7 +16,7 @@ namespace CameraAnalysis {
     SingleRowAnalysis currentRowAnalysis;
 
     bool newImageAvailable = false;
-    int sobelThreshold = 25;
+    int sobelThreshold = 15;
 
 
     //methods ---------------------------
@@ -40,16 +40,16 @@ namespace CameraAnalysis {
                 currentImageAnalysis.trackCenters[i] = currentRowAnalysis.calculateTrackCenter(currentImageAnalysis.lastTrackCenters[i]);
                 currentImageAnalysis.trackCenterOffsets[i] = abs(currentImageAnalysis.trackCenters[i] - (VIDEO_RESOLUTION_X/2));
                 
-                //Serial.print(currentImageAnalysis.trackCenterOffsets[i]); Serial.print("\t");
-                //Serial.println(currentImageAnalysis.trackCenters[i]);
+                //CONSOLE.print(currentImageAnalysis.trackCenterOffsets[i]); CONSOLE.print("\t");
+                //CONSOLE.println(currentImageAnalysis.trackCenters[i]);
                 //ToDo Jump Out if it is a turn
                 if(currentImageAnalysis.trackCenterOffsets[i] > 30) {
-                    //Serial.println("Break");
+                    //CONSOLE.println("Break");
                     currentImageAnalysis.straightLinesAhead = i;
                     break;
                 }
             }
-            //Serial.print(currentImageAnalysis.trackCenters[0]); Serial.print("\t");
+            //CONSOLE.print(currentImageAnalysis.trackCenters[0]); CONSOLE.print("\t");
             currentImageAnalysis.calculateSteeringAngle();
 
             newImageAvailable = false;
@@ -61,16 +61,16 @@ namespace CameraAnalysis {
     }
 
     uint8_t getSpeed() {
-        //Serial.println(currentImageAnalysis.straightLinesAhead);
+        //CONSOLE.println(currentImageAnalysis.straightLinesAhead);
         int speed = 0;
         if(currentImageAnalysis.trackCenterOffsets[4] < 25 && currentImageAnalysis.straightLinesAhead > 3 ) {
-            speed = 25;
+            speed = 22;
         }
         else if(currentImageAnalysis.trackCenterOffsets[3] < 25 && currentImageAnalysis.straightLinesAhead > 2 ) {
             speed = 19;
         }
         else if(currentImageAnalysis.trackCenterOffsets[2] < 25  && currentImageAnalysis.straightLinesAhead > 1 ) {
-            speed = 18;
+            speed = 19;
         }
         else if(currentImageAnalysis.trackCenterOffsets[1] < 25  && currentImageAnalysis.straightLinesAhead > 0) {
             speed = 18;
@@ -78,10 +78,10 @@ namespace CameraAnalysis {
         else {
             speed = 17;
         }
-        
+
         //try speed change /ToDo change
         if(abs(currentImageAnalysis.steeringAngle) > 50)
-            speed *= 1.2;
+            speed *= 1.4;
         return speed;   
     }
 
@@ -132,12 +132,16 @@ namespace CameraAnalysis {
 
         //quadratische Lenkung
         tempSteeringAngle *= 0.1;
+        float factor = 1.0;
+        if(tempSteeringAngle > 10) {
+            factor = 1.4;
+        }
         if(tempSteeringAngle < 0) {
-            tempSteeringAngle *= tempSteeringAngle;
+            tempSteeringAngle *= tempSteeringAngle*factor;
             tempSteeringAngle = -tempSteeringAngle;    
         }
         else {
-            tempSteeringAngle *= (tempSteeringAngle*1.2);
+            tempSteeringAngle *= (tempSteeringAngle*factor);
         }
 
         /*
@@ -153,7 +157,7 @@ namespace CameraAnalysis {
         */
 
         steeringAngle = tempSteeringAngle;
-        //Serial.print("Steering Angle: "); Serial.println(steeringAngle);
+        //CONSOLE.print("Steering Angle: "); CONSOLE.println(steeringAngle);
     }
 
     /**
@@ -263,7 +267,7 @@ namespace CameraAnalysis {
         for (int i = start; i < (start + length); i++) {
             printedArray = printedArray + arrayToPrint[i] + "\t";
         }
-        Serial.println(printedArray);
+        CONSOLE.println(printedArray);
     }
 }
 #endif

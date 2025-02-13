@@ -24,6 +24,9 @@ namespace DataVisualisation {
 
         CRGB lipLedStrip[NUMBER_OF_LEDS];
 
+        //ToDo clean up - just testing
+        int lastShownNumber;
+
         /* ------- public known methods ------------------ */
 
         //coment in .h file
@@ -34,6 +37,7 @@ namespace DataVisualisation {
             FastLED.setBrightness(50);
             setAllLeds(CRGB::Red);
             FastLED.show();
+            CONSOLE.print("LEDS Setup Done");
         }
 
         //coment in .h file
@@ -57,9 +61,26 @@ namespace DataVisualisation {
             number = abs(number);
 
             //ToDo: create binary number representation for the leds
+            float numberRepresentation = 0.0;
+
+            numberRepresentation = number/5;
+
+            if(lastShownNumber != (int)numberRepresentation) {
+                lastShownNumber = (int)numberRepresentation;
+
+                FastLED.clear();
+                for(int i = 0; i < numberRepresentation; i ++) {
+                    if (i < NUMBER_OF_LEDS) {
+                        CONSOLE.print("I ist:"); CONSOLE.println(i);
+                        lipLedStrip[i] = color;
+                    }
+                }
+                FastLED.show();
+            }
+
             if(updateLed) {
                 FastLED.clear();
-                for(int i = 0; i < number || i <= NUMBER_OF_LEDS; i++) {
+                for(int i = 0; i < numberRepresentation || i <= NUMBER_OF_LEDS; i++) {
                     lipLedStrip[i] = color;
                 }
                 FastLED.show(); //ToDo Remove - update LED every half second

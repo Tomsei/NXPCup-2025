@@ -26,8 +26,8 @@ namespace SingleComponent {
         int poti1 = analogRead(POTI1);
         int poti2 = analogRead(POTI2);
         if(poti1 > 500 || poti2 > 500) {
-            Serial.print("Poti 1: "); Serial.print(poti1);
-            Serial.print("\t Poti 2: "); Serial.println(poti2);
+            CONSOLE.print("Poti 1: "); CONSOLE.print(poti1);
+            CONSOLE.print("\t Poti 2: "); CONSOLE.println(poti2);
         }
     }
 }

@@ -49,8 +49,8 @@ namespace BoardInput {
         String dataToPrint = "";
         dataToPrint = dataToPrint + "Poti 1: " + data.poti1 + " Poti 2: " + data.poti2 
         + " Button 1: " + data.button1 + " Button 2 " + data.button2 + " Dip Switch: " + data.dipSwitch;
-        Serial.print ("Board Input | ");
-        Serial.println(dataToPrint);
+        CONSOLE.print ("Board Input | ");
+        CONSOLE.println(dataToPrint);
     }
 
     // comment in .h file
@@ -74,7 +74,7 @@ namespace BoardInput {
      */
     void setupIoExpander() {
         if(!ioExpander.begin_I2C()) {
-            Serial.println("BoardInput: IO-Expander Init Error");
+            CONSOLE.println("BoardInput: IO-Expander Init Error");
         }
         ioExpander.pinMode(IO_EX_BUTTON1, INPUT_PULLUP);
         ioExpander.pinMode(IO_EX_BUTTON2, INPUT_PULLUP);

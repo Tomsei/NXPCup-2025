@@ -6,6 +6,7 @@
  *  
  * @author Tom Seiffert
  */
+#include "configuration/globalConfig.h"
 #include "dataVisualisation/display.h"
 #include "dataVisualisation/ledStrip.h"
 
