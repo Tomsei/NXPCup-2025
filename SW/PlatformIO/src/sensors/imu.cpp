@@ -30,7 +30,6 @@ namespace Sensors {
         //comment in .h file
         void getMotion(MotionData* data) {
             accelGyro.getMotion6(&data->ax, &data->ay, &data->az, &data->gx, &data->gy, &data->gz);
-            CONSOLE.print("d"); CONSOLE.println("Get Motion");
         }
     }
 }

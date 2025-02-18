@@ -44,13 +44,13 @@ namespace Sensors {
         CONSOLE.print("ToF Distance: "); CONSOLE.print(rawData.tofDistance);
         //CONSOLE.print("\t Optical Flow - X: "); CONSOLE.print(rawData.opticalFlowX);
         //CONSOLE.print("\t Y: "); CONSOLE.print(rawData.opticalFlowY);
-        CONSOLE.print("\t IMU - AX:"); CONSOLE.print(rawData.imu.ax);
-        CONSOLE.print("\t IMU - AY:"); CONSOLE.print(rawData.imu.ay);
-        CONSOLE.print("\t IMU - AZ:"); CONSOLE.print(rawData.imu.az);
-        CONSOLE.print("\t IMU - GX:"); CONSOLE.print(rawData.imu.gx);
-        CONSOLE.print("\t IMU - GY:"); CONSOLE.print(rawData.imu.gy);
-        CONSOLE.print("\t IMU - GZ:"); CONSOLE.print(rawData.imu.gz);
-        //CONSOLE.print("\t Linefinder - 1: "); CONSOLE.print(rawData.linefinder1);
+        // CONSOLE.print("\t IMU - AX:"); CONSOLE.print(rawData.imu.ax);
+        // CONSOLE.print("\t IMU - AY:"); CONSOLE.print(rawData.imu.ay);
+        // CONSOLE.print("\t IMU - AZ:"); CONSOLE.print(rawData.imu.az);
+        // CONSOLE.print("\t IMU - GX:"); CONSOLE.print(rawData.imu.gx);
+        // CONSOLE.print("\t IMU - GY:"); CONSOLE.print(rawData.imu.gy);
+        // CONSOLE.print("\t IMU - GZ:"); CONSOLE.print(rawData.imu.gz);
+        // //CONSOLE.print("\t Linefinder - 1: "); CONSOLE.print(rawData.linefinder1);
         //CONSOLE.print("\t 2: "); CONSOLE.print(rawData.linefinder2);
         CONSOLE.println("");
     }

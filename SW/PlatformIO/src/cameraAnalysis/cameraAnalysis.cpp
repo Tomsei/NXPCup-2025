@@ -3,7 +3,7 @@
 
 #include "cameraAnalysis/cameraAnalysis.h"
 
-#define CAM_OFFSET 0
+#define CAM_OFFSET -7
 
 namespace CameraAnalysis {
 
@@ -132,9 +132,9 @@ namespace CameraAnalysis {
 
         //quadratische Lenkung
         tempSteeringAngle *= 0.1;
-        float factor = 0.7;
+        float factor = 0.9;
         if(tempSteeringAngle > 10) {
-            factor = 0.6;
+            factor = 1.0;
         }
         if(tempSteeringAngle < 0) {
             tempSteeringAngle *= tempSteeringAngle*factor;
@@ -190,7 +190,9 @@ namespace CameraAnalysis {
     uint16_t SingleRowAnalysis::calculateTrackCenter(int startSearch) {
         auto [leftEdge, rightEdge] = calculateEdges(startSearch); 
         uint16_t trackCenter = (leftEdge + rightEdge) / 2;
-        return trackCenter - CAM_OFFSET; //ToDo Remove offset
+        trackCenter = trackCenter + CAM_OFFSET;
+        trackCenter = (trackCenter > 0) ? trackCenter : 0; //make sure trackCenter is not negativ
+        return trackCenter; //ToDo Remove offset
     }
 
     /**
