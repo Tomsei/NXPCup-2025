@@ -44,6 +44,7 @@ def configureLines(img):
     line4 = img.copy(roi = (0,rowLine4,horizontalPixelCount,lineWidth), x_scale = 1.0, y_scale = 1.0, alpha=255)
     line5 = img.copy(roi = (0,rowLine5,horizontalPixelCount,lineWidth), x_scale = 1.0, y_scale = 1.0, alpha=255)
 
+
     lineImage = baseimage; # necessary because transparenty problem when there is no base image
     lineImage.add(image = line1, roi = (0,0,horizontalPixelCount,numberOfLines*lineWidth), x = 0, y = 0, x_scale = 1.0, y_scale = 1.0, alpha=255)
     lineImage.add(image = line2, roi = (0,0,horizontalPixelCount,numberOfLines*lineWidth), x = 0, y = lineWidth*1, x_scale = 1.0, y_scale = 1.0, alpha=255)
@@ -100,5 +101,5 @@ while True:
     img = sensor.snapshot() # Take a picture and return the image.
     lineImage = configureLines(img)
     writeImageSpi(lineImage)
-    time.sleep_ms(100)
+    time.sleep_ms(35)
     print(clock.fps())

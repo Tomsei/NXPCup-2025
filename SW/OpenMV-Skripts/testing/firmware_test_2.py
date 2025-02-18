@@ -8,12 +8,12 @@
 import sensor
 import image
 import time
-import cexample
-import nxpcup
+#import cexample
+#import nxpcup
 
 sensor.reset()  # Initialize the camera sensor.
 sensor.set_pixformat(sensor.GRAYSCALE)  # or sensor.RGB565
-sensor.set_framesize(sensor.QQVGA)  # or sensor.QVGA (or others)
+sensor.set_framesize(sensor.QVGA)  # or sensor.QVGA (or others)
 sensor.skip_frames(time=2000)  # Let new settings take affect.
 sensor.set_gainceiling(8)
 
@@ -23,5 +23,5 @@ while True:
     img = sensor.snapshot()  # Take a picture and return the image.
     print(clock.fps())  # Note: Your OpenMV Cam runs about half as fast while
 
-    print(cexample.add_ints(1, 7))
-    print(nxpcup.calculate_edge(1,7))
+#    print(cexample.add_ints(1, 7))
+#    print(nxpcup.calculate_edge(1,7))

@@ -22,7 +22,7 @@ namespace Sensors {
     LineFinder::LineFinder(uint8_t pin) {
         this->pin = pin;
         pinMode(pin, INPUT);
-        attachInterrupt(digitalPinToInterrupt(pin), &lineFinderInterrupt, CHANGE);
+        //attachInterrupt(digitalPinToInterrupt(pin), &lineFinderInterrupt, CHANGE);
     }
 
     //comment in .h file
