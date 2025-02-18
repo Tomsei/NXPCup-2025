@@ -38,18 +38,18 @@ method to create an image out of the choosen lines
 """
 def configureLines(img):
     baseimage = img.copy(roi = (0,rowLine1,horizontalPixelCount,lineWidth*numberOfLines), x_scale = 1.0, y_scale = 1.0, alpha=0)
-    line1 = img.copy(roi = (0,rowLine1,horizontalPixelCount,lineWidth), x_scale = 1.0, y_scale = 1.0, alpha=256)
-    line2 = img.copy(roi = (0,rowLine2,horizontalPixelCount,lineWidth), x_scale = 1.0, y_scale = 1.0, alpha=256)
-    line3 = img.copy(roi = (0,rowLine3,horizontalPixelCount,lineWidth), x_scale = 1.0, y_scale = 1.0, alpha=256)
-    line4 = img.copy(roi = (0,rowLine4,horizontalPixelCount,lineWidth), x_scale = 1.0, y_scale = 1.0, alpha=256)
-    line5 = img.copy(roi = (0,rowLine5,horizontalPixelCount,lineWidth), x_scale = 1.0, y_scale = 1.0, alpha=256)
+    line1 = img.copy(roi = (0,rowLine1,horizontalPixelCount,lineWidth), x_scale = 1.0, y_scale = 1.0, alpha=255)
+    line2 = img.copy(roi = (0,rowLine2,horizontalPixelCount,lineWidth), x_scale = 1.0, y_scale = 1.0, alpha=255)
+    line3 = img.copy(roi = (0,rowLine3,horizontalPixelCount,lineWidth), x_scale = 1.0, y_scale = 1.0, alpha=255)
+    line4 = img.copy(roi = (0,rowLine4,horizontalPixelCount,lineWidth), x_scale = 1.0, y_scale = 1.0, alpha=255)
+    line5 = img.copy(roi = (0,rowLine5,horizontalPixelCount,lineWidth), x_scale = 1.0, y_scale = 1.0, alpha=255)
 
     lineImage = baseimage; # necessary because transparenty problem when there is no base image
-    lineImage.add(image = line1, roi = (0,0,horizontalPixelCount,numberOfLines*lineWidth), x = 0, y = 0, x_scale = 1.0, y_scale = 1.0, alpha=256)
-    lineImage.add(image = line2, roi = (0,0,horizontalPixelCount,numberOfLines*lineWidth), x = 0, y = lineWidth*1, x_scale = 1.0, y_scale = 1.0, alpha=256)
-    lineImage.add(image = line3, roi = (0,0,horizontalPixelCount,numberOfLines*lineWidth), x = 0, y = lineWidth*2, x_scale = 1.0, y_scale = 1.0, alpha=256)
-    lineImage.add(image = line4, roi = (0,0,horizontalPixelCount,numberOfLines*lineWidth), x = 0, y = lineWidth*3, x_scale = 1.0, y_scale = 1.0, alpha=256)
-    lineImage.add(image = line5, roi = (0,0,horizontalPixelCount,numberOfLines*lineWidth), x = 0, y = lineWidth*4, x_scale = 1.0, y_scale = 1.0, alpha=256)
+    lineImage.add(image = line1, roi = (0,0,horizontalPixelCount,numberOfLines*lineWidth), x = 0, y = 0, x_scale = 1.0, y_scale = 1.0, alpha=255)
+    lineImage.add(image = line2, roi = (0,0,horizontalPixelCount,numberOfLines*lineWidth), x = 0, y = lineWidth*1, x_scale = 1.0, y_scale = 1.0, alpha=255)
+    lineImage.add(image = line3, roi = (0,0,horizontalPixelCount,numberOfLines*lineWidth), x = 0, y = lineWidth*2, x_scale = 1.0, y_scale = 1.0, alpha=255)
+    lineImage.add(image = line4, roi = (0,0,horizontalPixelCount,numberOfLines*lineWidth), x = 0, y = lineWidth*3, x_scale = 1.0, y_scale = 1.0, alpha=255)
+    lineImage.add(image = line5, roi = (0,0,horizontalPixelCount,numberOfLines*lineWidth), x = 0, y = lineWidth*4, x_scale = 1.0, y_scale = 1.0, alpha=255)
 
     #just to show image in Framebuffer
     #img.clear()
@@ -65,7 +65,7 @@ def writeImageSpi(img):
     cs.low()
 
     spi.write(img)
-    printRowPixel(img, 0, 0, 30)
+    #printRowPixel(img, 0, 0, 30)
     cs.high()
 
 """
@@ -101,4 +101,4 @@ while True:
     lineImage = configureLines(img)
     writeImageSpi(lineImage)
     time.sleep_ms(100)
-    #print(clock.fps())
+    print(clock.fps())
