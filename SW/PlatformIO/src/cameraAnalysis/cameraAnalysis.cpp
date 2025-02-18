@@ -64,24 +64,24 @@ namespace CameraAnalysis {
         //CONSOLE.println(currentImageAnalysis.straightLinesAhead);
         int speed = 0;
         if(currentImageAnalysis.trackCenterOffsets[4] < 25 && currentImageAnalysis.straightLinesAhead > 3 ) {
-            speed = 22;
+            speed = 26;
         }
         else if(currentImageAnalysis.trackCenterOffsets[3] < 25 && currentImageAnalysis.straightLinesAhead > 2 ) {
-            speed = 19;
+            speed = 24;
         }
         else if(currentImageAnalysis.trackCenterOffsets[2] < 25  && currentImageAnalysis.straightLinesAhead > 1 ) {
-            speed = 19;
+            speed = 23;
         }
         else if(currentImageAnalysis.trackCenterOffsets[1] < 25  && currentImageAnalysis.straightLinesAhead > 0) {
-            speed = 18;
+            speed = 21;
         }
         else {
-            speed = 17;
+            speed = 19;
         }
 
         //try speed change /ToDo change
         if(abs(currentImageAnalysis.steeringAngle) > 50)
-            speed *= 1.4;
+            speed *= 1.1;
         return speed;   
     }
 
@@ -132,9 +132,9 @@ namespace CameraAnalysis {
 
         //quadratische Lenkung
         tempSteeringAngle *= 0.1;
-        float factor = 1.0;
+        float factor = 0.7;
         if(tempSteeringAngle > 10) {
-            factor = 1.4;
+            factor = 0.6;
         }
         if(tempSteeringAngle < 0) {
             tempSteeringAngle *= tempSteeringAngle*factor;

@@ -12,7 +12,7 @@
 
 //#define SINGLE_COMPONENTS_TEST //if SingleComponets should be used!
 
-#define CONSOLE Serial
+#define CONSOLE Serial8
 
 
 

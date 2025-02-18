@@ -15,6 +15,8 @@
 void setup() {
 
   CONSOLE.begin(115200);
+  delay(100);
+
   Wire.begin(); //later in I2C Modul
 
   DataVisualisation::setup();
