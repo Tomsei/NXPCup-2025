@@ -43,7 +43,7 @@ namespace CameraAnalysis {
                 //CONSOLE.print(currentImageAnalysis.trackCenterOffsets[i]); CONSOLE.print("\t");
                 //CONSOLE.println(currentImageAnalysis.trackCenters[i]);
                 //ToDo Jump Out if it is a turn
-                if(currentImageAnalysis.trackCenterOffsets[i] > 20) {
+                if(currentImageAnalysis.trackCenterOffsets[i] > 30) {
                     //CONSOLE.println("Break");
                     currentImageAnalysis.straightLinesAhead = i;
                     break;
