@@ -21,7 +21,8 @@ lineWidth = 1
 
 # confrigure while choosing resolution (change lines and Pixel amount)
 horizontalPixelCount = 320
-rowLine1 = 180
+rowLine1 = 160 # dynamisch entscheiden -
+#abhängig vom Lenkwinkel (wie weit bin ich schon eingelegnt - aus dder Kurve raus
 rowLine2 = 160
 rowLine3 = 130
 rowLine4 = 90

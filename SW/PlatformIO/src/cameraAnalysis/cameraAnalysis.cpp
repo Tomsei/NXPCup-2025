@@ -16,7 +16,7 @@ namespace CameraAnalysis {
     SingleRowAnalysis currentRowAnalysis;
 
     bool newImageAvailable = false;
-    int sobelThreshold = 35;
+    int sobelThreshold = 20;
 
 
     //methods ---------------------------

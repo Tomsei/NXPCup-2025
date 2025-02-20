@@ -6,10 +6,9 @@
 #
 # This example demonstrates the Canny edge detector.
 import sensor
-import image
 import time
-#import cexample
-#import nxpcup
+import image
+import nxpcup
 
 sensor.reset()  # Initialize the camera sensor.
 sensor.set_pixformat(sensor.GRAYSCALE)  # or sensor.RGB565
@@ -22,6 +21,5 @@ while True:
     clock.tick()  # Track elapsed milliseconds between snapshots().
     img = sensor.snapshot()  # Take a picture and return the image.
     print(clock.fps())  # Note: Your OpenMV Cam runs about half as fast while
-
-#    print(cexample.add_ints(1, 7))
-#    print(nxpcup.calculate_edge(1,7))
+    print(nxpcup.calculate_edge(5,9))
+    nxpcup.find_edges2(img, image.EDGE_CANNY, threshold=(50, 80))
