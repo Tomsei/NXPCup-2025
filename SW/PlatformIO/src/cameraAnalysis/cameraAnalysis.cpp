@@ -48,7 +48,11 @@ namespace CameraAnalysis {
                     currentImageAnalysis.straightLinesAhead = i;
                     break;
                 }
+                if(i == NUMBER_OF_LINES -1) {
+                    currentImageAnalysis.straightLinesAhead = i;
+                }    
             }
+            
             //CONSOLE.println("--------------");
             currentImageAnalysis.calculateSteeringAngle();
 
