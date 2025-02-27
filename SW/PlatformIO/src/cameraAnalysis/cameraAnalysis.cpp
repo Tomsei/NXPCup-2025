@@ -16,7 +16,7 @@ namespace CameraAnalysis {
     SingleRowAnalysis currentRowAnalysis;
 
     bool newImageAvailable = false;
-    int sobelThreshold = 20;
+    int sobelThreshold = 15;
 
 
     //methods ---------------------------
@@ -108,7 +108,9 @@ namespace CameraAnalysis {
         if(!newImageAvailable) {
             imageDataBuffer = pixelData;
             newImageAvailable = true;
+            //delay(10);
         }
+        //printImage(0, 30);
 
     }
 
@@ -136,7 +138,7 @@ namespace CameraAnalysis {
 
         //quadratische Lenkung
         tempSteeringAngle *= 0.1;
-        float factor = 0.9;
+        float factor = 0.7;
         if(tempSteeringAngle > 10) {
             factor = 1.0;
         }

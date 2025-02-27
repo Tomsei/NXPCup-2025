@@ -44,6 +44,7 @@ namespace CameraAnalysis {
     if(spiTransferComplete){
       
       currentImageAnalysis.updateImage(spiBufferToRead);
+      //CONSOLE.print("Update Image");
     
       //reset spi transfer
       spiTransferComplete = false;

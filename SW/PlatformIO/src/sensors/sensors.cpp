@@ -41,9 +41,9 @@ namespace Sensors {
 
     //comment in .h file
     void printData() {
-        CONSOLE.print("ToF Distance: "); CONSOLE.print(rawData.tofDistance);
-        //CONSOLE.print("\t Optical Flow - X: "); CONSOLE.print(rawData.opticalFlowX);
-        //CONSOLE.print("\t Y: "); CONSOLE.print(rawData.opticalFlowY);
+        //CONSOLE.print("ToF Distance: "); CONSOLE.print(rawData.tofDistance);
+        CONSOLE.print("\t Optical Flow - X: "); CONSOLE.print(rawData.opticalFlowX);
+        CONSOLE.print("\t Y: "); CONSOLE.print(rawData.opticalFlowY);
         // CONSOLE.print("\t IMU - AX:"); CONSOLE.print(rawData.imu.ax);
         // CONSOLE.print("\t IMU - AY:"); CONSOLE.print(rawData.imu.ay);
         // CONSOLE.print("\t IMU - AZ:"); CONSOLE.print(rawData.imu.az);

@@ -34,13 +34,14 @@ namespace DataVisualisation {
             //LED Controller needed for the use of the leds
             CLEDController& ledStripController = FastLED.addLeds<WS2812, LED_STRIP, GRB>(lipLedStrip, NUMBER_OF_LEDS);
             ledStripController.clearLeds(0);
-            FastLED.setBrightness(50);
-            setAllLeds(CRGB::Red);
+            FastLED.setBrightness(255);
+            setAllLeds(CRGB::White);
             FastLED.show();
             CONSOLE.print("LEDS Setup Done");
         }
 
         //coment in .h file
+        
         void clear() {
             FastLED.clear();
         	FastLED.show();

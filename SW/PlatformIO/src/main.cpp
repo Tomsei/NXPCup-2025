@@ -17,32 +17,27 @@ void checkingForErrors(); //ToDo: Just to Debug
 void setup() {
 
   CONSOLE.begin(115200);
-  //while (!CONSOLE.available());
-  delay(100);
+  delay(1000);
 
   Wire.begin(); //later in I2C Modul
 
   //ToDo Debugging - reomve later
   checkingForErrors();
-
   DataVisualisation::setup();
   CameraAnalysis::setup();
   BoardInput::setup();
   DrivingControl::setup();
-  //Sensors::setup();
-  
+  Sensors::setup();
+  CONSOLE.println("Setup Done!");
 }
 
 void loop() {
-
   BoardInput::update();
   Sensors::updateRawData();
   CameraAnalysis::OpenMVCam::updateImage();
   CameraAnalysis::analyse();
-  Sensors::printData();
-
+  //Sensors::printData();
   CarLogic::runCarLogic();
-
 }
 
 void checkingForErrors() {
