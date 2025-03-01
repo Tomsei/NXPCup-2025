@@ -47,7 +47,7 @@ void calculate_edge(image_t *arg_img, int16_t* track_centers, int row, int start
     track_centers[row] = track_center;
 }
 
-int16_t track_centers[255];
+int16_t* track_centers;
 
 static mp_obj_t calculate_sobel(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
     image_t *arg_img = py_helper_arg_to_image(args[0], ARG_IMAGE_GRAYSCALE);
@@ -117,16 +117,16 @@ static mp_obj_t calculate_sobel(uint n_args, const mp_obj_t *args, mp_map_t *kw_
     }
     
     //calculate edges and track_centers | ToDo: -2 bei hight anpassen!
-    //for (int i = hight - 4; i > 0; i--) {
-        //calculate_edge(arg_img, track_centers, i, track_centers[i+1]);
-    //}
-
-    //just testing the array values
-    for (int i = 0; i < hight -3; i++) {
-        track_centers[i] = i;
+    for (int i = hight - 4; i > 0; i--) {
+        calculate_edge(arg_img, track_centers, i, track_centers[i+1]);
     }
 
+    //just testing the array values
+    //for (int i = 0; i < hight -3; i++) {
+    //    track_centers[i] = 100 + i%5;
+    //}
     
+    //return mp_obj_new_int(1);
     return mp_obj_new_memoryview('h', hight, track_centers);
 }
 static MP_DEFINE_CONST_FUN_OBJ_KW(calculate_sobel_obj, 3, calculate_sobel); //number defindes the amoutn of arguments
@@ -138,16 +138,18 @@ static void mp_machine_spi_transfer(mp_obj_t self, size_t len, const void *src, 
     spi_p->transfer(s, len, src, dest);
 }
 
-static mp_obj_t nxp_machine_spi_write(mp_obj_t self, mp_obj_t wr_buf) {
-    mp_buffer_info_t src;
-    mp_get_buffer_raise(wr_buf, &src, MP_BUFFER_READ);
-    mp_machine_spi_transfer(self, src.len, (const uint8_t *)src.buf, NULL);
+static mp_obj_t nxp_machine_spi_write(mp_obj_t self) {
+    //mp_obj_t wr_buf;
+    //mp_buffer_info_t src;
+    //mp_get_buffer_raise(wr_buf, &src, MP_BUFFER_READ);
+    mp_machine_spi_transfer(self, 256, (const uint16_t *)track_centers, NULL);
     return mp_const_none;
 }
-MP_DEFINE_CONST_FUN_OBJ_2(nxp_machine_spi_write_obj, nxp_machine_spi_write);
+MP_DEFINE_CONST_FUN_OBJ_1(nxp_machine_spi_write_obj, nxp_machine_spi_write);
 
 
 static mp_obj_t nxp_spi_write() {   
+    track_centers = fb_alloc(256*2, FB_ALLOC_NO_HINT);
     return mp_obj_new_int(1);
 }
 static MP_DEFINE_CONST_FUN_OBJ_KW(nxp_spi_write_obj, 0, nxp_spi_write); //number defindes the amoutn of arguments

@@ -12,12 +12,14 @@ import nxpcup
 from machine import Pin, SPI
 cs = Pin("P3", Pin.OUT)
 
-spi = SPI(1, baudrate=int(1000000000 / 66), polarity=0, phase=0)
+spi = SPI(1, baudrate=int(16000000), polarity=0, phase=0)
 
 imageHight = 120
 imageWidth = 160
 
 track_centers = [i for i in range(1, 121)]
+
+nxpcup.nxp_spi_write()
 
 sensor.reset()  # Initialize the camera sensor.
 sensor.set_pixformat(sensor.GRAYSCALE)  # or sensor.RGB565
@@ -34,14 +36,17 @@ def write_image():
     #spi.write(reversed_array)
     #example for sending individual bytes
     #spi.write(bytes([86, 89, 55, 23]))
-    nxpcup.nxp_machine_spi_write(spi, bytes([10, 89, 55, 23]))
+    nxpcup.nxp_machine_spi_write(spi)
     cs.high()
+    #time.sleep_ms(100)
 
 while True:
     clock.tick()  # Track elapsed milliseconds between snapshots().
     img = sensor.snapshot()  # Take a picture and return the image.
     print(clock.fps())  # Note: Your OpenMV Cam runs about half as fast while
     track_centers = nxpcup.calculate_sobel(img, img.height(), 40) #ToDo Remove Trackcenters
+    list_track_centers = list(track_centers)
+    print(list_track_centers[15], list_track_centers[16], list_track_centers[17])
     write_image()
     #track_centers = struct.unpack("<" + "h" * (len(track_centers_bytes) // 2), track_centers_bytes)
     #print(list(track_centers))

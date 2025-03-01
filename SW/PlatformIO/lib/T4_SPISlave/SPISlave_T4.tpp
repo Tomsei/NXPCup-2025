@@ -135,7 +135,7 @@ SPISlave_T4_FUNC void __attribute__((section(".fustrun"))) SPISlave_T4_OPT::SLAV
   }
   if ( (SLAVE_SR & (1UL << 1)) ) {
     spiBufferToWrite[spiBufferIdx] = SLAVE_RDR;
-    if (spiBufferIdx < 20480*3-1) spiBufferIdx++;
+    if (spiBufferIdx < VIDEO_RESOLUTION_X*NUMBER_OF_LINES-1) spiBufferIdx++;
     SLAVE_SR = (1UL << 1);
   }
 
