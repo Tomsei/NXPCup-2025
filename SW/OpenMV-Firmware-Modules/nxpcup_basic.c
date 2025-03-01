@@ -1,16 +1,8 @@
 // Include MicroPython API.
 #include "py/runtime.h"
 #include "py_helper.h"
-#include "objarray.h"
 
-//#include "../../lib/micropython/ports/mimxrt/modmachine.h"
-#include "ports/mimxrt/modmachine.h"
-#include "extmod/modmachine.h"
-//#include "mimxrt/modmachine.h"
-//#include "py/runtime.h"
-//#include "extmod/modmachine.h"
 //ToDo: Explain why here an other styleguide is used
-
 
 void calculate_edge(image_t *arg_img, int16_t* track_centers, int row, int start_search) {
     int left_edge = 0;
@@ -47,7 +39,6 @@ void calculate_edge(image_t *arg_img, int16_t* track_centers, int row, int start
     track_centers[row] = track_center;
 }
 
-int16_t track_centers[255];
 
 static mp_obj_t calculate_sobel(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
     image_t *arg_img = py_helper_arg_to_image(args[0], ARG_IMAGE_GRAYSCALE);
@@ -58,12 +49,9 @@ static mp_obj_t calculate_sobel(uint n_args, const mp_obj_t *args, mp_map_t *kw_
     int threshold = mp_obj_get_int(args[2]);
 
     //store track-Centers + initiate the first one
-    track_centers[hight-3] = width/2;
+    int16_t track_centers[hight];
+    track_centers[hight] = width/2;
 
-    //ToDo: test what happens here when the array is static #
-    //+ try to figure out array allocation (im Forum) 
-
-    //ToDo: Die Version ausprobieren, bei der Python die Speicherverwaltung des Arrays übernimmt
 
     for (int i = 0; i < number_of_lines * width ; i++) {
 
@@ -117,40 +105,28 @@ static mp_obj_t calculate_sobel(uint n_args, const mp_obj_t *args, mp_map_t *kw_
     }
     
     //calculate edges and track_centers | ToDo: -2 bei hight anpassen!
-    //for (int i = hight - 4; i > 0; i--) {
-        //calculate_edge(arg_img, track_centers, i, track_centers[i+1]);
-    //}
+    for (int i = hight - 1; i > 0; i--) {
+        calculate_edge(arg_img, track_centers, i, track_centers[i+1]);
+    }
 
     //just testing the array values
-    for (int i = 0; i < hight -3; i++) {
+    for (int i = 0; i < hight -1; i++) {
         track_centers[i] = i;
     }
 
+
+
+    return mp_obj_new_memoryview('h', 255, track_centers);
     
-    return mp_obj_new_memoryview('h', hight, track_centers);
+    //ToDo: Test:     array_t *objects_array = imlib_detect_objects(arg_img, cascade, &roi);
+
+    //return mp_obj_new_bytearray(hight, track_centers);
+    //return args[0];
+
+    //ToDo: Wenn möglich hier die SPI-Verbindung verwalten + triggern
 }
 static MP_DEFINE_CONST_FUN_OBJ_KW(calculate_sobel_obj, 3, calculate_sobel); //number defindes the amoutn of arguments
 
-
-static void mp_machine_spi_transfer(mp_obj_t self, size_t len, const void *src, void *dest) {
-    mp_obj_base_t *s = (mp_obj_base_t *)MP_OBJ_TO_PTR(self);
-    mp_machine_spi_p_t *spi_p = (mp_machine_spi_p_t *)MP_OBJ_TYPE_GET_SLOT(s->type, protocol);
-    spi_p->transfer(s, len, src, dest);
-}
-
-static mp_obj_t nxp_machine_spi_write(mp_obj_t self, mp_obj_t wr_buf) {
-    mp_buffer_info_t src;
-    mp_get_buffer_raise(wr_buf, &src, MP_BUFFER_READ);
-    mp_machine_spi_transfer(self, src.len, (const uint8_t *)src.buf, NULL);
-    return mp_const_none;
-}
-MP_DEFINE_CONST_FUN_OBJ_2(nxp_machine_spi_write_obj, nxp_machine_spi_write);
-
-
-static mp_obj_t nxp_spi_write() {   
-    return mp_obj_new_int(1);
-}
-static MP_DEFINE_CONST_FUN_OBJ_KW(nxp_spi_write_obj, 0, nxp_spi_write); //number defindes the amoutn of arguments
 
 
 
@@ -175,8 +151,7 @@ static const mp_rom_map_elem_t nxpcup_globals_table[] = {
     { MP_ROM_QSTR(MP_QSTR___name__), MP_ROM_QSTR(MP_QSTR_nxpcup) },
     { MP_ROM_QSTR(MP_QSTR_test_sum), MP_ROM_PTR(&test_sum_obj) },
     { MP_ROM_QSTR(MP_QSTR_calculate_sobel), MP_ROM_PTR(&calculate_sobel_obj) },
-    { MP_ROM_QSTR(MP_QSTR_nxp_spi_write), MP_ROM_PTR(&nxp_spi_write_obj) },
-    { MP_ROM_QSTR(MP_QSTR_nxp_machine_spi_write), MP_ROM_PTR(&nxp_machine_spi_write_obj) },
+    
 };
 static MP_DEFINE_CONST_DICT(nxpcup_module_globals, nxpcup_globals_table);
 
