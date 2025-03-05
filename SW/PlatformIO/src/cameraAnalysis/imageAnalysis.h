@@ -13,15 +13,14 @@ namespace CameraAnalysis {
             uint16_t trackCenters[NUMBER_OF_LINES];
             uint16_t lastTrackCenters[NUMBER_OF_LINES];
             uint16_t trackCenterOffsets[NUMBER_OF_LINES];
-            int steeringAngle;
-            uint8_t speed;
             uint8_t straightLinesAhead;
+            uint8_t speed;
+            int steeringAngle;
             
             /**
-             * updates the image
+             * update the image pointer to new image data
              */
             void updateImage(uint32_t* pixelData);
-            
 
             /**
              * getter for a pointer of the current image
@@ -30,17 +29,26 @@ namespace CameraAnalysis {
             u_int32_t* getImage();
 
             /**
-             * 
-             */
-            void printImage(int start = 0, int length = VIDEO_RESOLUTION_X*NUMBER_OF_LINES);
-            
-            /**
-             * 
+             * calcutlate the steering angle for the analysed image and store it into steeringAngle
+             * it calculates the distance from the track-center and normal track Center (VIDEO_RESOLUTION_Y)
+             * and scales the value to usable steering values 
              */
             void calculateSteeringAngle();
 
+
             /**
-             * 
+             * calculate the speed for the analysed image and store it into speed
+             * depending on the straight lines ahead the the speed gets calculate
+             * includes also a speed compensation in very hard turns
              */
+            void calculateSpeed();
+
+
+            /**
+             * method to print an image
+             * @param start: startpixel where print should begin 
+             * @param length: the amount of pixel to print)
+             */
+            void printImage(int start = 0, int length = VIDEO_RESOLUTION_X*NUMBER_OF_LINES);
     };
 }

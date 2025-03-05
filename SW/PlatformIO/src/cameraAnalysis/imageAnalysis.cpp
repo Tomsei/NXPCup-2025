@@ -1,24 +1,14 @@
+#include "configuration/globalConfig.h"
+#ifndef ANALYSE_ON_CAMERA
+
 #include "cameraAnalysis/imageAnalysis.h"
 #include "cameraAnalysis/cameraAnalysis.h"
  
 namespace CameraAnalysis {
 
-    extern bool newImageAvailable;
-
-
-
-    /**
-     * ToDo: comment
-     * @todo Check if there is stil an analyses (then the image should not be overwritten)
-     * that should also be 
-     */
     //comment in .h
     void ImageAnalysis::updateImage(uint32_t* pixelData) {
-        //ToDo Testing this here!!
-        if(!newImageAvailable) {
-            imageDataBuffer = pixelData;
-            newImageAvailable = true;
-        }
+        imageDataBuffer = pixelData;
     }
 
     //comment in .h
@@ -26,19 +16,22 @@ namespace CameraAnalysis {
         return imageDataBuffer;
     }
 
-    /**
-     * @todo Comment
-     */
+
+    //comment in .h
     void ImageAnalysis::calculateSteeringAngle() {
         float tempSteeringAngle = 0;
-        tempSteeringAngle = (VIDEO_RESOLUTION_X/2) - trackCenters[0];
+        tempSteeringAngle = (VIDEO_RESOLUTION_X/2) - trackCenters[0]; //distance to middle
 
-        //quadratische Lenkung
+        //map value to usable size for steering
         tempSteeringAngle *= 0.1;
+        
+        //make stronger angles stronger!
         float factor = 0.7;
         if(tempSteeringAngle > 10) {
             factor = 1.0;
         }
+
+        //square steering 
         if(tempSteeringAngle < 0) {
             tempSteeringAngle *= tempSteeringAngle*factor;
             tempSteeringAngle = -tempSteeringAngle;    
@@ -49,14 +42,39 @@ namespace CameraAnalysis {
         steeringAngle = tempSteeringAngle;
     }
 
-    
-    /**
-     * method to print an image
-     * @param start: startpixel | default 0
-     * @param length: the amount of pixel to print | default size of the video-width * lines (image resolution)
-     */
+    //comment in .h
+    void ImageAnalysis::calculateSpeed() {
+
+        switch (straightLinesAhead)
+        {
+        case 0: 
+            speed = 19;
+            break;
+        case 1:
+            speed = 21;
+            break;
+        case 2:
+            speed = 23;
+            break;
+        case 3: 
+            speed = 24;
+            break;
+        case 4:
+            speed = 26;        
+        default:
+            speed = 15;
+        }
+        
+        //speed compensation in turn
+        if(abs(steeringAngle) > 50)
+            speed *= 1.1;
+
+        speed = 17; //@todo: remove
+    }
+
+    //comment in .h
     void ImageAnalysis::printImage(int start /*= 0*/, int length /*= VIDEO_RESOLUTION_X*NUMBER_OF_LINES*/) {
         printArray(imageDataBuffer, start, length, "print img:\t");
     }
-
 }
+#endif

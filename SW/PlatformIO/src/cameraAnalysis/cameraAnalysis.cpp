@@ -30,8 +30,7 @@ namespace CameraAnalysis {
     ImageAnalysis currentImageAnalysis;
     SingleRowAnalysis currentRowAnalysis;
 
-    bool newImageAvailable = false;
-    int sobelThreshold = 30;
+    int sobelThreshold = 25;
 
 
     /* ------- public known methods ------------------ */
@@ -49,31 +48,37 @@ namespace CameraAnalysis {
 
         OpenMVCam::updateImage();
 
-        if (newImageAvailable) {
 
-            //analyse each row // ToDo Überlegen ob das in die Image Analyse gewechselt werden soll!
-            for (int i = 0; i <NUMBER_OF_LINES; i++) {
+        if (!imageAnalysIsComplete) {
+            
+            //analyse each row 
+            for (int i = 0; i < NUMBER_OF_LINES; i++) {
                 currentRowAnalysis.updateRow(currentImageAnalysis.getImage(), i);
                 currentRowAnalysis.calculateSobelRow();
 
                 //trackcenter calculation
                 currentImageAnalysis.lastTrackCenters[i] = currentImageAnalysis.trackCenters[i];
                 currentImageAnalysis.trackCenters[i] = currentRowAnalysis.calculateTrackCenter(currentImageAnalysis.lastTrackCenters[i]);
-                currentImageAnalysis.trackCenterOffsets[i] = abs(currentImageAnalysis.trackCenters[i] - (VIDEO_RESOLUTION_X/2));
+                currentImageAnalysis.trackCenterOffsets[i] = currentImageAnalysis.trackCenters[i] - (VIDEO_RESOLUTION_X/2);
                 
                 //Analyse tracks - is it straight or a turn 
-                if(currentImageAnalysis.trackCenterOffsets[i] > 30) {
+                if(abs(currentImageAnalysis.trackCenterOffsets[i]) > STRAIGHT_THRESHOLD) {
                     currentImageAnalysis.straightLinesAhead = i;
+                    
+                    //reset last Trackcenters for all lines not found
+                    for(int j = NUMBER_OF_LINES-1; j > i; j--) {
+                        currentImageAnalysis.lastTrackCenters[j] = VIDEO_RESOLUTION_X/2;
+                    }
+
                     break;
                 }
-                if(i == NUMBER_OF_LINES -1) {
+                if(i == NUMBER_OF_LINES - 1) {
                     currentImageAnalysis.straightLinesAhead = i;
                 }    
             }
             
-            currentImageAnalysis.calculateSteeringAngle(); // todo - sollte das in image Analysis bleiben?
-            //wenn caclulate Steering Angle bleibt, dann aber auch calculate Speed
-            newImageAvailable = false;
+            currentImageAnalysis.calculateSteeringAngle(); 
+            currentImageAnalysis.calculateSpeed();
             imageAnalysIsComplete = 1;
         }
     }
@@ -85,28 +90,7 @@ namespace CameraAnalysis {
 
     //comment in .h
     uint8_t getSpeed() {
-        int speed = 0;
-        if(currentImageAnalysis.trackCenterOffsets[4] < 25 && currentImageAnalysis.straightLinesAhead > 3 ) {
-            speed = 26;
-        }
-        else if(currentImageAnalysis.trackCenterOffsets[3] < 25 && currentImageAnalysis.straightLinesAhead > 2 ) {
-            speed = 24;
-        }
-        else if(currentImageAnalysis.trackCenterOffsets[2] < 25  && currentImageAnalysis.straightLinesAhead > 1 ) {
-            speed = 23;
-        }
-        else if(currentImageAnalysis.trackCenterOffsets[1] < 25  && currentImageAnalysis.straightLinesAhead > 0) {
-            speed = 21;
-        }
-        else {
-            speed = 19;
-        }
-        //try speed change //ToDo change
-        if(abs(currentImageAnalysis.steeringAngle) > 50)
-            speed *= 1.1;
-
-        speed = 17; //@todo: remove
-        return speed;   
+        return currentImageAnalysis.speed;
     }
 
     /* ------- helper methods ------------------ */
@@ -114,12 +98,14 @@ namespace CameraAnalysis {
     //comment in .h
     template<typename IntArray>
     void printArray(IntArray* arrayToPrint, int start, int length, String linePrefix) {
-        String printedArray = "";
-        printedArray = printedArray + linePrefix;
-        for (int i = start; i < (start + length); i++) {
-            printedArray = printedArray + arrayToPrint[i] + "\t";
-        }
-        CONSOLE.println(printedArray);
+        #ifdef CONSOLE
+            String printedArray = "";
+            printedArray = printedArray + linePrefix;
+            for (int i = start; i < (start + length); i++) {
+                printedArray = printedArray + arrayToPrint[i] + "\t";
+            }
+            CONSOLE.println(printedArray);
+        #endif
     }
 }
 #endif

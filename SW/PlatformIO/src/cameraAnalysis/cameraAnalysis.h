@@ -17,6 +17,7 @@
 
 #include <Arduino.h>
 
+#define STRAIGHT_THRESHOLD 25
 extern volatile int imageAnalysIsComplete;
 
 namespace CameraAnalysis {
@@ -37,7 +38,7 @@ namespace CameraAnalysis {
     void analyse();
 
     /**
-     * method to get the calculatet steering angle
+     * method to get the calculatet steering angle and map it to usabel servo value
      * @return steering angle
      */
     int getSteeringAngle();
