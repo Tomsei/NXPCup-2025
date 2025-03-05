@@ -1,4 +1,4 @@
-# Adafruit MCP23017 Arduino Library [![Build Status](https://github.com/adafruit/Adafruit-MCP23017-Arduino-Library/workflows/Arduino%20Library%20CI/badge.svg)](https://github.com/adafruit/Adafruit-MCP23017-Arduino-Library/actions)[![Documentation](https://github.com/adafruit/ci-arduino/blob/master/assets/doxygen_badge.svg)](http://adafruit.github.io/Adafruit-MCP23017-Arduino-Library/html/index.html)
+# [Adafruit MCP23017 Arduino Library](https://github.com/adafruit/Adafruit-MCP23017-Arduino-Library) [![Build Status](https://github.com/adafruit/Adafruit-MCP23017-Arduino-Library/workflows/Arduino%20Library%20CI/badge.svg)](https://github.com/adafruit/Adafruit-MCP23017-Arduino-Library/actions)[![Documentation](https://github.com/adafruit/ci-arduino/blob/master/assets/doxygen_badge.svg)](http://adafruit.github.io/Adafruit-MCP23017-Arduino-Library/html/index.html)
 
 This is a library for the MCP23008/17 I2C and MCP23S08/17 SPI Port Expanders.
 

@@ -44,7 +44,7 @@ namespace SingleComponent {
     mySPI.begin();
     mySPI.swapPins(true);
     pinMode(CAM_SPI_MISO, OUTPUT); //important!
-    Serial.println("cam started");
+    CONSOLE.println("cam started");
   }
 
   /**
@@ -60,11 +60,11 @@ namespace SingleComponent {
       //print the transfered values
       for(int i = 0; i < 10; i++){
         //print values that were sent
-        Serial.print("\t"); Serial.print(spiBufferToRead[i], DEC);
+        CONSOLE.print("\t"); CONSOLE.print(spiBufferToRead[i], DEC);
       }
       //amount of values and time difference
-      Serial.print("\t"); Serial.print(spiBufferIdx);
-      Serial.print("\t"); Serial.println(lastTimeDiff);
+      CONSOLE.print("\t"); CONSOLE.print(spiBufferIdx);
+      CONSOLE.print("\t"); CONSOLE.println(lastTimeDiff);
       globalEngineState = spiBufferToRead[0];
       //reset 
       spiTransferComplete = false;

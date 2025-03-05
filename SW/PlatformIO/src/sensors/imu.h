@@ -10,6 +10,9 @@
  * @author Tom Seiffert
  */
 #include <Arduino.h>
+
+#include "configuration/globalConfig.h"
+
 namespace Sensors {
 
     namespace Imu {
@@ -28,13 +31,6 @@ namespace Sensors {
          * setup imu with the library 
          */
         void setup();
-
-        /**
-         * get the Motion data and write it to 
-         * the variables the pointers points to
-         * @param ax, ay, az, gx, gy, gz: variable pointers to store the motion data
-         */
-        void getMotion(int16_t* ax, int16_t* ay, int16_t* az, int16_t* gx, int16_t* gy, int16_t* gz);
 
         /**
          * get the motion data and write it into the

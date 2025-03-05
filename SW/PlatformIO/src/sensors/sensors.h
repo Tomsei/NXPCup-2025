@@ -9,6 +9,8 @@
  */
 #include <Arduino.h>
 
+#include "configuration/globalConfig.h"
+
 #include "sensors/imu.h"
 
 namespace Sensors {
@@ -31,6 +33,7 @@ namespace Sensors {
         bool linefinder2;
     };
 
+    //make it "public" to read data when it is needed
     extern RawSensorData rawData;
     
     /**

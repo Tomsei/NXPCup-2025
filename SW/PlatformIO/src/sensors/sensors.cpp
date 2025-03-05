@@ -27,31 +27,33 @@ namespace Sensors {
     void setup() {
         TofDistance::setup();
         OpticalFlow::setup();
+        Imu::setup();
     }
 
     //comment in .h file
     void updateRawData() {
         rawData.tofDistance = TofDistance::getDistance();
         OpticalFlow::readMotion(&rawData.opticalFlowX, &rawData.opticalFlowY);
-        Imu::getMotion(&rawData.imu); //ToDo: test if this is possible
-        Imu::getMotion(&rawData.imuAX, &rawData.imuAY, &rawData.imuAZ, &rawData.imuGX, &rawData.imuGY, &rawData.imuGZ);
+        Imu::getMotion(&rawData.imu);
         rawData.linefinder1 = lineFinder1.getCurrentState();
         rawData.linefinder2 = lineFinder2.getCurrentState();
     }
 
     //comment in .h file
     void printData() {
-        Serial.print("ToF Distance: "); Serial.print(rawData.tofDistance);
-        Serial.print("\t Optical Flow - X: "); Serial.print(rawData.opticalFlowX);
-        Serial.print("\t Y: "); Serial.print(rawData.opticalFlowY);
-        //ToDo change to rawdata.imu.ax (if structure is working)
-        Serial.print("\t IMU - AX:"); Serial.print(rawData.imuAX);
-        Serial.print("\t IMU - AY:"); Serial.print(rawData.imuAY);
-        Serial.print("\t IMU - AZ:"); Serial.print(rawData.imuAZ);
-        Serial.print("\t IMU - GX:"); Serial.print(rawData.imuGX);
-        Serial.print("\t IMU - GY:"); Serial.print(rawData.imuGY);
-        Serial.print("\t IMU - GZ:"); Serial.print(rawData.imuGZ);
-        Serial.print("\t Linefinder - 1: "); Serial.print(rawData.linefinder1);
-        Serial.print("\t 2: "); Serial.println(rawData.linefinder2);
+        #ifdef CONSOLE
+            CONSOLE.print("ToF Distance: "); CONSOLE.print(rawData.tofDistance);
+            CONSOLE.print("\t Optical Flow - X: "); CONSOLE.print(rawData.opticalFlowX);
+            CONSOLE.print("\t Y: "); CONSOLE.print(rawData.opticalFlowY);
+            CONSOLE.print("\t IMU - AX:"); CONSOLE.print(rawData.imu.ax);
+            CONSOLE.print("\t IMU - AY:"); CONSOLE.print(rawData.imu.ay);
+            CONSOLE.print("\t IMU - AZ:"); CONSOLE.print(rawData.imu.az);
+            CONSOLE.print("\t IMU - GX:"); CONSOLE.print(rawData.imu.gx);
+            CONSOLE.print("\t IMU - GY:"); CONSOLE.print(rawData.imu.gy);
+            CONSOLE.print("\t IMU - GZ:"); CONSOLE.print(rawData.imu.gz);
+            CONSOLE.print("\t Linefinder - 1: "); CONSOLE.print(rawData.linefinder1);
+            CONSOLE.print("\t 2: "); CONSOLE.print(rawData.linefinder2);
+            CONSOLE.println("");
+        #endif
     }
 }

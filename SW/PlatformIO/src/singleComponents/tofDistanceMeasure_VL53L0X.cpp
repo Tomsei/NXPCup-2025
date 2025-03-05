@@ -32,7 +32,7 @@ namespace SingleComponent {
         sensor.setTimeout(500);
         if (!sensor.init())
         {
-            Serial.println("Failed to detect and initialize VL53L0X sensor!");
+            CONSOLE.println("Failed to detect and initialize VL53L0X sensor!");
         }
         sensor.startContinuous();
     }
@@ -43,11 +43,11 @@ namespace SingleComponent {
     void runTofDistanceMeasure() {
         int distance = sensor.readRangeContinuousMillimeters();
         if (sensor.timeoutOccurred()) {
-            Serial.print(" TIMEOUT VL53L0X sensor");
+            CONSOLE.print(" TIMEOUT VL53L0X sensor");
         }
         if (distance < 150) {
-            Serial.print("ToF VL53L0X distance: ");
-            Serial.println(distance);
+            CONSOLE.print("ToF VL53L0X distance: ");
+            CONSOLE.println(distance);
         }   
     }
 }

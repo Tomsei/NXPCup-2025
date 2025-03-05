@@ -25,7 +25,7 @@ namespace SingleComponent {
      */
     void setupIoExpander() {
         if(!mcp.begin_I2C()) {
-            Serial.println("IO-Expander Error");
+            CONSOLE.println("IO-Expander Error");
         }
         mcp.pinMode(IO_EX_BUTTON1, INPUT_PULLUP);
         mcp.pinMode(IO_EX_BUTTON2, INPUT_PULLUP);
@@ -40,14 +40,14 @@ namespace SingleComponent {
      */
     void runIoExpander() {
         if(mcp.digitalRead(IO_EX_BUTTON1) == 0) {
-            Serial.print("IO Expander: \t");
-            Serial.print(mcp.digitalRead(IO_EX_BUTTON1)); Serial.print("\t");
-            Serial.print(mcp.digitalRead(IO_EX_BUTTON2)); Serial.print("\t");
-            Serial.print(mcp.digitalRead(IO_EX_DIPSWITCH1)); Serial.print("\t");
-            Serial.print(mcp.digitalRead(IO_EX_DIPSWITCH2)); Serial.print("\t");
-            Serial.print(mcp.digitalRead(IO_EX_DIPSWITCH3)); Serial.print("\t");
-            Serial.print(mcp.digitalRead(IO_EX_DIPSWITCH4)); Serial.print("\t");
-            Serial.println("");
+            CONSOLE.print("IO Expander: \t");
+            CONSOLE.print(mcp.digitalRead(IO_EX_BUTTON1)); CONSOLE.print("\t");
+            CONSOLE.print(mcp.digitalRead(IO_EX_BUTTON2)); CONSOLE.print("\t");
+            CONSOLE.print(mcp.digitalRead(IO_EX_DIPSWITCH1)); CONSOLE.print("\t");
+            CONSOLE.print(mcp.digitalRead(IO_EX_DIPSWITCH2)); CONSOLE.print("\t");
+            CONSOLE.print(mcp.digitalRead(IO_EX_DIPSWITCH3)); CONSOLE.print("\t");
+            CONSOLE.print(mcp.digitalRead(IO_EX_DIPSWITCH4)); CONSOLE.print("\t");
+            CONSOLE.println("");
         }
     }
 }

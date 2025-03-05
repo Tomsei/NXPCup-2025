@@ -25,6 +25,9 @@ namespace DrivingControl {
         void setup() {
             libServo.attach(SERVO_PIN, 544, 2400);
             libServo.write(90);
+            #ifdef CONSOLE 
+                CONSOLE.println("servo setup done");
+            #endif
         }
 
         //comment in .h file

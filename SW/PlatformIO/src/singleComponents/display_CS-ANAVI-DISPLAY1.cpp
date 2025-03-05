@@ -45,7 +45,7 @@ namespace SingleComponent {
     void setupDisplay() {
 
         if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
-            Serial.println(F("SSD1306 allocation failed"));
+            CONSOLE.println(F("SSD1306 allocation failed"));
         }
         delay(2000);
         
