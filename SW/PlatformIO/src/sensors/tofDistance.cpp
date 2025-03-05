@@ -22,17 +22,25 @@ namespace Sensors {
         //comment in .h file
         void setup() {
             tofSensor.setTimeout(500);
-            if(!tofSensor.init()) {
-                Serial.println("Error - TOF Sensor: failed to detect and initialize VL53L0X Sensor!");
+            if(tofSensor.init()) {
+                #ifdef CONSOLE
+                    CONSOLE.println("TOF Sensor setup succesfull");
+                #endif
+            }
+            else {
+                #ifdef CONSOLE
+                    CONSOLE.println("TOF Sensor setup error");
+                #endif
             }
             tofSensor.startContinuous();
         }
 
         //comment in .h file
         uint16_t getDistance() {
-            //Error Handling!
             if (tofSensor.timeoutOccurred()) {
-                Serial.print(" TIMEOUT VL53L0X sensor");
+                #ifdef CONSOLE
+                    CONSOLE.print(" TIMEOUT VL53L0X sensor");
+                #endif
             }
             return tofSensor.readRangeContinuousMillimeters();
         }

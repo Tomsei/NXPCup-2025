@@ -11,6 +11,7 @@
  * @author Tom Seiffert
  */
 #include <Arduino.h>
+#include "configuration/globalConfig.h"
 
 namespace BoardInput {
 

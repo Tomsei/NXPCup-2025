@@ -36,9 +36,17 @@ namespace DataVisualisation {
 
         //comment in .h file
         void setup() {
-            if(!lipDisplay.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for the display
-                Serial.println(F("SSD1306 allocation failed"));
+            if(lipDisplay.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for the display
+                #ifdef CONSOLE
+                    CONSOLE.println("Display setup succesfull");
+                #endif
             }
+            else {
+                #ifdef CONSOLE
+                    CONSOLE.println(F("Display setup failed"));
+                #endif
+            }    
+    
             lipDisplay.clearDisplay();
             lipDisplay.setTextSize(1);  
             lipDisplay.setTextColor(SSD1306_WHITE);
@@ -55,9 +63,8 @@ namespace DataVisualisation {
 
         //comment in .h file
         void showNumber(int number) {
-            lipDisplay.setCursor(0,0);
-            lipDisplay.drawLine(0,15,127,15, WHITE);
             lipDisplay.clearDisplay();
+            lipDisplay.setCursor(0,0);
             lipDisplay.print(number);
             lipDisplay.display();
         }

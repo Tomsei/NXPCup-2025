@@ -30,11 +30,11 @@ namespace SingleComponent {
     void setupImu() {
         //Wire.begin(); is done before (general setup)
 
-        Serial.println("Initializing Imu");
+        CONSOLE.println("Initializing Imu");
         accelgyro.initialize();
         // verify connection
-        Serial.println("Testing device connections...");
-        Serial.println(accelgyro.testConnection() ? "MPU6050 connection successful" : "MPU6050 connection failed");
+        CONSOLE.println("Testing device connections...");
+        CONSOLE.println(accelgyro.testConnection() ? "MPU6050 connection successful" : "MPU6050 connection failed");
     }
 
     /**
@@ -46,13 +46,13 @@ namespace SingleComponent {
 
         // display values
         if (gx > 1000 || gx < -1000) {
-            Serial.print("IMU a/g:\t");
-            Serial.print(ax); Serial.print("\t");
-            Serial.print(ay); Serial.print("\t");
-            Serial.print(az); Serial.print("\t");
-            Serial.print(gx); Serial.print("\t");
-            Serial.print(gy); Serial.print("\t");
-            Serial.println(gz);
+            CONSOLE.print("IMU a/g:\t");
+            CONSOLE.print(ax); CONSOLE.print("\t");
+            CONSOLE.print(ay); CONSOLE.print("\t");
+            CONSOLE.print(az); CONSOLE.print("\t");
+            CONSOLE.print(gx); CONSOLE.print("\t");
+            CONSOLE.print(gy); CONSOLE.print("\t");
+            CONSOLE.println(gz);
         }
     }
 }

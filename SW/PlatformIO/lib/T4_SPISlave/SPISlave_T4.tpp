@@ -107,13 +107,15 @@ SPISlave_T4_FUNC uint32_t SPISlave_T4_OPT::popr() {
 extern uint32_t spiRx[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
 extern volatile int spiBufferIdx;
 extern volatile int spiTransferComplete;
+extern volatile int imageAnalysIsComplete;
 
 extern uint32_t spiFrontBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
-
 extern uint32_t spiBackBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
 extern uint32_t* spiBufferToRead;
 
 uint32_t* spiBufferToWrite = spiFrontBuffer;
+
+
 
 SPISlave_T4_FUNC void __attribute__((section(".fustrun"))) SPISlave_T4_OPT::SLAVE_ISR() {
 
@@ -135,7 +137,7 @@ SPISlave_T4_FUNC void __attribute__((section(".fustrun"))) SPISlave_T4_OPT::SLAV
   }
   if ( (SLAVE_SR & (1UL << 1)) ) {
     spiBufferToWrite[spiBufferIdx] = SLAVE_RDR;
-    if (spiBufferIdx < 20480*3-1) spiBufferIdx++;
+    if (spiBufferIdx < VIDEO_RESOLUTION_X*NUMBER_OF_LINES-1) spiBufferIdx++;
     SLAVE_SR = (1UL << 1);
   }
 
@@ -145,19 +147,19 @@ SPISlave_T4_FUNC void __attribute__((section(".fustrun"))) SPISlave_T4_OPT::SLAV
 
    if ( (SLAVE_SR & (1UL << 9)) ) {
     
-    //changes
-    if(!spiTransferComplete) { //the new frame cannot be used - old isn´t finished - just write new one
+    if(!spiTransferComplete) { 
     	
-      //swap the buffers for read an write
-      if (spiBufferToWrite == spiFrontBuffer) {
-        spiBufferToWrite = spiBackBuffer;
-        spiBufferToRead = spiFrontBuffer;
+      //if image analysis is completed swap the buffers for read an write
+      if(imageAnalysIsComplete) {
+        if (spiBufferToWrite == spiFrontBuffer) {
+          spiBufferToWrite = spiBackBuffer;
+          spiBufferToRead = spiFrontBuffer;
+        }
+        else {
+          spiBufferToWrite = spiFrontBuffer;
+          spiBufferToRead = spiBackBuffer;
+        }
       }
-      else {
-        spiBufferToWrite = spiFrontBuffer;
-        spiBufferToRead = spiBackBuffer;
-      }
-
       spiTransferComplete = 1;
     }
 

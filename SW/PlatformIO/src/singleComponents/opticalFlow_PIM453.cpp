@@ -30,7 +30,7 @@ namespace SingleComponent {
     void setupOpticalFlow() {
         
         if(!flow.begin()) {
-            Serial.println("Initialization of the optical flow sensor failed");
+            CONSOLE.println("Initialization of the optical flow sensor failed");
         }
         flow.setLed(false);
         pinMode(OPTICAL_FLOW_LED, OUTPUT); //use the own led
@@ -51,8 +51,8 @@ namespace SingleComponent {
     void printOpticalFlowData() {
 
         if(deltaX > 3 || deltaY > 3 || deltaX < -3 || deltaY < -3) {
-            Serial.print("Optical Flow | X: "); Serial.print(deltaX);
-            Serial.print(", Y: ");        Serial.println(deltaY);
+            CONSOLE.print("Optical Flow | X: "); CONSOLE.print(deltaX);
+            CONSOLE.print(", Y: ");        CONSOLE.println(deltaY);
         }
     }
 }

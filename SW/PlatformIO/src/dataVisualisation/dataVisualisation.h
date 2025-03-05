@@ -6,6 +6,7 @@
  *  
  * @author Tom Seiffert
  */
+#include "configuration/globalConfig.h"
 #include "dataVisualisation/display.h"
 #include "dataVisualisation/ledStrip.h"
 
@@ -21,10 +22,4 @@ namespace DataVisualisation {
      */
     void clear();
     
-    /**
-     * show the given number on display and led strip
-     * @param number: the number to show
-     */
-    void showNumber(int number);
-
 }

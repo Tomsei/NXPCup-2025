@@ -1,4 +1,4 @@
-# VL53L0X library for Arduino
+# [VL53L0X library for Arduino](https://github.com/pololu/vl53l0x-arduino)
 [www.pololu.com](https://www.pololu.com/)
 
 ## Summary
