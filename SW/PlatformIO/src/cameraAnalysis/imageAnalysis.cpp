@@ -1,3 +1,16 @@
+/**
+ * image analysis - definitions
+ * 
+ * this file ist relevant if the camera sends image pixel data! (No analysis on camera)
+ * 
+ * handles everything belonging to the analysis of the complete transfered image
+ * a class is used to store all needed data like imageBuffer, calculated track centers...
+ * 
+ * the methods are used to administrate these data and calculate everythings that
+ * belongs to the complete image like the final speed and steering angle
+ * 
+ * @author Tom Seiffert
+ */
 #include "configuration/globalConfig.h"
 #ifndef ANALYSE_ON_CAMERA
 

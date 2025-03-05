@@ -1,8 +1,10 @@
 /**
  * camera analysis - definitions
  * 
- * Handles everything belonging to the camera analysis.
- * This is the high level camera analysis which administrates the 
+ * this file ist relevant if the camera sends image pixel data! (No analysis on camera)
+ * 
+ * handles everything belonging to the camera analysis.
+ * this is the high level camera analysis which administrates the 
  * individual components for each task and provides the interface of the camera analysis 
  * 
  * administrates the following tasks:
@@ -14,6 +16,7 @@
  */
 #include "configuration/globalConfig.h"
 #ifndef SINGLE_COMPONENTS_TEST
+#ifndef ANALYSE_ON_CAMERA
 
 #include <Arduino.h>
 
@@ -63,4 +66,5 @@ namespace CameraAnalysis {
     void printArray(IntArray* rowToPrint, int start, int lengt, String linePrefix);
 
 }
+#endif
 #endif

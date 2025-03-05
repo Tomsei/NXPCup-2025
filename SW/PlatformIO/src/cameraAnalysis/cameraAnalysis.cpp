@@ -1,9 +1,9 @@
 /**
  * camera analysis - definitions
  * 
- * This file ist relevant if there is send image pixel data from the camera! (No analyses on camera)
+ * this file ist relevant if the camera sends image pixel data! (No analysis on camera)
  * 
- * Handles everything belonging to the camera analysis.
+ * handles everything belonging to the camera analysis.
  * This is the high level camera analysis which administrates the 
  * individual components for each task and provides the interface of the camera analysis 
  * 

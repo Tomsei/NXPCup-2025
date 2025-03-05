@@ -1,6 +1,19 @@
-//#include "cameraAnalysis/cameraAnalysis.h"
+/**
+ * image analysis - declaration
+ * 
+ * this file ist relevant if the camera sends image pixel data! (No analysis on camera)
+ * 
+ * handles everything belonging to the analysis of the complete transfered image
+ * a class is used to store all needed data like imageBuffer, calculated track centers...
+ * 
+ * the methods are used to administrate these data and calculate everythings that
+ * belongs to the complete image like the final speed and steering angle
+ * 
+ * @author Tom Seiffert
+ */
 #include "Arduino.h"
 #include "configuration/globalConfig.h"
+#ifndef ANALYSE_ON_CAMERA
 
 namespace CameraAnalysis {
     
@@ -52,3 +65,4 @@ namespace CameraAnalysis {
             void printImage(int start = 0, int length = VIDEO_RESOLUTION_X*NUMBER_OF_LINES);
     };
 }
+#endif
