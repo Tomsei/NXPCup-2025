@@ -8,6 +8,9 @@
  * 
  * @author Tom Seiffert
  */
+
+#include "configuration/globalConfig.h"
+
 namespace DrivingControl {
 
     namespace Engine {

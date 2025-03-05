@@ -11,6 +11,8 @@
  */
 #include <Arduino.h>
 
+#include "configuration/globalConfig.h"
+
 namespace Sensors {
 
     namespace TofDistance {  

@@ -27,6 +27,7 @@ namespace Sensors {
     void setup() {
         TofDistance::setup();
         OpticalFlow::setup();
+        Imu::setup();
     }
 
     //comment in .h file
@@ -40,16 +41,19 @@ namespace Sensors {
 
     //comment in .h file
     void printData() {
-        Serial.print("ToF Distance: "); Serial.print(rawData.tofDistance);
-        Serial.print("\t Optical Flow - X: "); Serial.print(rawData.opticalFlowX);
-        Serial.print("\t Y: "); Serial.print(rawData.opticalFlowY);
-        Serial.print("\t IMU - AX:"); Serial.print(rawData.imu.ax);
-        Serial.print("\t IMU - AY:"); Serial.print(rawData.imu.ay);
-        Serial.print("\t IMU - AZ:"); Serial.print(rawData.imu.az);
-        Serial.print("\t IMU - GX:"); Serial.print(rawData.imu.gx);
-        Serial.print("\t IMU - GY:"); Serial.print(rawData.imu.gy);
-        Serial.print("\t IMU - GZ:"); Serial.print(rawData.imu.gz);
-        Serial.print("\t Linefinder - 1: "); Serial.print(rawData.linefinder1);
-        Serial.print("\t 2: "); Serial.println(rawData.linefinder2);
+        #ifdef CONSOLE
+            CONSOLE.print("ToF Distance: "); CONSOLE.print(rawData.tofDistance);
+            CONSOLE.print("\t Optical Flow - X: "); CONSOLE.print(rawData.opticalFlowX);
+            CONSOLE.print("\t Y: "); CONSOLE.print(rawData.opticalFlowY);
+            CONSOLE.print("\t IMU - AX:"); CONSOLE.print(rawData.imu.ax);
+            CONSOLE.print("\t IMU - AY:"); CONSOLE.print(rawData.imu.ay);
+            CONSOLE.print("\t IMU - AZ:"); CONSOLE.print(rawData.imu.az);
+            CONSOLE.print("\t IMU - GX:"); CONSOLE.print(rawData.imu.gx);
+            CONSOLE.print("\t IMU - GY:"); CONSOLE.print(rawData.imu.gy);
+            CONSOLE.print("\t IMU - GZ:"); CONSOLE.print(rawData.imu.gz);
+            CONSOLE.print("\t Linefinder - 1: "); CONSOLE.print(rawData.linefinder1);
+            CONSOLE.print("\t 2: "); CONSOLE.print(rawData.linefinder2);
+            CONSOLE.println("");
+        #endif
     }
 }

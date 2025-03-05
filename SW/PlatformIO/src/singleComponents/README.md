@@ -33,7 +33,7 @@ bool globalEngineState;
 void setup() {
 
   // put your setup code here, to run once:
-  Serial.begin(115200);
+  CONSOLE.begin(115200);
   Wire.begin(); //later in I2C Modul
   SingleComponent::setupOpticalFlow();
   SingleComponent::setupTofDistanceMeasure();

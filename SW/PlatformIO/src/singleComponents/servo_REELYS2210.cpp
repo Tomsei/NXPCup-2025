@@ -42,7 +42,7 @@ namespace SingleComponent {
             value = 130;
         if(value < 50)
             value = 50;
-        Serial.print("Servo Value: "); Serial.println(value);
+        CONSOLE.print("Servo Value: "); CONSOLE.println(value);
         servo.write(value);
     }
 }

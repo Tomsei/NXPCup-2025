@@ -1,48 +1,80 @@
+/**
+ * camera analysis - definitions
+ * 
+ * this file ist relevant if the camera sends image pixel data! (No analysis on camera)
+ * 
+ * handles everything belonging to the camera analysis.
+ * this is the high level camera analysis which administrates the 
+ * individual components for each task and provides the interface of the camera analysis 
+ * 
+ * administrates the following tasks:
+ * OpenMVCam: SPI connection to camera
+ * ImageAnalysis: analysis of the whole image
+ * rowAnalysis: analysis of a single row
+ * 
+ * @author Tom Seiffert
+ */
 #include "configuration/globalConfig.h"
 #ifndef SINGLE_COMPONENTS_TEST
+#ifndef ANALYSE_ON_CAMERA
 
 #include <Arduino.h>
 
-#include "cameraAnalysis/camera.h"
-
+#define STRAIGHT_THRESHOLD 25
+extern volatile int imageAnalysIsComplete;
 
 namespace CameraAnalysis {
 
+    /**
+     * setup the camera analysis 
+     * trigger the OpenMVCam (spi) setup and 
+     * initiate the trackCenters to the middle of the cam
+     */
     void setup();
 
+    /**
+     * analyse the picture data to get the speed and the steering angle
+     * trys to update Image and analyse it, if there is a new one
+     * 
+     * triggers all sub-methods to analyse the image Data and stores the analysed trackCenter data
+     */
     void analyse();
 
+    /**
+     * method to get the calculatet steering angle and map it to usabel servo value
+     * @return steering angle
+     */
+    int getSteeringAngle();
 
     /**
-     * structure for the analysis of a complete image
+     * method to geht the calculatet speed
+     * @return speed
      */
-    class ImageAnalysis {
-        public:
-            uint32_t* imageDataBuffer;
-            u_int32_t* getImage();
-            void updateImage(uint32_t* pixelData);
-            void printImage(int start = 0, int length = VIDEO_RESOLUTION_X*NUMBER_OF_LINES);
-    };
+    uint8_t getSpeed();
 
     /**
-     * class for the analysis of a single Row
+     * method to print an array. - helper method for image and row analysis
+     * concatenate an string with all the values of the array.
+     * @param arrayToPrint: the array to print
+     * @param start: startvalue where to start at the array
+     * @param length: the amout of values to print
+     * @param linePrefix: prefix to print before the values
+     * 
+     * template<typename IntArray> to make sure an uint8_t and uint16_t array can be printed 
+     * because it is a template it must be implementet in .h
      */
-    class SingleRowAnalysis {
-        public:
-            uint32_t* rowDataBufferPointer;
-            int16_t sobelRowDataBuffer[VIDEO_RESOLUTION_X-2];
-
-            void updateRow(uint32_t* pixelData, int row);
-            void calculateSobelRow();
-            int calculateTrackCenter();
-
-            void printRow(int start = 0, int length = VIDEO_RESOLUTION_X);
-            void printSobelRow(int start = 0, int length = VIDEO_RESOLUTION_X -2);
-        
-        private:
-            std::tuple<int, int> calculateEdges(int startSearch);
-
-    };
+    template<typename IntArray>
+    void printArray(IntArray* arrayToPrint, int start, int length, String linePrefix) {
+        #ifdef CONSOLE
+            String printedArray = "";
+            printedArray = printedArray + linePrefix;
+            for (int i = start; i < (start + length); i++) {
+                printedArray = printedArray + arrayToPrint[i] + "\t";
+            }
+            CONSOLE.println(printedArray);
+        #endif
+    }
 
 }
+#endif
 #endif

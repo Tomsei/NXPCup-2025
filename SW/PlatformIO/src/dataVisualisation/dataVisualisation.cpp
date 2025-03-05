@@ -23,10 +23,4 @@ namespace DataVisualisation  {
         Display::clear();
         LedStrip::clear();
     }
-
-    // comment in .h file
-    void showNumber(int number) {
-        Display::showNumber(number);
-        LedStrip::showNumber(number);
-    }
 }

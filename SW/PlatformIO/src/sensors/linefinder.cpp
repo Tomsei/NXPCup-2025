@@ -14,10 +14,17 @@ namespace Sensors {
 
     /* ------- public known methods ------------------ */
 
+    void lineFinderInterrupt() {
+        #ifdef CONSOLE
+            CONSOLE.print(ARD_LINE_FINDER1); CONSOLE.println(" Change");
+        #endif
+    }
+
     //comment in .h file
     LineFinder::LineFinder(uint8_t pin) {
         this->pin = pin;
         pinMode(pin, INPUT);
+        //attachInterrupt(digitalPinToInterrupt(pin), &lineFinderInterrupt, CHANGE);
     }
 
     //comment in .h file
