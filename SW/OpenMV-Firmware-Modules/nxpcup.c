@@ -14,7 +14,7 @@
 //variables
 int16_t* width;
 int16_t* height;
-int16_t* trackCenters;
+uint8_t* trackCenters;
 
 
 /**
@@ -31,6 +31,11 @@ static mp_obj_t setup(mp_obj_t imgWidth, mp_obj_t imgHeight) {
 
     *width = mp_obj_get_int(imgWidth);
     *height = mp_obj_get_int(imgHeight);
+    
+    //set first flag (first two rows not calculated)
+    trackCenters[0] = 255;
+    //set first track center to the center of the image
+    trackCenters[1] = (*width)/2;
 
     return mp_obj_new_int(*width);
 }
@@ -77,9 +82,20 @@ void calculateTrackCenters(uint8_t* argImg, int row, int startSearch) {
     //     argImg[i + rowOffset] = 0;
     // }
 
-    trackCenter = (leftEdge + rightEdge) / 2; //ToDo: add Offset to Camera - also possbile at Teensy 
+    trackCenter = (leftEdge + rightEdge) / 2; //ToDo: add Offset to Camera - also possbile at Teensy
+
     argImg[rowOffset + trackCenter] = 120;
-    trackCenters[row] = trackCenter;
+
+    //if high resolution: map values to range of 0 - 254
+    if (*width == 320) {
+        trackCenter = (trackCenter * 254) / (*width);
+    }
+
+    //make sure 255 could be used as unique marker
+    if(trackCenter == 255) { 
+        trackCenter = 254;
+    }
+    trackCenters[*height - row - 1] = trackCenter; //change the order (lowest row is the first in Array)
 }
 
 
@@ -93,16 +109,14 @@ static mp_obj_t analyseImage(uint n_args, const mp_obj_t *args, mp_map_t *kw_arg
     
     image_t *arg_img = py_helper_arg_to_image(args[0], ARG_IMAGE_GRAYSCALE);
     int width = arg_img->w;
-    int hight = arg_img->h;
+    int height = arg_img->h;
     uint8_t* imageData = arg_img->data;
     
-    int lastTwoRows = width * hight - (2 * width) -1;
+    int lastTwoRows = width * height - (2 * width) -1;
     int numberOfLines = mp_obj_get_int(args[1]);
     int threshold = mp_obj_get_int(args[2]);
     threshold *= threshold; //avoiding the root later
 
-    //set first track center to the center of the image
-    trackCenters[hight-2] = width/2;
 
 
     for (int i = 0; i < numberOfLines * width ; i++) {
@@ -137,11 +151,11 @@ static mp_obj_t analyseImage(uint n_args, const mp_obj_t *args, mp_map_t *kw_arg
     }
     
     //calculate edges and track_centers
-    for (int i = hight - 3; i > 0; i--) {
-        calculateTrackCenters(imageData, i, trackCenters[i+1]);
+    for (int i = height - 3; i >= 0; i--) {
+        calculateTrackCenters(imageData, i, trackCenters[height-i-2]); //height-i-2 to get the last row before this
     }
 
-    return mp_obj_new_memoryview('h', hight, trackCenters);
+    return mp_obj_new_memoryview('h', height, trackCenters);
 }
 static MP_DEFINE_CONST_FUN_OBJ_KW(analyseImage_obj, 3, analyseImage); //number defindes the amoutn of arguments
 
@@ -163,7 +177,7 @@ static void mp_machine_spi_transfer(mp_obj_t self, size_t len, const void *src, 
  * copy of the neede stuff from the original firmware method (lib/micropython/extmod/machine_spi.c)
  */
 static mp_obj_t spiWrite(mp_obj_t self) {
-    mp_machine_spi_transfer(self, 256, (const uint16_t *)trackCenters, NULL);
+    mp_machine_spi_transfer(self, 256, (const uint8_t *)trackCenters, NULL);
     return mp_const_none;
 }
 MP_DEFINE_CONST_FUN_OBJ_1(spiWrite_obj, spiWrite);
