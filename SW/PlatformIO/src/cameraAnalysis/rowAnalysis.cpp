@@ -14,7 +14,6 @@ namespace CameraAnalysis {
      void SingleRowAnalysis::updateRow(uint32_t* pixelData, int row) {
         int startIndexOfLine = row * VIDEO_RESOLUTION_X;
         rowDataBufferPointer = pixelData + startIndexOfLine;
-        //printRow(0,20);
     }
 
     /**

@@ -15,8 +15,9 @@
 void checkingForErrors(); //ToDo: Just to Debug
 
 void setup() {
-
-  CONSOLE.begin(115200);
+  #ifdef CONSOLE
+    CONSOLE.begin(115200);
+  #endif
   delay(1000);
 
   Wire.begin(); //later in I2C Modul
@@ -29,17 +30,23 @@ void setup() {
   BoardInput::setup();
   DrivingControl::setup();
   Sensors::setup();
-  CONSOLE.println("Main | Setup Done!");
+  
+  #ifdef CONSOLE
+    CONSOLE.println("Main | Setup Done!");
+  #endif
 }
 
 void loop() {
   BoardInput::update();
   Sensors::updateRawData();
-  CameraAnalysis::OpenMVCam::updateImage();
   CameraAnalysis::analyse();
   //Sensors::printData();
   CarLogic::runCarLogic();
 }
+
+
+
+
 
 void checkingForErrors() {
   /*Check the last restart reason*/

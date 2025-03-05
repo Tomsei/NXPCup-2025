@@ -1,46 +1,68 @@
+/**
+ * camera analysis - definitions
+ * 
+ * This file ist relevant if there is send image pixel data from the camera! (No analyses on camera)
+ * 
+ * Handles everything belonging to the camera analysis.
+ * This is the high level camera analysis which administrates the 
+ * individual components for each task and provides the interface of the camera analysis 
+ * 
+ * administrates the following tasks:
+ * OpenMVCam: SPI connection to camera
+ * ImageAnalysis: analysis of the whole image
+ * rowAnalysis: analysis of a single row
+ * 
+ * @author Tom Seiffert
+ */
 #include "configuration/globalConfig.h"
 #ifndef SINGLE_COMPONENTS_TEST
+#ifndef ANALYSE_ON_CAMERA
 
 #include "cameraAnalysis/cameraAnalysis.h"
 #include "cameraAnalysis/imageAnalysis.h"
 #include "cameraAnalysis/rowAnalysis.h"
+#include "cameraAnalysis/camera.h" 
 
 
 namespace CameraAnalysis {
     
-    //variables -------------------------
+    /* ------- variables ------------------ */
     ImageAnalysis currentImageAnalysis;
     SingleRowAnalysis currentRowAnalysis;
 
     bool newImageAvailable = false;
-    int sobelThreshold = 20;
+    int sobelThreshold = 25;
 
 
-    //methods ---------------------------
+    /* ------- public known methods ------------------ */
+
+    //comment in .h
     void setup() {
         OpenMVCam::setup();
         for (int i = 0; i < NUMBER_OF_LINES; i++) {
-            currentImageAnalysis.trackCenters[i] = 160;
+            currentImageAnalysis.trackCenters[i] = VIDEO_RESOLUTION_X/2;
         }
     }
 
-    /**
-     * Method to analyse the picture to get driving vector (steering Angel)
-     */
     //comment in .h
     void analyse() {
+
+        OpenMVCam::updateImage();
+
         if (newImageAvailable) {
+
+            //analyse each row
             for (int i = 0; i <NUMBER_OF_LINES; i++) {
                 currentRowAnalysis.updateRow(currentImageAnalysis.getImage(), i);
                 currentRowAnalysis.calculateSobelRow();
 
+                //trackcenter calculation
                 currentImageAnalysis.lastTrackCenters[i] = currentImageAnalysis.trackCenters[i];
                 currentImageAnalysis.trackCenters[i] = currentRowAnalysis.calculateTrackCenter(currentImageAnalysis.lastTrackCenters[i]);
                 currentImageAnalysis.trackCenterOffsets[i] = abs(currentImageAnalysis.trackCenters[i] - (VIDEO_RESOLUTION_X/2));
                 
-                //ToDo Jump Out if it is a turn
+                //Analyse tracks - is it straight or a turn 
                 if(currentImageAnalysis.trackCenterOffsets[i] > 30) {
-                    //CONSOLE.println("Break");
                     currentImageAnalysis.straightLinesAhead = i;
                     break;
                 }
@@ -49,9 +71,8 @@ namespace CameraAnalysis {
                 }    
             }
             
-            //CONSOLE.println("--------------");
-            currentImageAnalysis.calculateSteeringAngle();
-
+            currentImageAnalysis.calculateSteeringAngle(); // todo - sollte das in image Analysis bleiben?
+            //wenn caclulate Steering Angle bleibt, dann aber auch calculate Speed
             newImageAvailable = false;
         }
     }
@@ -83,22 +104,13 @@ namespace CameraAnalysis {
         if(abs(currentImageAnalysis.steeringAngle) > 50)
             speed *= 1.1;
 
-        speed = 17;
+        speed = 17; //@todo: remove
         return speed;   
     }
 
-    /* ----- helper methods -----  */
+    /* ------- helper methods ------------------ */
 
-    /**
-     * method to print an array.
-     * concatenate an string with all the values of the array.
-     * @param arrayToPrint: the array to print
-     * @param start: startvalue where to start at the array
-     * @param length: the amout of values to print
-     * @param linePrefix: prefix to print before the values
-     * 
-     * template<typename IntArray> to make sure an uint8_t and uint16_t array can be printed 
-     */
+    //comment in .h
     template<typename IntArray>
     void printArray(IntArray* arrayToPrint, int start, int length, String linePrefix) {
         String printedArray = "";
@@ -109,4 +121,5 @@ namespace CameraAnalysis {
         CONSOLE.println(printedArray);
     }
 }
+#endif
 #endif
