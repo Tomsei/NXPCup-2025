@@ -33,6 +33,7 @@ namespace Sensors {
         bool linefinder2;
     };
 
+    //make it "public" to read data when it is needed
     extern RawSensorData rawData;
     
     /**

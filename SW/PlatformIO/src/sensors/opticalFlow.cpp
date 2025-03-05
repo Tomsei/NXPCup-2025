@@ -24,9 +24,17 @@ namespace Sensors {
 
         //comment in .h file
         void setup() {
-            if(!opticalFlowSensor.begin()) {
-                CONSOLE.println("Error Optical Flow: Initialization failed");
+            if(opticalFlowSensor.begin()) {
+                #ifdef CONSOLE
+                    CONSOLE.println("Optical Flow setup succesfull");
+                #endif
             }
+            else {
+                #ifdef CONSOLE
+                    CONSOLE.println("Optical Flow setup error");    
+                #endif
+            }
+            
             opticalFlowSensor.setLed(false);
             pinMode(OPTICAL_FLOW_LED, OUTPUT);
             digitalWrite(OPTICAL_FLOW_LED, HIGH);
