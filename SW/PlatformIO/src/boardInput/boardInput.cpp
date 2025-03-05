@@ -61,7 +61,6 @@ namespace BoardInput {
     // comment in .h file
     bool getSingleDipswitchValue(DipSwitchEnum aDipSwitch) {
         return data.dipSwitch & (uint8_t)aDipSwitch;
-        //return !ioExpander.digitalRead(aDipSwitch);
     }
 
 
@@ -73,9 +72,13 @@ namespace BoardInput {
      * - initiate the pinmode for the used pins
      */
     void setupIoExpander() {
-        if(!ioExpander.begin_I2C()) {
-            CONSOLE.println("BoardInput: IO-Expander Init Error");
+        if(ioExpander.begin_I2C()) {
+            CONSOLE.println("BoardInput: IO-Expander setup sucessfull");
         }
+        else {
+            CONSOLE.println("BoardInput: IO-Expander setup error");
+        }
+
         ioExpander.pinMode(IO_EX_BUTTON1, INPUT_PULLUP);
         ioExpander.pinMode(IO_EX_BUTTON2, INPUT_PULLUP);
         ioExpander.pinMode(IO_EX_DIPSWITCH1, INPUT_PULLUP);

@@ -10,8 +10,10 @@
  * @author Tom Seiffert
  */
 
+
 //#define SINGLE_COMPONENTS_TEST //if SingleComponets should be used!
 
+/* serial definition (bluetooth / usb)*/
 #define CONSOLE Serial
 
 
