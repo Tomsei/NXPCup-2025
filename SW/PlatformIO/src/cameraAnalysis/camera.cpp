@@ -5,6 +5,7 @@
 #include "SPISlave_T4.h"
 
 #include "cameraAnalysis/cameraAnalysis.h"
+#include "cameraAnalysis/imageAnalysis.h"
 
 //Using Single Components - remove (comment out) the next 5 variables!
 //SPI Transfer variables and buffers
@@ -33,7 +34,9 @@ namespace CameraAnalysis {
     mySPI.begin();
     mySPI.swapPins(true);
     pinMode(CAM_SPI_MISO, OUTPUT); //important!
-    CONSOLE.print("Kamera gestartet");
+    #ifdef CONSOLE
+      CONSOLE.print("Kamera setup done");
+    #endif
   }
 
   /**
@@ -44,9 +47,8 @@ namespace CameraAnalysis {
     if(spiTransferComplete){
       
       currentImageAnalysis.updateImage(spiBufferToRead);
-      //CONSOLE.print("Update Image");
-    
-      //reset spi transfer
+      
+      //reset spi transfer //ToDo: das hier ist zu früh!! hier muss gewartet werden, bis das Bild analysiert wurde
       spiTransferComplete = false;
       spiBufferIdx = 0;
     }

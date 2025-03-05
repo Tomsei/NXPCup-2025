@@ -2,57 +2,37 @@
 #ifndef SINGLE_COMPONENTS_TEST
 
 #include <Arduino.h>
-
-#include "cameraAnalysis/camera.h"
-
+#include "cameraAnalysis/camera.h" //ToDo: check why i cant move this
 
 namespace CameraAnalysis {
 
+    /**
+     * @todo comment
+     */
     void setup();
 
+    /**
+     * @todo comment
+     */
     void analyse();
 
+    /**
+     * @todo comment
+     */
     int getSteeringAngle();
 
+    /**
+     * @todo comment
+     */
     uint8_t getSpeed();
 
+    //pre definition --------------------
+    //helper Methode 
     /**
-     * structure for the analysis of a complete image
+     * @todo: comment
      */
-    class ImageAnalysis {
-        public:
-            uint32_t* imageDataBuffer;
-            uint16_t trackCenters[NUMBER_OF_LINES];
-            uint16_t lastTrackCenters[NUMBER_OF_LINES];
-            uint16_t trackCenterOffsets[NUMBER_OF_LINES];
-            int steeringAngle;
-            uint8_t straightLinesAhead;
-
-            u_int32_t* getImage();
-            void updateImage(uint32_t* pixelData);
-            void printImage(int start = 0, int length = VIDEO_RESOLUTION_X*NUMBER_OF_LINES);
-            void calculateSteeringAngle();
-    };
-
-    /**
-     * class for the analysis of a single Row
-     */
-    class SingleRowAnalysis {
-        public:
-            uint32_t* rowDataBufferPointer;
-            int16_t sobelRowDataBuffer[VIDEO_RESOLUTION_X-2];
-
-            void updateRow(uint32_t* pixelData, int row);
-            void calculateSobelRow();
-            uint16_t calculateTrackCenter(int startSearch);
-
-            void printRow(int start = 0, int length = VIDEO_RESOLUTION_X);
-            void printSobelRow(int start = 0, int length = VIDEO_RESOLUTION_X -2);
-        
-        private:
-            std::tuple<uint16_t, uint16_t> calculateEdges(int startSearch);
-
-    };
+    template<typename IntArray>
+    void printArray(IntArray* rowToPrint, int start, int lengt, String linePrefix);
 
 }
 #endif

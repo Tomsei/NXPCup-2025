@@ -17,7 +17,7 @@ namespace Sensors {
     void lineFinderInterrupt() {
         #ifdef CONSOLE
             CONSOLE.print(ARD_LINE_FINDER1); CONSOLE.println(" Change");
-        #endif CONSOLE
+        #endif
     }
 
     //comment in .h file

@@ -34,7 +34,7 @@ namespace CarLogic {
         int steeringAngle = CameraAnalysis::getSteeringAngle();
         DrivingControl::drive(speed, steeringAngle);
 
-        showEnableStateOnLed(engineEnabled, steeringEnabled);
+        //showEnableStateOnLed(engineEnabled, steeringEnabled);
     }
 
 
