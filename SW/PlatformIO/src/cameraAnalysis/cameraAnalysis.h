@@ -61,9 +61,19 @@ namespace CameraAnalysis {
      * @param linePrefix: prefix to print before the values
      * 
      * template<typename IntArray> to make sure an uint8_t and uint16_t array can be printed 
+     * because it is a template it must be implementet in .h
      */
     template<typename IntArray>
-    void printArray(IntArray* rowToPrint, int start, int lengt, String linePrefix);
+    void printArray(IntArray* arrayToPrint, int start, int length, String linePrefix) {
+        #ifdef CONSOLE
+            String printedArray = "";
+            printedArray = printedArray + linePrefix;
+            for (int i = start; i < (start + length); i++) {
+                printedArray = printedArray + arrayToPrint[i] + "\t";
+            }
+            CONSOLE.println(printedArray);
+        #endif
+    }
 
 }
 #endif

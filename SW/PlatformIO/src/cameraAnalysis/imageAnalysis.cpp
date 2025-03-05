@@ -23,6 +23,7 @@ namespace CameraAnalysis {
     //comment in .h
     void ImageAnalysis::updateImage(uint32_t* pixelData) {
         imageDataBuffer = pixelData;
+        ImageAnalysis::printImage(0, 20);
     }
 
     //comment in .h
@@ -86,10 +87,12 @@ namespace CameraAnalysis {
         speed = 17; //@todo: remove
     }
 
-    //comment in .h
+
     void ImageAnalysis::printImage(int start /*= 0*/, int length /*= VIDEO_RESOLUTION_X*NUMBER_OF_LINES*/) {
-        printArray(imageDataBuffer, start, length, "print img:\t");
+        CameraAnalysis::printArray(imageDataBuffer, start, length, "print img:\t");
     }
+
+    
 }
 #endif
 #endif

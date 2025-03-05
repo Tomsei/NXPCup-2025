@@ -93,20 +93,6 @@ namespace CameraAnalysis {
         return currentImageAnalysis.speed;
     }
 
-    /* ------- helper methods ------------------ */
-
-    //comment in .h
-    template<typename IntArray>
-    void printArray(IntArray* arrayToPrint, int start, int length, String linePrefix) {
-        #ifdef CONSOLE
-            String printedArray = "";
-            printedArray = printedArray + linePrefix;
-            for (int i = start; i < (start + length); i++) {
-                printedArray = printedArray + arrayToPrint[i] + "\t";
-            }
-            CONSOLE.println(printedArray);
-        #endif
-    }
 }
 #endif
 #endif

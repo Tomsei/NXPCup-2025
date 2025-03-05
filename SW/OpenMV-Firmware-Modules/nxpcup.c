@@ -1,91 +1,123 @@
+/**
+ * style guide: everything of this module is consistent to the definded stylguide.
+ * but everything that is used from the original firmware has another style!
+ */
 // Include MicroPython API.
 #include "py/runtime.h"
 #include "py_helper.h"
 #include "objarray.h"
 
-//#include "../../lib/micropython/ports/mimxrt/modmachine.h"
 #include "ports/mimxrt/modmachine.h"
 #include "extmod/modmachine.h"
-//#include "mimxrt/modmachine.h"
-//#include "py/runtime.h"
-//#include "extmod/modmachine.h"
-//ToDo: Explain why here an other styleguide is used
 
 
-void calculate_edge(image_t *arg_img, int16_t* track_centers, int row, int start_search) {
-    int left_edge = 0;
-    int right_edge = arg_img->w;
-    int track_center = arg_img->w / 2;
-    int row_offset = row * arg_img->w;
+//variables
+int16_t* width;
+int16_t* height;
+int16_t* trackCenters;
+
+
+/**
+ * setup the nxp cup module
+ * allocate the memory for the needed variables and initiate them
+ * @param imgWidth: width of the image
+ * @param imgHeight: height of the image
+ * @return: width to check if value is corret
+ */
+static mp_obj_t setup(mp_obj_t imgWidth, mp_obj_t imgHeight) {   
+    trackCenters = fb_alloc(256*2, FB_ALLOC_NO_HINT);
+    height = fb_alloc(2, FB_ALLOC_NO_HINT);
+    width = fb_alloc(2, FB_ALLOC_NO_HINT);
+
+    *width = mp_obj_get_int(imgWidth);
+    *height = mp_obj_get_int(imgHeight);
+
+    return mp_obj_new_int(*width);
+}
+static MP_DEFINE_CONST_FUN_OBJ_2(setup_obj, setup); //number defindes the amoutn of arguments
+
+
+
+/**
+ * calculate the track center of a single row
+ * it start at the start search and calculate the first edge left and right
+ * with both edges it calculate the track center and stores it into track centers
+ * @param argImg: a pointer to the image to analyse
+ * @param trackCenters: a pointer to the trackCenters Array
+ * @param row: row to calculate the track center
+ * @param startSearch: start pixel for the anlyses (get first edge to each direaction from this point)
+ */
+void calculateTrackCenters(uint8_t* argImg, int row, int startSearch) {
+    
+    int leftEdge = 0;
+    int rightEdge = *width;
+    int trackCenter = *width/2;
+    int rowOffset = row * (*width);
 
     //tracking the first edge found in left direction
-    for(int i = start_search; i >= 0; i--) {
-        if(arg_img->data[i + row_offset] == 255) {
-            left_edge = i;
+    for(int i = startSearch; i >= 0; i--) {
+        if(argImg[i + rowOffset] == 255) {
+            leftEdge = i;
             break;
         }
     }
-    //visual repräsentation: set all other to black
-    /*for(int i = left_edge - 1; i >= 0; i--) {
-        arg_img->data[i + row_offset] = 0;
-    }*/
 
     //tracking the first edge found in right direction
-    for (int i = start_search; i <= arg_img->w; i++) {
-        if(arg_img->data[i + row_offset] == 255) {
-            right_edge = i;
+    for (int i = startSearch; i <= (*width); i++) {
+        if(argImg[i + rowOffset] == 255) {
+            rightEdge = i;
             break;
         }
     }
     //visual repräsentation: set all other to black
-    /*for(int i = right_edge + 1; i <= arg_img->w; i++) {
-        arg_img->data[i + row_offset] = 0;
-    }*/
+    // for(int i = leftEdge - 1; i >= 0; i--) {
+    //     argImg[i + rowOffset] = 0;
+    // }
+    // for(int i = rightEdge + 1; i <= (*width); i++) {
+    //     argImg[i + rowOffset] = 0;
+    // }
 
-    track_center = (left_edge + right_edge)/2; //ToDo: add Offset to Camera - also possbile at Teensy 
-    arg_img->data[row_offset + track_center] = 120;
-    track_centers[row] = track_center;
+    trackCenter = (leftEdge + rightEdge) / 2; //ToDo: add Offset to Camera - also possbile at Teensy 
+    argImg[rowOffset + trackCenter] = 120;
+    trackCenters[row] = trackCenter;
 }
 
-int16_t* track_centers;
 
-static mp_obj_t calculate_sobel(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
+
+
+/**
+ * method to analyse the picture - Todo: calculate Sobel umbenennen
+ * @param args: the different parameters are used to get the arg parameter
+ */
+static mp_obj_t analyseImage(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
+    
     image_t *arg_img = py_helper_arg_to_image(args[0], ARG_IMAGE_GRAYSCALE);
     int width = arg_img->w;
     int hight = arg_img->h;
-    int last_two_rows = width * hight - (2 * width) -1;
-    int number_of_lines = mp_obj_get_int(args[1]);
+    uint8_t* imageData = arg_img->data;
+    
+    int lastTwoRows = width * hight - (2 * width) -1;
+    int numberOfLines = mp_obj_get_int(args[1]);
     int threshold = mp_obj_get_int(args[2]);
+    threshold *= threshold; //avoiding the root later
 
-    //store track-Centers + initiate the first one
-    track_centers[hight-3] = width/2;
+    //set first track center to the center of the image
+    trackCenters[hight-2] = width/2;
 
-    //ToDo: test what happens here when the array is static #
-    //+ try to figure out array allocation (im Forum) 
 
-    //ToDo: Die Version ausprobieren, bei der Python die Speicherverwaltung des Arrays übernimmt
-
-    for (int i = 0; i < number_of_lines * width ; i++) {
+    for (int i = 0; i < numberOfLines * width ; i++) {
 
         //cut the last two lines and the last two pixel of each line - don´t calculate sobel with pixels of new line
-        if(((i % width) > width - 3) ||  (i > last_two_rows)) {
-            arg_img->data[i] = 50;
+        if(((i % width) > width - 3) ||  (i > lastTwoRows)) {
+            imageData[i] = 0;
             continue;
-        } 
-
-        /* original matric calculation - complex: takes to much time
-
-        //sobel with original matrix
-        int g_x =   (-1 * arg_img->data[i]) +           (0 * arg_img->data[i+1]) +              (1 * arg_img->data[i+2]) +
-                    (-2 * arg_img->data[i+width]) +     (0 * arg_img->data[i+1+width]) +        (2 * arg_img->data[i+2+width]) +
-                    (-1 * arg_img->data[i+(width*2)]) + (0 * arg_img->data[i+1+(width*2)]) +    (1 * arg_img->data[i+2+(width*2)]);
-
-        int g_y =   (-1 * arg_img->data[i]) +           (-2 * arg_img->data[i+1]) +             (-1 * arg_img->data[i+2]) +
-                    (0 * arg_img->data[i+width]) +     (0 * arg_img->data[i+1+width]) +        (0 * arg_img->data[i+2+width]) +
-                    (1 * arg_img->data[i+(width*2)]) + (2 * arg_img->data[i+1+(width*2)]) +    (1 * arg_img->data[i+2+(width*2)]);
+        }         
         
+        /*easy calculation - "single row for left and right"*/
+        //int g_x = ((imageData[i] * 2) + (imageData[i+2] * -2));
+        //int g_y = ((imageData[i + 1 + width] * 2) + (imageData[i + 1 + (width*2)] * -2));
 
-        //sobel without the multiplications with 0 needed 
+        /* complexer but better calculation with matrix*/
         int g_x =   (-1 * arg_img->data[i]) +           (1 * arg_img->data[i+2]) +
                     (-2 * arg_img->data[i+width]) +     (2 * arg_img->data[i+2+width]) +
                     (-1 * arg_img->data[i+(width*2)]) + (1 * arg_img->data[i+2+(width*2)]);
@@ -93,21 +125,9 @@ static mp_obj_t calculate_sobel(uint n_args, const mp_obj_t *args, mp_map_t *kw_
         int g_y =   (-1 * arg_img->data[i]) +           (-2 * arg_img->data[i+1]) +             (-1 * arg_img->data[i+2]) +
                     (1 * arg_img->data[i+(width*2)]) +  (2 * arg_img->data[i+1+(width*2)]) +    (1 * arg_img->data[i+2+(width*2)]);
 
-        int g = (int) fast_sqrtf((g_x*g_x) + (g_y*g_y));
 
-        if(g > threshold || g < -threshold) {
-            arg_img->data[i] = 255;
-        } else {
-            arg_img->data[i] = 0;
-        }
-        */
-        
-        
-        /*easy calculation - "single row for left and right"*/
-        int g_x = ((arg_img->data[i] * 2) + (arg_img->data[i+2] * -2));
-        int g_y = ((arg_img->data[i + 1 + width] * 2) + (arg_img->data[i + 1 + (width*2)] * -2));
-
-        int g = (int) fast_sqrtf((g_x*g_x) + (g_y*g_y));
+        int g = (g_x * g_x) + (g_y * g_y);
+        //takes long because of root int g = (int) fast_sqrtf((g_x * g_x) + (g_y * g_y));
 
         if(g > threshold || g < -threshold) {
             arg_img->data[i] = 255;
@@ -116,69 +136,51 @@ static mp_obj_t calculate_sobel(uint n_args, const mp_obj_t *args, mp_map_t *kw_
         }
     }
     
-    //calculate edges and track_centers | ToDo: -2 bei hight anpassen!
-    for (int i = hight - 4; i > 0; i--) {
-        calculate_edge(arg_img, track_centers, i, track_centers[i+1]);
+    //calculate edges and track_centers
+    for (int i = hight - 3; i > 0; i--) {
+        calculateTrackCenters(imageData, i, trackCenters[i+1]);
     }
 
-    //just testing the array values
-    //for (int i = 0; i < hight -3; i++) {
-    //    track_centers[i] = 100 + i%5;
-    //}
-    
-    //return mp_obj_new_int(1);
-    return mp_obj_new_memoryview('h', hight, track_centers);
+    return mp_obj_new_memoryview('h', hight, trackCenters);
 }
-static MP_DEFINE_CONST_FUN_OBJ_KW(calculate_sobel_obj, 3, calculate_sobel); //number defindes the amoutn of arguments
+static MP_DEFINE_CONST_FUN_OBJ_KW(analyseImage_obj, 3, analyseImage); //number defindes the amoutn of arguments
 
 
+
+/**
+ * machine spi transfer method
+ * copy of the original firmware method (lib/micropython/extmod/machine_spi.c)
+ */
 static void mp_machine_spi_transfer(mp_obj_t self, size_t len, const void *src, void *dest) {
     mp_obj_base_t *s = (mp_obj_base_t *)MP_OBJ_TO_PTR(self);
     mp_machine_spi_p_t *spi_p = (mp_machine_spi_p_t *)MP_OBJ_TYPE_GET_SLOT(s->type, protocol);
     spi_p->transfer(s, len, src, dest);
 }
 
-static mp_obj_t nxp_machine_spi_write(mp_obj_t self) {
-    //mp_obj_t wr_buf;
-    //mp_buffer_info_t src;
-    //mp_get_buffer_raise(wr_buf, &src, MP_BUFFER_READ);
-    mp_machine_spi_transfer(self, 256, (const uint16_t *)track_centers, NULL);
+
+/**
+ * spi write to write the calculatet track centers
+ * copy of the neede stuff from the original firmware method (lib/micropython/extmod/machine_spi.c)
+ */
+static mp_obj_t spiWrite(mp_obj_t self) {
+    mp_machine_spi_transfer(self, 256, (const uint16_t *)trackCenters, NULL);
     return mp_const_none;
 }
-MP_DEFINE_CONST_FUN_OBJ_1(nxp_machine_spi_write_obj, nxp_machine_spi_write);
+MP_DEFINE_CONST_FUN_OBJ_1(spiWrite_obj, spiWrite);
 
 
-static mp_obj_t nxp_spi_write() {   
-    track_centers = fb_alloc(256*2, FB_ALLOC_NO_HINT);
-    return mp_obj_new_int(1);
-}
-static MP_DEFINE_CONST_FUN_OBJ_KW(nxp_spi_write_obj, 0, nxp_spi_write); //number defindes the amoutn of arguments
-
-
-
-// This is the function which will be called from Python as cexample.add_ints(a, b).
-static mp_obj_t test_sum(mp_obj_t a_obj, mp_obj_t b_obj) {
-    // Extract the ints from the micropython input objects.
-    int a = mp_obj_get_int(a_obj);
-    int b = mp_obj_get_int(b_obj);
-
-    // Calculate the addition and convert to MicroPython object.
-    return mp_obj_new_int(a + b);
-}
-// Define a Python reference to the function above.
-static MP_DEFINE_CONST_FUN_OBJ_2(test_sum_obj, test_sum);
-
-// Define all properties of the module.
-// Table entries are key/value pairs of the attribute name (a string)
-// and the MicroPython object reference.
-// All identifiers and strings are written as MP_QSTR_xxx and will be
-// optimized to word-sized integers by the build system (interned strings).
+/**
+ * Define all properties of the module.
+ * Table entries are key/value pairs of the attribute name (a string)
+ * and the MicroPython object reference.
+ * All identifiers and strings are written as MP_QSTR_xxx and will be
+ * optimized to word-sized integers by the build system (interned strings).
+ */
 static const mp_rom_map_elem_t nxpcup_globals_table[] = {
     { MP_ROM_QSTR(MP_QSTR___name__), MP_ROM_QSTR(MP_QSTR_nxpcup) },
-    { MP_ROM_QSTR(MP_QSTR_test_sum), MP_ROM_PTR(&test_sum_obj) },
-    { MP_ROM_QSTR(MP_QSTR_calculate_sobel), MP_ROM_PTR(&calculate_sobel_obj) },
-    { MP_ROM_QSTR(MP_QSTR_nxp_spi_write), MP_ROM_PTR(&nxp_spi_write_obj) },
-    { MP_ROM_QSTR(MP_QSTR_nxp_machine_spi_write), MP_ROM_PTR(&nxp_machine_spi_write_obj) },
+    { MP_ROM_QSTR(MP_QSTR_analyseImage), MP_ROM_PTR(&analyseImage_obj) },
+    { MP_ROM_QSTR(MP_QSTR_setup), MP_ROM_PTR(&setup_obj) },
+    { MP_ROM_QSTR(MP_QSTR_spiWrite), MP_ROM_PTR(&spiWrite_obj) },
 };
 static MP_DEFINE_CONST_DICT(nxpcup_module_globals, nxpcup_globals_table);
 
