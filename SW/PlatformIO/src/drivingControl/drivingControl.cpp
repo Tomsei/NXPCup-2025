@@ -12,8 +12,6 @@
 #include "drivingControl/servo.h"
 #include "carLogic/carLogic.h"
 
-//ToDo: check where these variables should be implementet!
-
 namespace DrivingControl {
     
     /* ------- public known methods ------------------ */

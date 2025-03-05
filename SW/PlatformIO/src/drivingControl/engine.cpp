@@ -19,7 +19,7 @@ namespace DrivingControl {
 
     namespace Engine {
         
-        Servo ESC;
+        Servo libEsc;
 
         /* ------- public known methods ------------------ */
 
@@ -27,8 +27,8 @@ namespace DrivingControl {
         void setup() {
             //use the servo library to control the PWM Pin
             //ToDo: checkt min and max!
-            ESC.attach(MOTOR_ESC_PIN, 1000, 2000);
-            ESC.write(0);
+            libEsc.attach(MOTOR_ESC_PIN, 1000, 2000);
+            libEsc.write(0);
             delay(2500);
             #ifdef CONSOLE 
                 CONSOLE.println("engine setup done");
@@ -37,7 +37,7 @@ namespace DrivingControl {
 
         //comment in .h file
         void setSpeed(int speed) {
-            ESC.write(speed);
+            libEsc.write(speed);
         }
     }    
 }

@@ -26,7 +26,7 @@ namespace DrivingControl {
             libServo.attach(SERVO_PIN, 544, 2400);
             libServo.write(90);
             #ifdef CONSOLE 
-                CONSOLE.println("engine setup done");
+                CONSOLE.println("servo setup done");
             #endif
         }
 
