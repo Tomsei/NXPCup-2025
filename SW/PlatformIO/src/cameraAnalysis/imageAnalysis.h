@@ -13,12 +13,13 @@
  */
 #include "Arduino.h"
 #include "configuration/globalConfig.h"
+#ifndef SINGLE_COMPONENTS_TEST
 #ifndef ANALYSE_ON_CAMERA
 
 namespace CameraAnalysis {
     
     /**
-     * class for the analyses of the whole image
+     * class for the analysis of the complete image
      */
     class ImageAnalysis {
         public:
@@ -65,4 +66,5 @@ namespace CameraAnalysis {
             void printImage(int start = 0, int length = VIDEO_RESOLUTION_X*NUMBER_OF_LINES);
     };
 }
+#endif
 #endif

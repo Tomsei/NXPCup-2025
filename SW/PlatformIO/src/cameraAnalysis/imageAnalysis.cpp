@@ -12,6 +12,7 @@
  * @author Tom Seiffert
  */
 #include "configuration/globalConfig.h"
+#ifndef SINGLE_COMPONENTS_TEST
 #ifndef ANALYSE_ON_CAMERA
 
 #include "cameraAnalysis/imageAnalysis.h"
@@ -90,4 +91,5 @@ namespace CameraAnalysis {
         printArray(imageDataBuffer, start, length, "print img:\t");
     }
 }
+#endif
 #endif
