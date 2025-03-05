@@ -30,6 +30,9 @@ namespace DrivingControl {
             ESC.attach(MOTOR_ESC_PIN, 1000, 2000);
             ESC.write(0);
             delay(2500);
+            #ifdef CONSOLE 
+                CONSOLE.println("engine setup done");
+            #endif
         }
 
         //comment in .h file

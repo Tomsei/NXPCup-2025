@@ -37,10 +37,14 @@ namespace DataVisualisation {
         //comment in .h file
         void setup() {
             if(lipDisplay.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for the display
-                CONSOLE.println("Display setup succesfull");
+                #ifdef CONSOLE
+                    CONSOLE.println("Display setup succesfull");
+                #endif
             }
             else {
-                CONSOLE.println(F("Display setup failed"));
+                #ifdef CONSOLE
+                    CONSOLE.println(F("Display setup failed"));
+                #endif
             }    
     
             lipDisplay.clearDisplay();

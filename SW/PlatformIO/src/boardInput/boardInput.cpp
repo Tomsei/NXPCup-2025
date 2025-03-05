@@ -46,11 +46,13 @@ namespace BoardInput {
 
     // comment in .h file
     void printData() {
-        String dataToPrint = "";
-        dataToPrint = dataToPrint + "Poti 1: " + data.poti1 + " Poti 2: " + data.poti2 
-        + " Button 1: " + data.button1 + " Button 2 " + data.button2 + " Dip Switch: " + data.dipSwitch;
-        CONSOLE.print ("Board Input | ");
-        CONSOLE.println(dataToPrint);
+        #ifdef CONSOLE
+            String dataToPrint = "";
+            dataToPrint = dataToPrint + "Poti 1: " + data.poti1 + " Poti 2: " + data.poti2 
+            + " Button 1: " + data.button1 + " Button 2 " + data.button2 + " Dip Switch: " + data.dipSwitch;
+            CONSOLE.print ("Board Input | ");
+            CONSOLE.println(dataToPrint);
+        #endif
     }
 
     // comment in .h file
@@ -73,10 +75,14 @@ namespace BoardInput {
      */
     void setupIoExpander() {
         if(ioExpander.begin_I2C()) {
-            CONSOLE.println("BoardInput: IO-Expander setup sucessfull");
+            #ifdef CONSOLE
+                CONSOLE.println("BoardInput: IO-Expander setup sucessfull");
+            #endif
         }
         else {
-            CONSOLE.println("BoardInput: IO-Expander setup error");
+            #ifdef CONSOLE
+                CONSOLE.println("BoardInput: IO-Expander setup error");
+            #endif
         }
 
         ioExpander.pinMode(IO_EX_BUTTON1, INPUT_PULLUP);

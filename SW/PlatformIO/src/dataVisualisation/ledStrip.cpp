@@ -37,7 +37,9 @@ namespace DataVisualisation {
             FastLED.setBrightness(255);
             setAllLeds(CRGB::White);
             FastLED.show();
-            CONSOLE.print("LEDS Setup Done");
+            #ifdef CONSOLE
+                CONSOLE.print("LEDS Setup Done");
+            #endif
         }
 
         //coment in .h file
@@ -70,7 +72,6 @@ namespace DataVisualisation {
                 FastLED.clear();
                 for(int i = 0; i < numberInRange && i < NUMBER_OF_LEDS; i ++) {
                     lipLedStrip[i] = color;
-                    CONSOLE.print(i);
                 }
                 FastLED.show(); //ToDo: remove - update LED every half second
             }

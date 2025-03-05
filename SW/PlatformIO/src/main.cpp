@@ -23,12 +23,13 @@ void setup() {
 
   //ToDo Debugging - reomve later
   checkingForErrors();
+
   DataVisualisation::setup();
   CameraAnalysis::setup();
   BoardInput::setup();
   DrivingControl::setup();
   Sensors::setup();
-  CONSOLE.println("Setup Done!");
+  CONSOLE.println("Main | Setup Done!");
 }
 
 void loop() {

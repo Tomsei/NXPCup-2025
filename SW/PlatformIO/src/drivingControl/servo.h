@@ -10,6 +10,7 @@
  */
 
 #include "configuration/globalConfig.h"
+#include "Arduino.h"
 
 namespace DrivingControl {
 
