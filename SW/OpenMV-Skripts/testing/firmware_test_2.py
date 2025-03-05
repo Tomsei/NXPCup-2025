@@ -10,7 +10,7 @@ spi = SPI(1, baudrate=int(16000000), polarity=0, phase=0)
 # setup sensor
 sensor.reset()  # Initialize the camera sensor.
 sensor.set_pixformat(sensor.GRAYSCALE)  # or sensor.RGB565
-sensor.set_framesize(sensor.QVGA)  # or sensor.QVGA (or others)
+sensor.set_framesize(sensor.QQVGA)  # or sensor.QVGA (or others)
 sensor.skip_frames(time=2000)  # Let new settings take affect.
 sensor.set_gainceiling(8)
 img = sensor.snapshot()
