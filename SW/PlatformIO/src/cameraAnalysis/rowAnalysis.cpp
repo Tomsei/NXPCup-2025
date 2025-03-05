@@ -33,7 +33,7 @@ namespace CameraAnalysis {
      * get the left and right edge and calculate the center
      * @return trackCenter: the center of the track
      */
-    uint16_t SingleRowAnalysis::calculateTrackCenter(int startSearch) {
+    uint16_t SingleRowAnalysis::calculateTrackCenter(uint16_t startSearch) {
         auto [leftEdge, rightEdge] = calculateEdges(startSearch); 
         uint16_t trackCenter = (leftEdge + rightEdge) / 2;
         trackCenter = trackCenter + CAM_OFFSET;
@@ -67,7 +67,7 @@ namespace CameraAnalysis {
      * @param startSearch: the pixel to start the search to left an right (center to start)
      * @return {leftEdge, rightEdge}: a tupel of the left and right Edge 
      */
-    std::tuple<uint16_t, uint16_t> SingleRowAnalysis::calculateEdges(int startSearch) {
+    std::tuple<uint16_t, uint16_t> SingleRowAnalysis::calculateEdges(uint16_t startSearch) {
         
         //default edges at end of line
         uint16_t leftEdge = 0;

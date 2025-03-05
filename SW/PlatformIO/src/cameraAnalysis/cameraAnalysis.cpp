@@ -31,7 +31,7 @@ namespace CameraAnalysis {
     SingleRowAnalysis currentRowAnalysis;
 
     bool newImageAvailable = false;
-    int sobelThreshold = 25;
+    int sobelThreshold = 30;
 
 
     /* ------- public known methods ------------------ */
@@ -51,7 +51,7 @@ namespace CameraAnalysis {
 
         if (newImageAvailable) {
 
-            //analyse each row
+            //analyse each row // ToDo Überlegen ob das in die Image Analyse gewechselt werden soll!
             for (int i = 0; i <NUMBER_OF_LINES; i++) {
                 currentRowAnalysis.updateRow(currentImageAnalysis.getImage(), i);
                 currentRowAnalysis.calculateSobelRow();
@@ -74,6 +74,7 @@ namespace CameraAnalysis {
             currentImageAnalysis.calculateSteeringAngle(); // todo - sollte das in image Analysis bleiben?
             //wenn caclulate Steering Angle bleibt, dann aber auch calculate Speed
             newImageAvailable = false;
+            imageAnalysIsComplete = 1;
         }
     }
 

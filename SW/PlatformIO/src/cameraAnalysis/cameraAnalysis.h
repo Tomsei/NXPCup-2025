@@ -17,6 +17,8 @@
 
 #include <Arduino.h>
 
+extern volatile int imageAnalysIsComplete;
+
 namespace CameraAnalysis {
 
     /**

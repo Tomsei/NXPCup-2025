@@ -28,6 +28,7 @@
 //SPI Transfer variables and buffers for swapped Buffer implementation
 volatile int spiBufferIdx = 0;
 volatile int spiTransferComplete = 0;
+volatile int imageAnalysIsComplete = 1;
 
 uint32_t spiFrontBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
 uint32_t spiBackBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
@@ -60,8 +61,12 @@ namespace CameraAnalysis {
 
     //reading SPI-data when transfer is finished!
     if(spiTransferComplete){
-      currentImageAnalysis.updateImage(spiBufferToRead);
-      //reset spi transfer //ToDo: das hier ist zu früh!! hier muss gewartet werden, bis das Bild analysiert wurde
+      //just updating image if analysis is finished
+      if(imageAnalysIsComplete) {
+        imageAnalysIsComplete = 0;
+        currentImageAnalysis.updateImage(spiBufferToRead);
+      }
+      //reset spi (start getting the new data)
       spiTransferComplete = false;
       spiBufferIdx = 0;
     }

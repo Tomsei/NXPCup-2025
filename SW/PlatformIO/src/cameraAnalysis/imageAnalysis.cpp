@@ -5,26 +5,25 @@ namespace CameraAnalysis {
 
     extern bool newImageAvailable;
 
-    /**
-     * method to get a pointer of the current image
-     * @return pointer of the current image
-     */
-  
-    uint32_t* ImageAnalysis::getImage() {
-        return imageDataBuffer;
-    }
+
 
     /**
      * ToDo: comment
      * @todo Check if there is stil an analyses (then the image should not be overwritten)
      * that should also be 
      */
+    //comment in .h
     void ImageAnalysis::updateImage(uint32_t* pixelData) {
         //ToDo Testing this here!!
         if(!newImageAvailable) {
             imageDataBuffer = pixelData;
             newImageAvailable = true;
         }
+    }
+
+    //comment in .h
+    uint32_t* ImageAnalysis::getImage() {
+        return imageDataBuffer;
     }
 
     /**

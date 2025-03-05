@@ -13,13 +13,13 @@ namespace CameraAnalysis {
 
             void updateRow(uint32_t* pixelData, int row);
             void calculateSobelRow();
-            uint16_t calculateTrackCenter(int startSearch);
+            uint16_t calculateTrackCenter(uint16_t startSearch);
 
             void printRow(int start = 0, int length = VIDEO_RESOLUTION_X);
             void printSobelRow(int start = 0, int length = VIDEO_RESOLUTION_X -2);
         
         private:
-            std::tuple<uint16_t, uint16_t> calculateEdges(int startSearch);
+            std::tuple<uint16_t, uint16_t> calculateEdges(uint16_t startSearch);
 
     };
 
