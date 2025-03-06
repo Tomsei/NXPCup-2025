@@ -30,6 +30,11 @@ namespace CameraAnalysis {
          * update image for the image analysis if there is a new image transfered
          */
         void updateImage();
+
+        /**
+         * update the trackCenters for the analyse if new track centers are transfered
+         */
+        void updateTrackCenters();
     
     };
 }

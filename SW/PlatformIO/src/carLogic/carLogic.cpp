@@ -5,6 +5,7 @@
 #include "carLogic/carLogic.h"
 #include "drivingControl/drivingControl.h"
 #include "cameraAnalysis/cameraAnalysis.h"
+#include "cameraAnalysis/trackCenterAnalysis.h"
 #include "boardInput/boardInput.h"
 #include "sensors/sensors.h"
 #include "dataVisualisation/display.h"

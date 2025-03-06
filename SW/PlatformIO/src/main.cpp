@@ -5,6 +5,7 @@
 #include "configuration/globalConfig.h"
 
 #include "cameraAnalysis/cameraAnalysis.h"
+#include "cameraAnalysis/trackCenterAnalysis.h"
 #include "dataVisualisation/dataVisualisation.h"
 #include "boardInput/boardInput.h"
 #include "drivingControl/drivingControl.h"

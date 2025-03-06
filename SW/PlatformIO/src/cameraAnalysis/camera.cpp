@@ -23,6 +23,7 @@
 #include "cameraAnalysis/camera.h"
 #include "cameraAnalysis/cameraAnalysis.h"
 #include "cameraAnalysis/imageAnalysis.h"
+#include "cameraAnalysis/trackCenterAnalysis.h"
 
 
 //SPI Transfer variables and buffers for swapped Buffer implementation
@@ -41,9 +42,6 @@ namespace CameraAnalysis {
 
   SPISlave_T4<&SPI, SPI_8_BITS> mySPI;
 
-  extern ImageAnalysis currentImageAnalysis;
-
-
   /* ------- public known methods ------------------ */
 
   //comment in .h
@@ -56,6 +54,11 @@ namespace CameraAnalysis {
     #endif
   }
 
+
+  
+  #ifndef ANALYSE_ON_CAMERA
+  extern ImageAnalysis currentImageAnalysis;
+  
   //comment in .h
   void OpenMVCam::updateImage() {
 
@@ -71,5 +74,25 @@ namespace CameraAnalysis {
       spiBufferIdx = 0;
     }
   }
+  #endif
+
+  #ifdef ANALYSE_ON_CAMERA //todo change!
+  extern TrackCenterAnalysis currentTrackCenterAnalysis;
+  //coment in .h
+  void OpenMVCam::updateTrackCenters() {
+    //reading SPI-data when transfer is finished!
+    if(spiTransferComplete){
+      //just updating image if analysis is finished
+      if(imageAnalysIsComplete) {
+        imageAnalysIsComplete = 0;
+        currentTrackCenterAnalysis.updateTrackCenters(spiBufferToRead);
+      }
+      //reset spi (start getting the new data)
+      spiTransferComplete = false;
+      spiBufferIdx = 0;
+    }
+  }
+  #endif
+
 } 
 #endif

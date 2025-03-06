@@ -30,7 +30,7 @@ namespace CameraAnalysis {
     ImageAnalysis currentImageAnalysis;
     SingleRowAnalysis currentRowAnalysis;
 
-    int sobelThreshold = 25;
+    int sobelThreshold = 20;
 
 
     /* ------- public known methods ------------------ */
