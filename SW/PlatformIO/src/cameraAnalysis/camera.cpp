@@ -31,8 +31,15 @@ volatile int spiBufferIdx = 0;
 volatile int spiTransferComplete = 0;
 volatile int imageAnalysIsComplete = 1;
 
+#ifndef ANALYSE_ON_CAMERA
 uint32_t spiFrontBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
 uint32_t spiBackBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
+#endif
+
+#ifdef ANALYSE_ON_CAMERA
+uint32_t spiFrontBuffer[VIDEO_RESOLUTION_Y];
+uint32_t spiBackBuffer[VIDEO_RESOLUTION_Y];
+#endif
 
 uint32_t* spiBufferToRead = spiBackBuffer;
 
@@ -42,6 +49,15 @@ namespace CameraAnalysis {
 
   SPISlave_T4<&SPI, SPI_8_BITS> mySPI;
 
+
+  #ifndef ANALYSE_ON_CAMERA
+  extern ImageAnalysis currentImageAnalysis;
+  #endif
+
+  #ifdef ANALYSE_ON_CAMERA
+  extern TrackCenterAnalysis currentTrackCenterAnalysis;
+  #endif
+
   /* ------- public known methods ------------------ */
 
   //comment in .h
@@ -49,15 +65,19 @@ namespace CameraAnalysis {
     mySPI.begin();
     mySPI.swapPins(true);
     pinMode(CAM_SPI_MISO, OUTPUT); //important!
+
+    #ifdef ANALYSE_ON_CAMERA
+      currentTrackCenterAnalysis.updateTrackCenters(spiBufferToRead);
+    #endif
+
     #ifdef CONSOLE
-      CONSOLE.print("camera setup done");
+      CONSOLE.println("camera setup done");
     #endif
   }
 
 
   
   #ifndef ANALYSE_ON_CAMERA
-  extern ImageAnalysis currentImageAnalysis;
   
   //comment in .h
   void OpenMVCam::updateImage() {
@@ -77,7 +97,7 @@ namespace CameraAnalysis {
   #endif
 
   #ifdef ANALYSE_ON_CAMERA //todo change!
-  extern TrackCenterAnalysis currentTrackCenterAnalysis;
+
   //coment in .h
   void OpenMVCam::updateTrackCenters() {
     //reading SPI-data when transfer is finished!

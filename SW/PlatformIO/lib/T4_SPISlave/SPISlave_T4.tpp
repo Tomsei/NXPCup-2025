@@ -104,13 +104,22 @@ SPISlave_T4_FUNC uint32_t SPISlave_T4_OPT::popr() {
 }
 
 //changes
-extern uint32_t spiRx[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
 extern volatile int spiBufferIdx;
 extern volatile int spiTransferComplete;
 extern volatile int imageAnalysIsComplete;
 
+#ifndef ANALYSE_ON_CAMERA
+extern uint32_t spiRx[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
 extern uint32_t spiFrontBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
 extern uint32_t spiBackBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
+#endif
+
+#ifdef ANALYSE_ON_CAMERA
+extern uint32_t spiRx[VIDEO_RESOLUTION_Y];
+extern uint32_t spiFrontBuffer[VIDEO_RESOLUTION_Y];
+extern uint32_t spiBackBuffer[VIDEO_RESOLUTION_Y];
+#endif
+
 extern uint32_t* spiBufferToRead;
 
 uint32_t* spiBufferToWrite = spiFrontBuffer;
@@ -137,7 +146,15 @@ SPISlave_T4_FUNC void __attribute__((section(".fustrun"))) SPISlave_T4_OPT::SLAV
   }
   if ( (SLAVE_SR & (1UL << 1)) ) {
     spiBufferToWrite[spiBufferIdx] = SLAVE_RDR;
-    if (spiBufferIdx < VIDEO_RESOLUTION_X*NUMBER_OF_LINES-1) spiBufferIdx++;
+    
+    #ifndef ANALYSE_ON_CAMERA
+      if (spiBufferIdx < VIDEO_RESOLUTION_X*NUMBER_OF_LINES-1) spiBufferIdx++;
+    #endif
+    
+    #ifdef ANALYSE_ON_CAMERA
+      if (spiBufferIdx < VIDEO_RESOLUTION_Y-1) spiBufferIdx++;
+    #endif
+    
     SLAVE_SR = (1UL << 1);
   }
 

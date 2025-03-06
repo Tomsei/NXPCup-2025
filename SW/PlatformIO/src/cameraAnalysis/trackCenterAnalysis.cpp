@@ -14,16 +14,22 @@ namespace CameraAnalysis {
     TrackCenterAnalysis currentTrackCenterAnalysis;
 
     void setup() {
+
         OpenMVCam::setup();
-        /*for (int i = 0; i < VIDEO_RESOLUTION_Y; i++) {
+        
+        for (int i = 0; i < VIDEO_RESOLUTION_Y; i++) {
             currentTrackCenterAnalysis.trackCenters[i]  = VIDEO_RESOLUTION_X/2;
-        }*/
+        }
+
     }
 
     void analyse() {
+        
         OpenMVCam::updateTrackCenters();
+        
         if(!imageAnalysIsComplete) {
 
+            for(int i = 0; i < VIDEO_RESOLUTION_Y; i++)
 
             imageAnalysIsComplete = 1; 
         }       
@@ -40,7 +46,7 @@ namespace CameraAnalysis {
 
     void TrackCenterAnalysis::updateTrackCenters(uint32_t* trackCenterData) {
         trackCenters = trackCenterData;
-        //printTrackCenters(0, 20);
+        printTrackCenters(0, 20);
     }
 
     void TrackCenterAnalysis::printTrackCenters(int start /*= 0*/, int length /*= VIDEO_RESOLUTION_X*NUMBER_OF_LINES*/) {

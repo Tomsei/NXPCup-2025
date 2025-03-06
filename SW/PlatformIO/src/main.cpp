@@ -30,6 +30,7 @@ void setup() {
   CameraAnalysis::setup();
   BoardInput::setup();
   DrivingControl::setup();
+  CONSOLE.println("Test");
   Sensors::setup();
   
   #ifdef CONSOLE
