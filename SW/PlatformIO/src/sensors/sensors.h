@@ -29,8 +29,7 @@ namespace Sensors {
         int16_t imuGX;
         int16_t imuGY;
         int16_t imuGZ;
-        bool linefinder1;
-        bool linefinder2;
+        int ardLineFinder;
     };
 
     //make it "public" to read data when it is needed

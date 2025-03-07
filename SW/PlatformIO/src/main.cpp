@@ -15,6 +15,12 @@
 
 void checkingForErrors(); //ToDo: Just to Debug
 
+int count;
+
+void onInterrupt() {
+  count++;
+}
+
 void setup() {
   #ifdef CONSOLE
     CONSOLE.begin(115200);
@@ -30,9 +36,11 @@ void setup() {
   CameraAnalysis::setup();
   BoardInput::setup();
   DrivingControl::setup();
-  CONSOLE.println("Test");
   Sensors::setup();
   
+  //pinMode(3, INPUT_PULLUP);
+  //attachInterrupt(3, &onInterrupt, RISING | FALLING);
+
   #ifdef CONSOLE
     CONSOLE.println("Main | Setup Done!");
   #endif
@@ -40,10 +48,12 @@ void setup() {
 
 void loop() {
   BoardInput::update();
+
   Sensors::updateRawData();
   CameraAnalysis::analyse();
-  //Sensors::printData();
+  Sensors::printData();
   CarLogic::runCarLogic();
+  //CONSOLE.println(count);
 }
 
 

@@ -1,6 +1,8 @@
 /**
  * LineFinder - definition
  * 
+ * @todo Clean up (description and comments)
+ * 
  * using the LineFinder Class to controll the lin finder sensors. 
  * This includes functions for setup and getting data
  * 
@@ -12,28 +14,26 @@
 
 namespace Sensors {
 
-    /* ------- public known methods ------------------ */
+    namespace ArdLineFinder {
+        /* ------- public known methods ------------------ */
+        int lineFinderRoations = 0;
 
-    void lineFinderInterrupt() {
-        #ifdef CONSOLE
-            CONSOLE.print(ARD_LINE_FINDER1); CONSOLE.println(" Change");
-        #endif
+        void lineFinderInterrupt() {
+            lineFinderRoations = lineFinderRoations + 1;
+        }
+
+        void setup() {
+            pinMode(ARD_LINE_FINDER2, INPUT_PULLUP);
+            attachInterrupt(ARD_LINE_FINDER2, &lineFinderInterrupt, RISING | FALLING);
+            #ifdef CONSOLE
+                CONSOLE.println("setup Ardlinfinder succesfull");
+            #endif
+        }
+
+        int getRotationCount() {
+            return lineFinderRoations;
+        }
+
     }
-
-    //comment in .h file
-    LineFinder::LineFinder(uint8_t pin) {
-        this->pin = pin;
-        pinMode(pin, INPUT);
-        //attachInterrupt(digitalPinToInterrupt(pin), &lineFinderInterrupt, CHANGE);
-    }
-
-    //comment in .h file
-    uint8_t LineFinder::getCurrentState() {
-        return digitalRead(pin);
-    }
-
-    // uint8_t LineFinder::getPastTransistions() {
-    //     //ToDo: Implement!
-    //     return 0;
-    // }
+    
 }
