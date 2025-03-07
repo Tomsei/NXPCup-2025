@@ -21,8 +21,6 @@
 #include "cameraAnalysis/rowAnalysis.h"
 #include "cameraAnalysis/cameraAnalysis.h"
 
-#define CAM_OFFSET -7
-
 namespace CameraAnalysis {
 
     extern int sobelThreshold;

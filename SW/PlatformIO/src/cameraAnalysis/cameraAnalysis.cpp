@@ -59,7 +59,7 @@ namespace CameraAnalysis {
                 //trackcenter calculation
                 currentImageAnalysis.lastTrackCenters[i] = currentImageAnalysis.trackCenters[i];
                 currentImageAnalysis.trackCenters[i] = currentRowAnalysis.calculateTrackCenter(currentImageAnalysis.lastTrackCenters[i]);
-                currentImageAnalysis.trackCenterOffsets[i] = currentImageAnalysis.trackCenters[i] - (VIDEO_RESOLUTION_X/2);
+                currentImageAnalysis.trackCenterOffsets[i] = currentImageAnalysis.trackCenters[i] - (VIDEO_RESOLUTION_X/2); //todo change!
                 
                 //Analyse tracks - is it straight or a turn 
                 if(abs(currentImageAnalysis.trackCenterOffsets[i]) > STRAIGHT_THRESHOLD) {

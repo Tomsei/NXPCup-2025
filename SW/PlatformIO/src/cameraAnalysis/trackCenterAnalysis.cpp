@@ -18,9 +18,8 @@ namespace CameraAnalysis {
         OpenMVCam::setup();
         
         for (int i = 0; i < VIDEO_RESOLUTION_Y; i++) {
-            currentTrackCenterAnalysis.trackCenters[i]  = VIDEO_RESOLUTION_X/2;
+            currentTrackCenterAnalysis.trackCenters[i]  = (VIDEO_RESOLUTION_X/2);
         }
-
     }
 
     void analyse() {
@@ -29,24 +28,68 @@ namespace CameraAnalysis {
         
         if(!imageAnalysIsComplete) {
 
-            for(int i = 0; i < VIDEO_RESOLUTION_Y; i++)
+            for(int i = 2; i < VIDEO_RESOLUTION_Y; i++) { //start by to (first two values not included!)
+                
+                currentTrackCenterAnalysis.trackCenterOffset[i] = (VIDEO_RESOLUTION_X/2) - currentTrackCenterAnalysis.trackCenters[i];
+            
+                if(abs(currentTrackCenterAnalysis.trackCenterOffset[i]) > STRAIGHT_THRESHOLD) {
+                    currentTrackCenterAnalysis.lastStraightLine = i-1;
 
+                    //calculate the offset vor all other
+                    for(int j = VIDEO_RESOLUTION_Y-1; j > i; j--) {
+                        currentTrackCenterAnalysis.trackCenterOffset[j] = (VIDEO_RESOLUTION_X/2) - currentTrackCenterAnalysis.trackCenters[j];
+                    }
+                    //CONSOLE.print(currentTrackCenterAnalysis.lastStraightLine);
+                    break;
+                }
+            }
+            currentTrackCenterAnalysis.calculateSteeringAngle();
+            currentTrackCenterAnalysis.calculateSpeed();
             imageAnalysIsComplete = 1; 
         }       
 
     }
 
     int getSteeringAngle() {
-        return 90;
+        return 90 + currentTrackCenterAnalysis.steeringAngle;
     }
 
     uint8_t getSpeed() {
-        return 1;
+        return currentTrackCenterAnalysis.speed;
+    }
+
+
+    void TrackCenterAnalysis::calculateSteeringAngle() {
+        float tempSteeringAngle = 0;
+        tempSteeringAngle = trackCenterOffset[80]; 
+    
+        //map value to usable size for steering
+        tempSteeringAngle *= 0.1;
+
+        //make stronger angles stronger!
+        float factor = 1.0;
+        if(tempSteeringAngle > 10) {
+            factor = 1.0;
+        }
+
+        //square steering 
+        if(tempSteeringAngle < 0) {
+            tempSteeringAngle *= tempSteeringAngle*factor;
+            tempSteeringAngle = -tempSteeringAngle;    
+        }
+        else {
+            tempSteeringAngle *= (tempSteeringAngle*factor);
+        }   
+        steeringAngle = tempSteeringAngle;
+    }
+
+    void TrackCenterAnalysis::calculateSpeed() {
+        speed = 15;
     }
 
     void TrackCenterAnalysis::updateTrackCenters(uint32_t* trackCenterData) {
         trackCenters = trackCenterData;
-        printTrackCenters(0, 20);
+        //printTrackCenters(0, 20);
     }
 
     void TrackCenterAnalysis::printTrackCenters(int start /*= 0*/, int length /*= VIDEO_RESOLUTION_X*NUMBER_OF_LINES*/) {

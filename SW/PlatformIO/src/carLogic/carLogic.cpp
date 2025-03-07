@@ -33,8 +33,8 @@ namespace CarLogic {
         
         uint8_t speed = CameraAnalysis::getSpeed();
         int steeringAngle = CameraAnalysis::getSteeringAngle();
+        //CONSOLE.print(speed); CONSOLE.println(steeringAngle);
         DrivingControl::drive(speed, steeringAngle);
-
         //showEnableStateOnLed(engineEnabled, steeringEnabled);
     }
 

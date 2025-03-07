@@ -152,6 +152,9 @@ SPISlave_T4_FUNC void __attribute__((section(".fustrun"))) SPISlave_T4_OPT::SLAV
     #endif
     
     #ifdef ANALYSE_ON_CAMERA
+      if(VIDEO_RESOLUTION_X == 320) {
+        spiBufferToWrite[spiBufferIdx] = spiBufferToWrite[spiBufferIdx] * 320 / 254; //mapping back from 0-245 to 0 - 320
+      }
       if (spiBufferIdx < VIDEO_RESOLUTION_Y-1) spiBufferIdx++;
     #endif
     
