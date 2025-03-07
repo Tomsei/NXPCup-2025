@@ -25,6 +25,7 @@ nxpcup.setup(imageWidth, imageHight) # todo: integrate cam offset
 
 video = mjpeg.Mjpeg('driving_video.mjpeg')
 startTime = time.ticks_ms()
+videoRunning = True
 
 def spiWriteTrackCenters():
     cs.low()
@@ -35,14 +36,18 @@ while True:
     clock.tick()  # Track elapsed milliseconds between snapshots().
     img = sensor.snapshot()  # Take a picture and return the image.
 
-    track_centers = nxpcup.analyseImage(img, img.height(), 200) #ToDo Remove Trackcenters
-    video.add_frame(img)
+    #track_centers = nxpcup.analyseImage(img, img.height(), 200) #ToDo Remove Trackcenters
+    img = nxpcup.analyseImage(img, img.height(), 150)
+
+    if videoRunning:
+        video.add_frame(img)
     #list_track_centers = list(track_centers)
     #print(list_track_centers[0], list_track_centers[1], list_track_centers[2], list_track_centers[3])
     spiWriteTrackCenters()
     print(clock.fps())  # Note: Your OpenMV Cam runs about half as fast while
 
-    if(time.ticks_diff(time.ticks_ms(), startTime) > 10000):
+    if(videoRunning and time.ticks_diff(time.ticks_ms(), startTime) > 20000):
         print("over")
         video.close()
-        break
+        videoRunning = False
+

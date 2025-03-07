@@ -155,7 +155,8 @@ static mp_obj_t analyseImage(uint n_args, const mp_obj_t *args, mp_map_t *kw_arg
         calculateTrackCenters(imageData, i, trackCenters[height-i-2]); //height-i-2 to get the last row before this
     }
 
-    return mp_obj_new_memoryview('h', height, trackCenters);
+    //return mp_obj_new_memoryview('h', height, trackCenters);
+    return args[0];
 }
 static MP_DEFINE_CONST_FUN_OBJ_KW(analyseImage_obj, 3, analyseImage); //number defindes the amoutn of arguments
 
