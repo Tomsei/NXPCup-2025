@@ -61,7 +61,7 @@ namespace CameraAnalysis {
 
     void TrackCenterAnalysis::calculateSteeringAngle() {
         float tempSteeringAngle = 0;
-        tempSteeringAngle = trackCenterOffset[80]; 
+        tempSteeringAngle = trackCenterOffset[40]; 
     
         //map value to usable size for steering
         tempSteeringAngle *= 0.1;
