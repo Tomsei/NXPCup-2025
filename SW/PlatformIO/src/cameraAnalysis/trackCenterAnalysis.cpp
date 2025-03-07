@@ -85,6 +85,7 @@ namespace CameraAnalysis {
 
     void TrackCenterAnalysis::calculateSpeed() {
         speed = 15;
+        speed += lastStraightLine/20;
     }
 
     void TrackCenterAnalysis::updateTrackCenters(uint32_t* trackCenterData) {
