@@ -1,5 +1,5 @@
 """
-running firmware analyses script like the normal one
+running firmware analysis - script like the normal one
 added wifi streaming of the calculatet image with acces point
 
 to stream the calculate sobel image this script needs the firmware version

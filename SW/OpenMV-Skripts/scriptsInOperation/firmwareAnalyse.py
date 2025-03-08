@@ -1,5 +1,5 @@
 """
-running firmware analyses 
+running firmware analysis 
 this script controls the new firmware module nxp cup
 
 the firmware module adds specific methods made for the nxp cup to analyse the image

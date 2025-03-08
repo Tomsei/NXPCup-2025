@@ -7,7 +7,6 @@ import time
 from machine import Pin, SPI
 
 cs = Pin("P3", Pin.OUT)
-
 spi = SPI(1, baudrate=int(1000000000 / 66), polarity=0, phase=0)
 
 
@@ -21,8 +20,7 @@ lineWidth = 1
 
 # confrigure while choosing resolution (change lines and Pixel amount)
 horizontalPixelCount = 320
-rowLine1 = 170 # dynamisch entscheiden -
-#abhängig vom Lenkwinkel (wie weit bin ich schon eingelegnt - aus dder Kurve raus
+rowLine1 = 170
 rowLine2 = 160
 rowLine3 = 130
 rowLine4 = 90
@@ -35,17 +33,18 @@ rowLine5 = 60
 """
 method to create an image out of the choosen lines
 @param img: base image to extracte the lines
-@return lineImage: an image with onlye the choosen lines
+@return lineImage: an image with only the choosen lines
 """
 def configureLines(img):
     baseimage = img.copy(roi = (0,rowLine1,horizontalPixelCount,lineWidth*numberOfLines), x_scale = 1.0, y_scale = 1.0, alpha=0)
+    #create copy of the choosen lines
     line1 = img.copy(roi = (0,rowLine1,horizontalPixelCount,lineWidth), x_scale = 1.0, y_scale = 1.0, alpha=255)
     line2 = img.copy(roi = (0,rowLine2,horizontalPixelCount,lineWidth), x_scale = 1.0, y_scale = 1.0, alpha=255)
     line3 = img.copy(roi = (0,rowLine3,horizontalPixelCount,lineWidth), x_scale = 1.0, y_scale = 1.0, alpha=255)
     line4 = img.copy(roi = (0,rowLine4,horizontalPixelCount,lineWidth), x_scale = 1.0, y_scale = 1.0, alpha=255)
     line5 = img.copy(roi = (0,rowLine5,horizontalPixelCount,lineWidth), x_scale = 1.0, y_scale = 1.0, alpha=255)
 
-
+    #add all lines together in one image
     lineImage = baseimage; # necessary because transparenty problem when there is no base image
     lineImage.add(image = line1, roi = (0,0,horizontalPixelCount,numberOfLines*lineWidth), x = 0, y = 0, x_scale = 1.0, y_scale = 1.0, alpha=255)
     lineImage.add(image = line2, roi = (0,0,horizontalPixelCount,numberOfLines*lineWidth), x = 0, y = lineWidth*1, x_scale = 1.0, y_scale = 1.0, alpha=255)
@@ -65,7 +64,6 @@ method to write an image to spi
 """
 def writeImageSpi(img):
     cs.low()
-
     spi.write(img)
     #printRowPixel(img, 0, 0, 30)
     cs.high()
@@ -79,7 +77,7 @@ method to print the values of an image row
 """
 def printRowPixel(img, row, start, length):
     pixelString = "Pixels: "
-    for i in range(30):
+    for i in range(length):
         pixelString = pixelString + str(img.get_pixel(i,row)) + "\t"
     print (pixelString)
 
@@ -102,5 +100,4 @@ while True:
     img = sensor.snapshot() # Take a picture and return the image.
     lineImage = configureLines(img)
     writeImageSpi(lineImage)
-    time.sleep_ms(35)
     print(clock.fps())

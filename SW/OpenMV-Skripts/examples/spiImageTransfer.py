@@ -1,8 +1,11 @@
 """
-Example: SPI picture transfer
-Inspired from: Open MV - Board control - spi_control.py Example
-"""
+Example: SPI transfer of the image and individual bytes
+- just take an image an write it over spi like the Open-MV exmaple
+  minimized to what is necessary for transmission
 
+Inspired from: Open MV board control exmaple: spi_control_1.py
+@author Tom Seiffert
+"""
 
 import sensor
 import time
@@ -10,7 +13,6 @@ from machine import Pin, SPI
 import struct
 
 cs = Pin("P3", Pin.OUT)
-
 spi = SPI(1, baudrate=int(1000000000 / 66), polarity=0, phase=0)
 
 
@@ -21,13 +23,13 @@ method to write an image to spi
 def write_image(img):
     cs.low()
 
+    #write image over spi
     reversed_img = struct.unpack('H' * (img.size() // 2), img)
     reversed_array = struct.pack('>' + 'H' * len(reversed_img), *reversed_img)
-
     spi.write(reversed_array)
 
     #example for sending individual bytes
-    #spi.write(bytes([86, 89, 25, 23]))
+    #spi.write(bytes([40, 89, 25, 23]))
 
     cs.high()
 

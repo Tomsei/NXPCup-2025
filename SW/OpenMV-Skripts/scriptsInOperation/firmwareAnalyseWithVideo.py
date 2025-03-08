@@ -1,5 +1,5 @@
 """
-running firmware analyses script like the normal one
+running firmware analysis - script like the normal one
 added video recording to an SD-Card 
 
 to record the calculate sobel image this script needs the firmware version
