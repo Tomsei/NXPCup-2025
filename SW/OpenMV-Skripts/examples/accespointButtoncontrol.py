@@ -1,5 +1,11 @@
 """
-Example: Accespoint connection and cam control with button in browser
+Example: Accespoint connection and cam control with button in browser using sockets
+- starting an accespoint an use it to provid a basic html site
+- listening to requests and updating the button state depending on request parameters
+- while waiting for the request no other task can be processed
+
+Inspired of OpenMV examples codes and some help of the OpenMV Forum posts
+@author Tom Seiffert
 """
 
 import time
@@ -7,9 +13,10 @@ import network
 import socket
 
 ssid = 'NXP-Cup 2025'
-password = '123456789'
+password = '1234567890'
 
 currentButtonState = False
+counter = 0;
 
 """
 method to create basic HTML structure
@@ -59,6 +66,7 @@ print("listening on", addr)
 #main loop - listen to request
 while True:
 
+    counter += 1
     client, clientAddr = mySocket.accept()
 
     #read request
@@ -84,3 +92,4 @@ while True:
     client.send(createHtmlString())
     client.close()
     print("Button State: " + str(currentButtonState) + "\n")
+    print(counter)

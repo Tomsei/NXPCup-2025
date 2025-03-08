@@ -29,7 +29,8 @@ Der NXP-Cup ist ein Internationaler Wettbewerb, ausgerichtet vom Unternehmen NXP
         ```
 ### GIT
 - Commits: Englisch
-- Dateien: Englisch ```Example_File```
+- Dateien: Englisch ```exmpleFileForDemonstration``` 
+    - Der Name von Komponenten wird wenn notwendig mit _KOMPONENTENNAME an Datei angehangen
 - Verzeichnisse: Englisch
 - Wiki: Deutsch
 - Issues: Deutsch

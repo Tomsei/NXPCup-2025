@@ -3,7 +3,7 @@ Jeglicher Quellcode dieses Ordners ist lediglich zum austesten der Einzelkompone
 
 Dieser Ordner und alle Dateien die dieser beinhaltet sind Basistests der Komponenten, ohne weitere Struktur in der Programmierung. Er dient zum verifizieren, dass alle Komponenten **gleichzeitig** funktionsfähig und ansteuerbar sind.  
 
-Auf der Kamera sollte das Script: ```Control_Engine_Accespoint``` ausgeführt werden. Somit kann auch die SPI Verbindung verifiziert werden, in dem das Steuersignal der Motoren weitergeleitet wird.
+Auf der Kamera sollte das Script: ```controlEngineAccespointAsync.py``` ausgeführt werden. Somit kann auch die SPI Verbindung verifiziert werden, in dem das Steuersignal der Motoren weitergeleitet wird.
 
 In der globalConfig.h muss folgende Definition stehen ```#define SINGLE_COMPONENTS_TEST ```
 
