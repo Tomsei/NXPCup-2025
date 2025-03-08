@@ -14,6 +14,7 @@
 //variables
 int16_t* width;
 int16_t* height;
+int8_t* camOffset;
 uint8_t* trackCenters;
 
 
@@ -24,13 +25,15 @@ uint8_t* trackCenters;
  * @param imgHeight: height of the image
  * @return: width to check if value is corret
  */
-static mp_obj_t setup(mp_obj_t imgWidth, mp_obj_t imgHeight) {   
+static mp_obj_t setup(mp_obj_t imgWidth, mp_obj_t imgHeight, mp_obj_t imgCamOffset) {   
     trackCenters = fb_alloc(256*2, FB_ALLOC_NO_HINT);
     height = fb_alloc(2, FB_ALLOC_NO_HINT);
     width = fb_alloc(2, FB_ALLOC_NO_HINT);
+    camOffset = fb_alloc(1, FB_ALLOC_NO_HINT);
 
     *width = mp_obj_get_int(imgWidth);
     *height = mp_obj_get_int(imgHeight);
+    *camOffset = mp_obj_get_int(imgCamOffset);
     
     //set first flag (first two rows not calculated)
     trackCenters[0] = 255;
@@ -39,7 +42,7 @@ static mp_obj_t setup(mp_obj_t imgWidth, mp_obj_t imgHeight) {
 
     return mp_obj_new_int(*width);
 }
-static MP_DEFINE_CONST_FUN_OBJ_2(setup_obj, setup); //number defindes the amoutn of arguments
+static MP_DEFINE_CONST_FUN_OBJ_3(setup_obj, setup); //number defindes the amoutn of arguments
 
 
 

@@ -1,8 +1,18 @@
+"""
+running firmware analyses 
+this script controls the new firmware module nxp cup
+
+the firmware module adds specific methods made for the nxp cup to analyse the image
+with a sobel filter. It also calculate the trackCenters and transfer the resuls over SPI
+
+@author Tom Seiffert
+"""
 import sensor
 import time
 import nxpcup
 
-import image, mjpeg
+#configurations
+camOffset = 0
 
 # define spi connection
 from machine import Pin, SPI
@@ -21,33 +31,22 @@ clock = time.clock()  # Tracks FPS.
 imageHight = img.height()
 imageWidth = img.width()
 
-nxpcup.setup(imageWidth, imageHight) # todo: integrate cam offset
+nxpcup.setup(imageWidth, imageHight, camOffset)
 
-video = mjpeg.Mjpeg('driving_video.mjpeg')
-startTime = time.ticks_ms()
-videoRunning = True
-
+"""
+run the prepared spi transfer for the nxpcup data
+"""
 def spiWriteTrackCenters():
     cs.low()
     nxpcup.spiWrite(spi)
     cs.high()
 
+# while loop to calculate track Centers and transfer them over spi
 while True:
     clock.tick()  # Track elapsed milliseconds between snapshots().
     img = sensor.snapshot()  # Take a picture and return the image.
 
-    #track_centers = nxpcup.analyseImage(img, img.height(), 200) #ToDo Remove Trackcenters
-    img = nxpcup.analyseImage(img, img.height(), 150)
+    img = nxpcup.analyseImage(img, img.height(), 150) #If nessesarry change return!
 
-    if videoRunning:
-        video.add_frame(img)
-    #list_track_centers = list(track_centers)
-    #print(list_track_centers[0], list_track_centers[1], list_track_centers[2], list_track_centers[3])
     spiWriteTrackCenters()
     print(clock.fps())  # Note: Your OpenMV Cam runs about half as fast while
-
-    if(videoRunning and time.ticks_diff(time.ticks_ms(), startTime) > 20000):
-        print("over")
-        video.close()
-        videoRunning = False
-
