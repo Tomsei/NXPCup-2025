@@ -23,6 +23,7 @@ uint8_t* trackCenters;
  * allocate the memory for the needed variables and initiate them
  * @param imgWidth: width of the image
  * @param imgHeight: height of the image
+ * @param imgCamOffset: cam offset that schoul be added to the track centers
  * @return: width to check if value is corret
  */
 static mp_obj_t setup(mp_obj_t imgWidth, mp_obj_t imgHeight, mp_obj_t imgCamOffset) {   
@@ -105,8 +106,12 @@ void calculateTrackCenters(uint8_t* argImg, int row, int startSearch) {
 
 
 /**
- * method to analyse the picture - Todo: calculate Sobel umbenennen
+ * method to analyse the picture
+ * all configurations of the analysis are read
+ * a sobel filter is applied over the entire image
+ * call method to calculate the track center for each row
  * @param args: the different parameters are used to get the arg parameter
+ * @return the new calculatet image
  */
 static mp_obj_t analyseImage(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
     
@@ -179,6 +184,7 @@ static void mp_machine_spi_transfer(mp_obj_t self, size_t len, const void *src, 
 /**
  * spi write to write the calculatet track centers
  * copy of the neede stuff from the original firmware method (lib/micropython/extmod/machine_spi.c)
+ * just modified so it can transfer the calculatet track centers
  */
 static mp_obj_t spiWrite(mp_obj_t self) {
     mp_machine_spi_transfer(self, 256, (const uint8_t *)trackCenters, NULL);
