@@ -5,7 +5,7 @@ Dieser Ordner und alle Dateien die dieser beinhaltet sind Basistests der Kompone
 
 Auf der Kamera sollte das Script: ```controlEngineAccespointAsync.py``` ausgeführt werden. Somit kann auch die SPI Verbindung verifiziert werden, in dem das Steuersignal der Motoren weitergeleitet wird.
 
-In der globalConfig.h muss folgende Definition stehen ```#define SINGLE_COMPONENTS_TEST ```
+In der globalConfig.h muss folgende Definition stehen ```#define SINGLE_COMPONENTS_TEST ``` und die Definition zur Analyse auf der Kamera auskommentiert werden
 
 In der Main Datei muss der folgender Quellcode ausgeführt werden:
 ```c++
