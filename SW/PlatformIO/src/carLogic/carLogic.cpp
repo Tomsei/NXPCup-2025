@@ -10,6 +10,7 @@
 #include "sensors/sensors.h"
 #include "dataVisualisation/display.h"
 #include "dataVisualisation/ledStrip.h"
+#include "timingControl/timingControl.h"
 
 namespace CarLogic {
 
@@ -36,6 +37,17 @@ namespace CarLogic {
         //CONSOLE.print(speed); CONSOLE.println(steeringAngle);
         DrivingControl::drive(speed, steeringAngle);
         //showEnableStateOnLed(engineEnabled, steeringEnabled);
+    }
+
+
+
+    TimingControl::Task* t_updateLed;
+
+    void defineTimedTasks () {
+
+        t_updateLed = TimingControl::createTask([](TimingControl::Task* self) {
+            CONSOLE.println("every Second");
+        }, 1000, true, true);
     }
 
 

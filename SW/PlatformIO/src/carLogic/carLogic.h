@@ -5,4 +5,5 @@ namespace CarLogic {
     extern bool steeringEnabled;
 
     void runCarLogic();
+    void defineTimedTasks();
 }
