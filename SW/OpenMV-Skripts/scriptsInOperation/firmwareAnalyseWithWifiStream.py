@@ -88,7 +88,7 @@ def startStreaming(client):
     while True:
         clock.tick()  # Track elapsed milliseconds between snapshots().
         img = sensor.snapshot()  # Take a picture and return the image.
-        img = nxpcup.analyseImage(img, img.height(), 150)
+        img = nxpcup.analyseImage(img, img.height(), 100)
         spiWriteTrackCenters()
         cframe = img.to_jpeg(quality=35, copy=True)
         header = (

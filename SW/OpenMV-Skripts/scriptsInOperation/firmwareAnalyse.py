@@ -1,5 +1,5 @@
 """
-running firmware analysis 
+running firmware analysis
 this script controls the new firmware module nxp cup
 
 the firmware module adds specific methods made for the nxp cup to analyse the image
@@ -12,7 +12,7 @@ import time
 import nxpcup
 
 #configurations
-camOffset = 0
+camOffset = -5
 
 # define spi connection
 from machine import Pin, SPI
@@ -20,7 +20,7 @@ cs = Pin("P3", Pin.OUT)
 spi = SPI(1, baudrate=int(16000000), polarity=0, phase=0)
 
 # setup sensor
-sensor.reset()  # Initialize the camera sensor.
+sensor.reset()  # Initialize the camera80 sensor.
 sensor.set_pixformat(sensor.GRAYSCALE)  # or sensor.RGB565
 sensor.set_framesize(sensor.QVGA)  # or sensor.QVGA (or others)
 sensor.skip_frames(time=2000)  # Let new settings take affect.
@@ -46,7 +46,6 @@ while True:
     clock.tick()  # Track elapsed milliseconds between snapshots().
     img = sensor.snapshot()  # Take a picture and return the image.
 
-    img = nxpcup.analyseImage(img, img.height(), 150) #If nessesarry change return!
-
+    img = nxpcup.analyseImage(img, img.height(), 100) #If nessesarry change return!
     spiWriteTrackCenters()
     print(clock.fps())  # Note: Your OpenMV Cam runs about half as fast while

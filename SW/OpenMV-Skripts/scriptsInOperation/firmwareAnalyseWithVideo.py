@@ -1,6 +1,6 @@
 """
 running firmware analysis - script like the normal one
-added video recording to an SD-Card 
+added video recording to an SD-Card
 
 to record the calculate sobel image this script needs the firmware version
 where nxpcup.analyse() return the image
@@ -13,7 +13,7 @@ import nxpcup
 import image, mjpeg
 
 #configurations
-camOffset = 0
+camOffset = 5
 vidoeDuration = 20000
 
 # define spi connection
@@ -53,7 +53,7 @@ while True:
     clock.tick()  # Track elapsed milliseconds between snapshots().
     img = sensor.snapshot()  # Take a picture and return the image.
 
-    img = nxpcup.analyseImage(img, img.height(), 150)
+    img = nxpcup.analyseImage(img, img.height(), 80)
 
     #add Famre to video
     if videoRunning:

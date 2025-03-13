@@ -22,6 +22,7 @@ namespace CameraAnalysis {
             uint32_t* trackCenters; //ToDo: uint32_t could be change to uint8_t (then also change image Buffer - Testing!)
             int16_t trackCenterOffset[VIDEO_RESOLUTION_Y]; //could be int 16
             int lastStraightLine;
+            int lastSteeringLine;
             int steeringAngle;
             uint8_t speed;
         

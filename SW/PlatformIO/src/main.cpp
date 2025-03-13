@@ -51,9 +51,9 @@ void loop() {
 
   Sensors::updateRawData();
   CameraAnalysis::analyse();
-  Sensors::printData();
+  //Sensors::printData();
   CarLogic::runCarLogic();
-  //CONSOLE.println(count);
+ //CONSOLE.println("loop");
 }
 
 
