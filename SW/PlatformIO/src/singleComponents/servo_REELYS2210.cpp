@@ -26,26 +26,15 @@ namespace SingleComponent {
     }
 
     /**
-     * method to call in loop to control the steering angle of the servo
+     * test control of the steering angle of the servo
+     * change it permanently from left to right 
      */
     void runServo() {
-     servo.write(130);
-    }
-
-    /* ToDo: just testing - better way needed!*/
-    /**
-     * method to set the servo steering
-     * @param value: the new servo steering value
-     */
-    void servoSteering(int value) {
-        if(value > 130)
-            value = 130;
-        if(value < 50)
-            value = 50;
-        CONSOLE.print("Servo Value: "); CONSOLE.println(value);
-        servo.write(value);
+        if((millis() % 10000) > 5000) {
+            servo.write(130);
+        } else {
+            servo.write(50);
+        }
     }
 }
-
-
 #endif

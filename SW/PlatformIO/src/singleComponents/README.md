@@ -22,7 +22,7 @@ In der Main Datei muss der folgender Quellcode ausgeführt werden:
 #include "singleComponents/imu_SEN0142.h"
 #include "singleComponents/camera_OPENMVCAMRT1062.h"
 #include "singleComponents/display_CS-ANAVI-DISPLAY1.h"
-#include "singleComponents/io_expander_MCP23017.h"
+#include "singleComponents/ioExpander_MCP23017.h"
 #include "singleComponents/poti.h"
 #include "singleComponents/ledStrip_Adafruit1426.h"
 
@@ -35,7 +35,7 @@ void setup() {
 
   // put your setup code here, to run once:
   CONSOLE.begin(115200);
-  Wire.begin(); //later in I2C Modul
+  Wire.begin();
   SingleComponent::setupOpticalFlow();
   SingleComponent::setupTofDistanceMeasure();
   SingleComponent::setupArdLinefinder();
