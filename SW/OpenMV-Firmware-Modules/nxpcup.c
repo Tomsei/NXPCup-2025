@@ -14,7 +14,11 @@
 //variables
 int16_t* width;
 int16_t* height;
+int16_t* lastTrackCenter;
+int8_t* camOffset;
 uint8_t* trackCenters;
+bool* runTrackCenterCalculation;
+
 
 
 /**
@@ -22,16 +26,23 @@ uint8_t* trackCenters;
  * allocate the memory for the needed variables and initiate them
  * @param imgWidth: width of the image
  * @param imgHeight: height of the image
+ * @param imgCamOffset: cam offset that schoul be added to the track centers
  * @return: width to check if value is corret
  */
-static mp_obj_t setup(mp_obj_t imgWidth, mp_obj_t imgHeight) {   
+static mp_obj_t setup(mp_obj_t imgWidth, mp_obj_t imgHeight, mp_obj_t imgCamOffset) {   
     trackCenters = fb_alloc(256*2, FB_ALLOC_NO_HINT);
     height = fb_alloc(2, FB_ALLOC_NO_HINT);
     width = fb_alloc(2, FB_ALLOC_NO_HINT);
+    camOffset = fb_alloc(1, FB_ALLOC_NO_HINT);
+    runTrackCenterCalculation = fb_alloc(1, FB_ALLOC_NO_HINT);
+    lastTrackCenter = fb_alloc(1, FB_ALLOC_NO_HINT);
 
     *width = mp_obj_get_int(imgWidth);
     *height = mp_obj_get_int(imgHeight);
-    
+    *camOffset = mp_obj_get_int(imgCamOffset);
+    *runTrackCenterCalculation = true;
+    *lastTrackCenter = (*width/2);
+
     //set first flag (first two rows not calculated)
     trackCenters[0] = 255;
     //set first track center to the center of the image
@@ -39,7 +50,7 @@ static mp_obj_t setup(mp_obj_t imgWidth, mp_obj_t imgHeight) {
 
     return mp_obj_new_int(*width);
 }
-static MP_DEFINE_CONST_FUN_OBJ_2(setup_obj, setup); //number defindes the amoutn of arguments
+static MP_DEFINE_CONST_FUN_OBJ_3(setup_obj, setup); //number defindes the amoutn of arguments
 
 
 
@@ -82,19 +93,33 @@ void calculateTrackCenters(uint8_t* argImg, int row, int startSearch) {
     //     argImg[i + rowOffset] = 0;
     // }
 
-    trackCenter = (leftEdge + rightEdge) / 2; //ToDo: add Offset to Camera - also possbile at Teensy
+    trackCenter = ((leftEdge + rightEdge) / 2);
 
-    argImg[rowOffset + trackCenter] = 120;
+    if(argImg[rowOffset + trackCenter] == 255) {
+        //track center on edge - stop calculating
+        *runTrackCenterCalculation = false;
+        argImg[rowOffset + trackCenter] = 255;
+        trackCenter = 255;
+    }
+    else {
+        //normal track center calculation
+        argImg[rowOffset + trackCenter] = 120;
 
-    //if high resolution: map values to range of 0 - 254
-    if (*width == 320) {
-        trackCenter = (trackCenter * 254) / (*width);
+        *lastTrackCenter = trackCenter;
+        trackCenter = trackCenter + *camOffset;
+        trackCenter = (trackCenter > 0) ? trackCenter : 0; //make sure trackCenter is not negativ
+        
+        //if high resolution: map values to range of 0 - 254
+        if (*width == 320) {
+            trackCenter = (trackCenter * 254) / (*width);
+        }
+
+        //make sure 255 could be used as unique marker
+        if(trackCenter == 255) { 
+            trackCenter = 254;
+        }
     }
 
-    //make sure 255 could be used as unique marker
-    if(trackCenter == 255) { 
-        trackCenter = 254;
-    }
     trackCenters[*height - row - 1] = trackCenter; //change the order (lowest row is the first in Array)
 }
 
@@ -102,8 +127,12 @@ void calculateTrackCenters(uint8_t* argImg, int row, int startSearch) {
 
 
 /**
- * method to analyse the picture - Todo: calculate Sobel umbenennen
+ * method to analyse the picture
+ * all configurations of the analysis are read
+ * a sobel filter is applied over the entire image
+ * call method to calculate the track center for each row
  * @param args: the different parameters are used to get the arg parameter
+ * @return the new calculatet image
  */
 static mp_obj_t analyseImage(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
     
@@ -152,10 +181,20 @@ static mp_obj_t analyseImage(uint n_args, const mp_obj_t *args, mp_map_t *kw_arg
     
     //calculate edges and track_centers
     for (int i = height - 3; i >= 0; i--) {
-        calculateTrackCenters(imageData, i, trackCenters[height-i-2]); //height-i-2 to get the last row before this
+        if(*runTrackCenterCalculation) {
+            //calculateTrackCenters(imageData, i, trackCenters[height-i-2]); //height-i-2 to get the last row before this
+            calculateTrackCenters(imageData, i, *lastTrackCenter); //height-i-2 to get the last row before this
+        }
+        else {
+            trackCenters[height - i - 1] = 255; //change the order (lowest row is the first in Array)
+        }
     }
 
-    return mp_obj_new_memoryview('h', height, trackCenters);
+    *runTrackCenterCalculation = true;
+    *lastTrackCenter = width/2;
+
+    //return mp_obj_new_memoryview('h', height, trackCenters);
+    return args[0];
 }
 static MP_DEFINE_CONST_FUN_OBJ_KW(analyseImage_obj, 3, analyseImage); //number defindes the amoutn of arguments
 
@@ -175,6 +214,7 @@ static void mp_machine_spi_transfer(mp_obj_t self, size_t len, const void *src, 
 /**
  * spi write to write the calculatet track centers
  * copy of the neede stuff from the original firmware method (lib/micropython/extmod/machine_spi.c)
+ * just modified so it can transfer the calculatet track centers
  */
 static mp_obj_t spiWrite(mp_obj_t self) {
     mp_machine_spi_transfer(self, 256, (const uint8_t *)trackCenters, NULL);

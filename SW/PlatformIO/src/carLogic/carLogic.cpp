@@ -5,10 +5,12 @@
 #include "carLogic/carLogic.h"
 #include "drivingControl/drivingControl.h"
 #include "cameraAnalysis/cameraAnalysis.h"
+#include "cameraAnalysis/trackCenterAnalysis.h"
 #include "boardInput/boardInput.h"
 #include "sensors/sensors.h"
 #include "dataVisualisation/display.h"
 #include "dataVisualisation/ledStrip.h"
+#include "timingControl/timingControl.h"
 
 namespace CarLogic {
 
@@ -32,9 +34,20 @@ namespace CarLogic {
         
         uint8_t speed = CameraAnalysis::getSpeed();
         int steeringAngle = CameraAnalysis::getSteeringAngle();
+        //CONSOLE.print(speed); CONSOLE.println(steeringAngle);
         DrivingControl::drive(speed, steeringAngle);
-
         //showEnableStateOnLed(engineEnabled, steeringEnabled);
+    }
+
+
+
+    TimingControl::Task* t_updateLed;
+
+    void defineTimedTasks () {
+
+        t_updateLed = TimingControl::createTask([](TimingControl::Task* self) {
+            CONSOLE.println("every Second");
+        }, 1000, true, true);
     }
 
 

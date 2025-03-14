@@ -5,6 +5,7 @@
 #include "configuration/globalConfig.h"
 
 #include "cameraAnalysis/cameraAnalysis.h"
+#include "cameraAnalysis/trackCenterAnalysis.h"
 #include "dataVisualisation/dataVisualisation.h"
 #include "boardInput/boardInput.h"
 #include "drivingControl/drivingControl.h"
@@ -13,6 +14,12 @@
 #include "carLogic/carLogic.h"
 
 void checkingForErrors(); //ToDo: Just to Debug
+
+int count;
+
+void onInterrupt() {
+  count++;
+}
 
 void setup() {
   #ifdef CONSOLE
@@ -31,6 +38,9 @@ void setup() {
   DrivingControl::setup();
   Sensors::setup();
   
+  //pinMode(3, INPUT_PULLUP);
+  //attachInterrupt(3, &onInterrupt, RISING | FALLING);
+
   #ifdef CONSOLE
     CONSOLE.println("Main | Setup Done!");
   #endif
@@ -38,10 +48,12 @@ void setup() {
 
 void loop() {
   BoardInput::update();
+
   Sensors::updateRawData();
   CameraAnalysis::analyse();
   //Sensors::printData();
   CarLogic::runCarLogic();
+ //CONSOLE.println("loop");
 }
 
 

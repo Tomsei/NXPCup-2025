@@ -1,15 +1,22 @@
 """
-Example: Accespoint connection and cam control with button in browser
+Example: wifi connection and cam control with button in browser using sockets
+- connecting to wifi and providing a basic html site
+- listening to requests and updating the button state depending on request parameters
+- while waiting for the request no other task can be processed
+
+Inspired of OpenMV examples codes and some help of the OpenMV Forum posts
+@author Tom Seiffert
 """
 
 import time
 import network
 import socket
 
-ssid = 'NXP-Cup 2025'
-password = '123456789'
+ssid = 'XX'
+password = 'XX'
 
 currentButtonState = False
+counter = 0
 
 """
 method to create basic HTML structure
@@ -36,21 +43,43 @@ def createHtmlString():
     '''
     return html
 
-#setup accespoint
-accesPoint = network.WLAN(network.AP_IF)
-accesPoint.active(False)
-time.sleep(2)
-accesPoint.config(essid=ssid, password=password)
-accesPoint.active(True)
+# setup WiFi
+wifi = network.WLAN(network.STA_IF)
 
-# wait until Accespoint is active
-while accesPoint.active() == False:
-    print("Waiting for active Accespoint")
-    time.sleep(0.5)
-print("Accespoint mode started. ssid: {} IP: {}".format(ssid, accesPoint.ifconfig()[0]))
+#restart WiFi Interface
+wifi.active(False)
+time.sleep(1)
+wifi.active(True)
+wifi.connect(ssid,password)
+
+#try a 10 times to connect
+maxConnectionWait = 10
+while maxConnectionWait > 0:
+    #connection Error
+    if wifi.status() < 0:
+        print ("Connection Failed: " + str(wifi.status()))
+        break
+    elif wifi.status() == 3:
+        print ("Connection Sucessfull: " + str(wifi.status()))
+        break
+
+    maxConnectionWait -= 1
+    print("waiting for connection:" + str(maxConnectionWait))
+    time.sleep(1)
+
+#check connection
+if wifi.status() != 3:
+    #no connection
+    raise RuntimeError("network coneection failed; Error: ", wifi.status())
+else:
+    print("WiFi Connected")
+    status = wifi.ifconfig()
+    print('network config:', wifi.ifconfig())
+
+
 
 #setup socket
-addr = (accesPoint.ifconfig()[0], 80)
+addr = (wifi.ifconfig()[0], 80)
 mySocket = socket.socket()
 mySocket.bind(addr)
 mySocket.listen(1)
@@ -58,7 +87,7 @@ print("listening on", addr)
 
 #main loop - listen to request
 while True:
-
+    counter += 1
     client, clientAddr = mySocket.accept()
 
     #read request
@@ -84,3 +113,4 @@ while True:
     client.send(createHtmlString())
     client.close()
     print("Button State: " + str(currentButtonState) + "\n")
+    print(counter)

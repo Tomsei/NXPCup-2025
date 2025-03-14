@@ -38,7 +38,7 @@ namespace DataVisualisation {
             setAllLeds(CRGB::White);
             FastLED.show();
             #ifdef CONSOLE
-                CONSOLE.print("LEDS Setup Done");
+                CONSOLE.println("LEDS Setup Done");
             #endif
         }
 
