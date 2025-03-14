@@ -23,7 +23,7 @@ namespace CameraAnalysis {
     //comment in .h
     void ImageAnalysis::updateImage(uint32_t* pixelData) {
         imageDataBuffer = pixelData;
-        ImageAnalysis::printImage(0, 20);
+        //printImage(0, 20);
     }
 
     //comment in .h
@@ -41,7 +41,7 @@ namespace CameraAnalysis {
         tempSteeringAngle *= 0.1;
         
         //make stronger angles stronger!
-        float factor = 0.7;
+        float factor = 1.0;
         if(tempSteeringAngle > 10) {
             factor = 1.0;
         }
@@ -83,8 +83,6 @@ namespace CameraAnalysis {
         //speed compensation in turn
         if(abs(steeringAngle) > 50)
             speed *= 1.1;
-
-        speed = 17; //@todo: remove
     }
 
 

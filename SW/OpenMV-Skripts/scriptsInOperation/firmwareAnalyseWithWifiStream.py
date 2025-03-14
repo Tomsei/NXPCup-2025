@@ -1,53 +1,73 @@
-#Source: https://forums.openmv.io/t/rt1062-wifi-debugging/9089/10
+"""
+running firmware analysis - script like the normal one
+added wifi streaming of the calculatet image with acces point
 
-# This work is licensed under the MIT license.
-# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
-# https://github.com/openmv/openmv/blob/master/LICENSE
-#
-# MJPEG Streaming AP.
-#
-# This example shows off how to do MJPEG streaming in AccessPoint mode.
-# Chrome, Firefox and MJpegViewer App on Android have been tested.
-# Connect to OPENMV_AP and use this URL: http://192.168.1.1:8080 to view the stream.
+to stream the calculate sobel image this script needs the firmware version
+where nxpcup.analyse() return the image
 
+the wifi code was taken from the OpenMV-example: "mjpeg_streamer_ap_1"
+@author Tom Seiffert
+"""
 import sensor
 import time
+import nxpcup
 import network
 import socket
-import image
 
-SSID = "OPENMV_AP"  # Network SSID
+#configurations
+camOffset = 0
+
+#settings of AP-Point
+SSID = "NXP-Cup 2025"  # Network SSID
 KEY = "1234567890"  # Network key (must be 10 chars)
 HOST = ""  # Use first available interface
 PORT = 8080  # Arbitrary non-privileged port
 
-# Reset sensor
-sensor.reset()
-sensor.set_framesize(sensor.QQVGA)
-sensor.set_pixformat(sensor.RGB565)
-
-# Init wlan module in AP mode.
+# init wlan module in AP mode.
 wlan = network.WLAN(network.AP_IF)
-wlan.active(False)
 wlan.config(ssid=SSID, key=KEY, channel=2)
 wlan.active(True)
 
 print("AP mode started. SSID: {} IP: {}".format(SSID, wlan.ifconfig()[0]))
 
-# You can block waiting for client to connect
-# print(wlan.wait_for_sta(100000))
 
-variable = 1
-shouldRun = 0
+# define spi connection
+from machine import Pin, SPI
+cs = Pin("P3", Pin.OUT)
+spi = SPI(1, baudrate=int(16000000), polarity=0, phase=0)
 
-def start_streaming(client):
-    print("START STREAMING")
-    global variable
-    global sholudRun
+# setup sensor
+sensor.reset()  # Initialize the camera sensor.
+sensor.set_pixformat(sensor.GRAYSCALE)  # or sensor.RGB565
+sensor.set_framesize(sensor.QVGA)  # or sensor.QVGA (or others)
+sensor.skip_frames(time=2000)  # Let new settings take affect.
+sensor.set_gainceiling(8)
+img = sensor.snapshot()
+clock = time.clock()  # Tracks FPS.
+
+imageHight = img.height()
+imageWidth = img.width()
+
+nxpcup.setup(imageWidth, imageHight, camOffset)
+
+
+"""
+run the prepared spi transfer for the nxpcup data
+"""
+def spiWriteTrackCenters():
+    cs.low()
+    nxpcup.spiWrite(spi)
+    cs.high()
+
+"""
+start the image streaming and runs the new endless loop
+calculate the new picture and transfer the results with
+spi and stream the calculatet image over the accespoint
+@param client: client to stream the image Data
+"""
+def startStreaming(client):
     # Read request from client
-    print("Read Request")
     data = client.recv(1024)
-    print(data)
     # Should parse client request here
 
     # Send multipart header
@@ -64,30 +84,26 @@ def start_streaming(client):
 
     # Start streaming images
     # NOTE: Disable IDE preview to increase streaming FPS.
+    # new endless loop to run the logic (img stream and trackcenter calculation)
     while True:
         clock.tick()  # Track elapsed milliseconds between snapshots().
-        frame = sensor.snapshot()
-
-        test = "<!DOCTYPE html> <html> <h1> Test " + str(variable) + " </h1> </html>"
-
-        "<form method=\"get\" action=\"/\"><label for=\"SSID\">Wlan SSID: </label><input type=\"text\" id=\"SSID\" name=\"SSID\" required><br><br>"
-        variable += 1
-
-        cframe = frame.compress(quality=50, subsampling=image.JPEG_SUBSAMPLING_422)
+        img = sensor.snapshot()  # Take a picture and return the image.
+        img = nxpcup.analyseImage(img, img.height(), 100)
+        spiWriteTrackCenters()
+        cframe = img.to_jpeg(quality=35, copy=True)
         header = (
             "\r\n--openmv\r\n"
-            "Content-Type: html\r\n"
+            "Content-Type: image/jpeg\r\n"
             "Content-Length:" + str(cframe.size()) + "\r\n\r\n"
         )
         client.sendall(header)
-        client.sendall(test)
-
+        client.sendall(cframe)
         print(clock.fps())
-        time.sleep_ms(500)
 
 
 server = None
 
+#creating serve and wait for client to connect. Start streaming when a client connects
 while True:
     if server is None:
         # Create server socket
@@ -112,7 +128,7 @@ while True:
         # set client socket timeout to 2s
         client.settimeout(5.0)
         print("Connected to " + addr[0] + ":" + str(addr[1]))
-        start_streaming(client)
+        startStreaming(client)
     except OSError as e:
         client.close()
         print("client socket error:", e)

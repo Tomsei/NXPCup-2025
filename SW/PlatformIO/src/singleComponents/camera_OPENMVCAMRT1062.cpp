@@ -8,7 +8,9 @@
  * using the Library: SPISlave_T4.h
  * https://github.com/tonton81/SPISlave_T4
  * 
- * improved by tjaekel
+ * inspiration for improvments from Tjaekel: 
+ * https://forum.pjrc.com/index.php?threads/teensy-4-1-spi-slave-here-it-is.72792/
+ * https://github.com/tjaekel/Teesny_4_1
  * 
  * @author Tom Seiffert
  */
@@ -23,6 +25,7 @@
 
 volatile int spiBufferIdx = 0;
 volatile int spiTransferComplete = 0;
+volatile int imageAnalysIsComplete = 1; // just to make it able to run (needed for the real implementation)
 
 uint32_t spiFrontBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
 uint32_t spiBackBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];

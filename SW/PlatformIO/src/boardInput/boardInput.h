@@ -16,8 +16,7 @@
 namespace BoardInput {
 
     //structure to store all needed board input data
-    struct Data
-    {
+    struct Data {
         uint16_t poti1;
         uint16_t poti2;
         uint8_t dipSwitch;
@@ -26,6 +25,9 @@ namespace BoardInput {
     };
 
     enum DipSwitchEnum : uint8_t {S1 = 1, S2 = 2, S3 = 4, S4 = 8};
+
+    //make it "public" to read data when it is needed
+    extern Data data;
 
     /**
      * setup of IoExpander and data struct

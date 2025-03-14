@@ -12,10 +12,10 @@
 
 
 //#define SINGLE_COMPONENTS_TEST //if SingleComponets should be used!
-//#define ANALYSE_ON_CAMERA
+#define ANALYSE_ON_CAMERA
 
 /* serial definition (bluetooth / usb)*/
-#define CONSOLE Serial
+#define CONSOLE Serial8
 
 
 
@@ -59,3 +59,4 @@
 #define VIDEO_RESOLUTION_X 320
 #define VIDEO_RESOLUTION_Y 240
 #define NUMBER_OF_LINES 5
+#define CAM_OFFSET -7

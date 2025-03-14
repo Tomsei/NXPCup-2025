@@ -14,25 +14,11 @@
 
 namespace Sensors {
     
-    /**
-     * LineFinder class
-     * controling the line finder sensors
-     */
-    class LineFinder {
-        public:
-
-            /**
-             * constructor to configure the pin
-             */
-            LineFinder(uint8_t pin);
-
-            /**
-             * get the current Sensor state
-             * @return the sensor state (0: nothing detected | 1: detected)
-             */
-            uint8_t getCurrentState(); 
+    namespace ArdLineFinder {
         
-        private:
-            uint8_t pin;
-    };
+        void setup();
+
+        int getRotationCount();
+    
+    }
 }
