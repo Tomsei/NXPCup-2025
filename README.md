@@ -27,6 +27,7 @@ Der NXP-Cup ist ein Internationaler Wettbewerb, ausgerichtet vom Unternehmen NXP
             ...
         }
         ```
+  - #defines werden komplett groß geschrieben ```#define NEW_DEFINE_VALUE```
 ### GIT
 - Commits: Englisch
 - Dateien: Englisch ```Example_File```
