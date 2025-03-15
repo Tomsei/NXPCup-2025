@@ -125,7 +125,10 @@ extern uint32_t* spiBufferToRead;
 uint32_t* spiBufferToWrite = spiFrontBuffer;
 
 
-
+/**
+ * spi interrupt method taken from the library
+ * and enriched with swap Buffer implementation and modification for own array
+ */
 SPISlave_T4_FUNC void __attribute__((section(".fustrun"))) SPISlave_T4_OPT::SLAVE_ISR() {
 
   SLAVE_PORT_ADDR;
@@ -144,16 +147,20 @@ SPISlave_T4_FUNC void __attribute__((section(".fustrun"))) SPISlave_T4_OPT::SLAV
     SLAVE_SR = (1UL << 11);
     transmit_errors++;
   }
+
+  //incoming data
   if ( (SLAVE_SR & (1UL << 1)) ) {
+    //write data to array
     spiBufferToWrite[spiBufferIdx] = SLAVE_RDR;
     
+    //increment index depending on array size
     #ifndef ANALYSE_ON_CAMERA
       if (spiBufferIdx < VIDEO_RESOLUTION_X*NUMBER_OF_LINES-1) spiBufferIdx++;
     #endif
     
     #ifdef ANALYSE_ON_CAMERA
       if(VIDEO_RESOLUTION_X == 320) {
-        spiBufferToWrite[spiBufferIdx] = spiBufferToWrite[spiBufferIdx] * 320 / 254; //mapping back from 0-245 to 0 - 320
+        spiBufferToWrite[spiBufferIdx] = spiBufferToWrite[spiBufferIdx] * 320 / 254; //mapping back from 0-254 to 0 - 320
       }
       if (spiBufferIdx < VIDEO_RESOLUTION_Y-1) spiBufferIdx++;
     #endif
@@ -165,7 +172,8 @@ SPISlave_T4_FUNC void __attribute__((section(".fustrun"))) SPISlave_T4_OPT::SLAV
     SLAVE_TDR = 0x34;
   }
 
-   if ( (SLAVE_SR & (1UL << 9)) ) {
+  //tansfer complete
+  if ( (SLAVE_SR & (1UL << 9)) ) {
     
     if(!spiTransferComplete) { 
     	
