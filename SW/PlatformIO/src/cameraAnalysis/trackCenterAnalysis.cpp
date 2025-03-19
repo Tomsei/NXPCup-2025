@@ -2,6 +2,7 @@
 #ifndef SINGLE_COMPONENTS_TEST
 #ifdef ANALYSE_ON_CAMERA //todo Change after copy
 
+#include "configuration/cameraConfig.h"
 #include "cameraAnalysis/trackCenterAnalysis.h"
 #include "cameraAnalysis/camera.h"
 #include "dataVisualisation/display.h"
@@ -14,7 +15,7 @@ namespace CameraAnalysis {
 
     TrackCenterAnalysis currentTrackCenterAnalysis;
 
-    //Todo Move to config
+    //Todo Move to config + work correkt!
     #define MIN_STEERING_LINE 10
     #define MAX_StEERING_LINE 70 //abhängig von der Ist Geschwindigkeit die Linie nach vorne verschieben!!
 

@@ -33,7 +33,7 @@ namespace Sensors {
         rawData.tofDistance = TofDistance::getDistance();
         //OpticalFlow::readMotion(&rawData.opticalFlowX, &rawData.opticalFlowY);
         //Imu::getMotion(&rawData.imu);
-        rawData.ardLineFinder = ArdLineFinder::getSpeed();
+        rawData.ardLineFinder = ArdLineFinder::getSensorState();
     }
 
     void updateUsedSensorData() {

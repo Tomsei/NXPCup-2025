@@ -4,7 +4,6 @@
 #ifndef SINGLE_COMPONENTS_TEST
 #ifdef ANALYSE_ON_CAMERA
 
-#define STRAIGHT_THRESHOLD 25
 extern volatile int imageAnalysIsComplete;
 
 namespace CameraAnalysis {

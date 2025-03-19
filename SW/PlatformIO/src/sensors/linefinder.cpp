@@ -31,7 +31,12 @@ namespace Sensors {
             #endif
         }
 
-        int getRotationCount() {
+        int getSensorState() {
+            return digitalRead(ARD_LINE_FINDER2); //ToDo: check if this is working!
+        }
+
+        //ToDo: remove
+        int getRotationCount() { 
             return lineFinderRoations;
         }
 

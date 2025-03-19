@@ -19,8 +19,8 @@
 #ifndef ANALYSE_ON_CAMERA
 
 #include <Arduino.h>
+#include "configuration/cameraConfig.h"
 
-#define STRAIGHT_THRESHOLD 25
 extern volatile int imageAnalysIsComplete;
 
 namespace CameraAnalysis {
