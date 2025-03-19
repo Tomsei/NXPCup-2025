@@ -6,7 +6,7 @@
  * using the LineFinder Class to controll the lin finder sensors. 
  * This includes functions for setup and getting data
  * 
- * @todo Implement interrupt for sensor - check other sensor for direction
+ * @todo Implement interrupt for sensor - check other sensor for direction - Comment the new implementation
  * 
  * @author Tom Seiffert
  */
@@ -17,6 +17,7 @@ namespace Sensors {
     namespace ArdLineFinder {
         /* ------- public known methods ------------------ */
         int lineFinderRoations = 0;
+        int speed = 0;
 
         void lineFinderInterrupt() {
             lineFinderRoations = lineFinderRoations + 1;
@@ -32,6 +33,15 @@ namespace Sensors {
 
         int getRotationCount() {
             return lineFinderRoations;
+        }
+
+        int getSpeed() {
+            return speed;
+        }
+
+        void calculateSpeed() {
+            speed = lineFinderRoations;
+            lineFinderRoations = 0;
         }
 
     }

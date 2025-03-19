@@ -13,8 +13,8 @@ import nxpcup
 import image, mjpeg
 
 #configurations
-camOffset = 5
-vidoeDuration = 20000
+camOffset = 15
+vidoeDuration = 40000
 
 # define spi connection
 from machine import Pin, SPI
@@ -53,7 +53,8 @@ while True:
     clock.tick()  # Track elapsed milliseconds between snapshots().
     img = sensor.snapshot()  # Take a picture and return the image.
 
-    img = nxpcup.analyseImage(img, img.height(), 80)
+    #img = nxpcup.analyseImage(img, img.height(), 50)
+    img = nxpcup.analyseImage(img, 215, 80)
 
     #add Famre to video
     if videoRunning:

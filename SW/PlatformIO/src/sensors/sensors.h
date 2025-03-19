@@ -32,6 +32,12 @@ namespace Sensors {
         int ardLineFinder;
     };
 
+    struct UsedSensorData {
+        int tofDistance;
+        int speed;
+    };
+    
+
     //make it "public" to read data when it is needed
     extern RawSensorData rawData;
     

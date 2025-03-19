@@ -18,21 +18,27 @@
 namespace Sensors {
 
     RawSensorData rawData;
+    UsedSensorData usedData;
 
     //comment in .h file
     void setup() {
         TofDistance::setup();
-        OpticalFlow::setup();
-        Imu::setup();
+        //OpticalFlow::setup();
+        //Imu::setup(); //ToDo: Check if IMU creates error
         ArdLineFinder::setup();
     }
 
     //comment in .h file
     void updateRawData() {
         rawData.tofDistance = TofDistance::getDistance();
-        OpticalFlow::readMotion(&rawData.opticalFlowX, &rawData.opticalFlowY);
-        Imu::getMotion(&rawData.imu);
-        rawData.ardLineFinder = ArdLineFinder::getRotationCount();
+        //OpticalFlow::readMotion(&rawData.opticalFlowX, &rawData.opticalFlowY);
+        //Imu::getMotion(&rawData.imu);
+        rawData.ardLineFinder = ArdLineFinder::getSpeed();
+    }
+
+    void updateUsedSensorData() {
+        usedData.tofDistance = TofDistance::getDistance();
+        usedData.speed = ArdLineFinder::getSpeed();
     }
 
     //comment in .h file

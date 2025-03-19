@@ -15,7 +15,7 @@ namespace CameraAnalysis {
 
     //Todo Move to config
     #define MIN_STEERING_LINE 10
-    #define MAX_StEERING_LINE 80
+    #define MAX_StEERING_LINE 70 //abhängig von der Ist Geschwindigkeit die Linie nach vorne verschieben!!
 
     void setup() {
 
@@ -97,9 +97,11 @@ namespace CameraAnalysis {
         }
 
         //make stronger angles stronger!
-        float factor = 0.8;
+        float factor = 0.7;
         if(tempSteeringAngle > 10) {
-            factor = 0.75;
+            factor = 1.0;
+        } else if (tempSteeringAngle > 15) {
+            factor = 1.4;
         }
 
         //square steering 
@@ -115,14 +117,14 @@ namespace CameraAnalysis {
     }
 
     void TrackCenterAnalysis::calculateSpeed() {
-        speed = 22;
+        speed = 23;
         speed += lastStraightLine/25;
         //CONSOLE.print(speed); CONSOLE.print(" - "); CONSOLE.println(lastStraightLine);
     }
 
     void TrackCenterAnalysis::updateTrackCenters(uint32_t* trackCenterData) {
         trackCenters = trackCenterData;
-        //printTrackCenters(140, 20);
+        printTrackCenters(0, 20);
     }
 
     void TrackCenterAnalysis::printTrackCenters(int start /*= 0*/, int length /*= VIDEO_RESOLUTION_X*NUMBER_OF_LINES*/) {

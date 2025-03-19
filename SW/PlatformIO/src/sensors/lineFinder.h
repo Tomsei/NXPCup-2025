@@ -19,6 +19,10 @@ namespace Sensors {
         void setup();
 
         int getRotationCount();
+
+        int getSpeed();
+
+        void calculateSpeed();
     
     }
 }

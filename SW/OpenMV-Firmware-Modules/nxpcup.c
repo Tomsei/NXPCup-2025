@@ -63,7 +63,7 @@ static MP_DEFINE_CONST_FUN_OBJ_3(setup_obj, setup); //number defindes the amoutn
  * @param row: row to calculate the track center
  * @param startSearch: start pixel for the anlyses (get first edge to each direaction from this point)
  */
-void calculateTrackCenters(uint8_t* argImg, int row, int startSearch) {
+void calculateTrackCenters(uint8_t* argImg, int row, int startSearch, int numberOfLines) {
     
     int leftEdge = 0;
     int rightEdge = *width;
@@ -120,7 +120,7 @@ void calculateTrackCenters(uint8_t* argImg, int row, int startSearch) {
         }
     }
 
-    trackCenters[*height - row - 1] = trackCenter; //change the order (lowest row is the first in Array)
+    trackCenters[numberOfLines - row - 1] = trackCenter; //change the order (lowest row is the first in Array)
 }
 
 
@@ -180,10 +180,10 @@ static mp_obj_t analyseImage(uint n_args, const mp_obj_t *args, mp_map_t *kw_arg
     }
     
     //calculate edges and track_centers
-    for (int i = height - 3; i >= 0; i--) {
+    for (int i = numberOfLines - 3; i >= 0; i--) {
         if(*runTrackCenterCalculation) {
             //calculateTrackCenters(imageData, i, trackCenters[height-i-2]); //height-i-2 to get the last row before this
-            calculateTrackCenters(imageData, i, *lastTrackCenter); //height-i-2 to get the last row before this
+            calculateTrackCenters(imageData, i, *lastTrackCenter, numberOfLines); 
         }
         else {
             trackCenters[height - i - 1] = 255; //change the order (lowest row is the first in Array)
@@ -191,7 +191,7 @@ static mp_obj_t analyseImage(uint n_args, const mp_obj_t *args, mp_map_t *kw_arg
     }
 
     *runTrackCenterCalculation = true;
-    *lastTrackCenter = width/2;
+    *lastTrackCenter = trackCenters[2]; 
 
     //return mp_obj_new_memoryview('h', height, trackCenters);
     return args[0];
