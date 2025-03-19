@@ -12,6 +12,7 @@
 #include "configuration/globalConfig.h"
 
 #include "sensors/imu.h"
+#include "lineFinder.h"
 
 namespace Sensors {
 

@@ -23,6 +23,11 @@ namespace DataVisualisation {
         void setup();
 
         /**
+         * update the leds - show the leds on stribe
+         */
+        void update();
+
+        /**
          * clear ledstrip (set all leds to black)
          */
         void clear();
@@ -45,11 +50,6 @@ namespace DataVisualisation {
          * @param b: blue value
          */
         void setLeds(uint8_t led, u_int8_t r, u_int8_t g, u_int8_t b);
-
-        /**
-         * update the leds - show the leds on stribe
-         */
-        void updateLeds();
         
     };
 }

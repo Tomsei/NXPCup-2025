@@ -4,6 +4,7 @@
 
 #include "cameraAnalysis/trackCenterAnalysis.h"
 #include "cameraAnalysis/camera.h"
+#include "dataVisualisation/display.h"
 
 namespace CameraAnalysis {
 
@@ -124,6 +125,7 @@ namespace CameraAnalysis {
 
     void TrackCenterAnalysis::updateTrackCenters(uint32_t* trackCenterData) {
         trackCenters = trackCenterData;
+        DataVisualisation::Display::showTrackCenters(trackCenters);
         printTrackCenters(0, 20);
     }
 

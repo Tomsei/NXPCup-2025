@@ -42,12 +42,23 @@ namespace CarLogic {
 
 
     TimingControl::Task* t_updateLed;
+    TimingControl::Task* t_updateDisplay;
+    TimingControl::Task* t_calculateSpeed;
 
     void defineTimedTasks () {
 
         t_updateLed = TimingControl::createTask([](TimingControl::Task* self) {
             CONSOLE.println("every Second");
+            DataVisualisation::LedStrip::update(); 
         }, 1000, true, true);
+
+        t_updateDisplay = TimingControl::createTask([](TimingControl::Task* self) {
+            DataVisualisation::Display::update();
+        }, 500, true, true);
+
+        t_calculateSpeed = TimingControl::createTask([](TimingControl::Task* self) {
+            Sensors::ArdLineFinder::calculateSpeed();
+        }, 100, true, true);
     }
 
 
@@ -74,7 +85,6 @@ namespace CarLogic {
         else {
             DataVisualisation::LedStrip::setLeds(64, 255, 0, 0);
         }
-        DataVisualisation::LedStrip::updateLeds(); //todo: remove to timing System
     }
 
 }

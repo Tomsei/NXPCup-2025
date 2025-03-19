@@ -10,8 +10,8 @@
 #include "boardInput/boardInput.h"
 #include "drivingControl/drivingControl.h"
 #include "sensors/sensors.h"
-
 #include "carLogic/carLogic.h"
+#include "timingControl/timingControl.h"
 
 void checkingForErrors(); //ToDo: Just to Debug
 
@@ -37,9 +37,7 @@ void setup() {
   BoardInput::setup();
   DrivingControl::setup();
   Sensors::setup();
-  
-  //pinMode(3, INPUT_PULLUP);
-  //attachInterrupt(3, &onInterrupt, RISING | FALLING);
+  CarLogic::defineTimedTasks();
 
   #ifdef CONSOLE
     CONSOLE.println("Main | Setup Done!");
@@ -48,12 +46,13 @@ void setup() {
 
 void loop() {
   BoardInput::update();
-
   Sensors::updateRawData();
   CameraAnalysis::analyse();
-  //Sensors::printData();
   CarLogic::runCarLogic();
- //CONSOLE.println("loop");
+  TimingControl::runTasks();
+  
+  //Sensors::printData();
+  //CONSOLE.println("loop");
 }
 
 

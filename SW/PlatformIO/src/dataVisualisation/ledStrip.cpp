@@ -42,6 +42,11 @@ namespace DataVisualisation {
             #endif
         }
 
+        //comment in .h
+        void update() {
+            FastLED.show();
+        }
+
         //coment in .h file
         void clear() {
             FastLED.clear();
@@ -105,10 +110,7 @@ namespace DataVisualisation {
             }
         }
 
-        //comment in .h
-        void updateLeds() {
-            FastLED.show();
-        }
+
 
         /* ------- privat - public unknown methods ------- */
 

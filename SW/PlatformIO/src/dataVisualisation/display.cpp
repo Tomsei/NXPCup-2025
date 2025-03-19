@@ -32,6 +32,8 @@ namespace DataVisualisation {
 
         Adafruit_SSD1306 lipDisplay(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
+        bool updateDisplay = true;
+
         /* ------- public known methods ------------------ */
 
         //comment in .h file
@@ -62,11 +64,32 @@ namespace DataVisualisation {
         }
 
         //comment in .h file
+        void update() {
+            updateDisplay = true;
+        }
+
+        //comment in .h file
         void showNumber(int number) {
-            lipDisplay.clearDisplay();
-            lipDisplay.setCursor(0,0);
-            lipDisplay.print(number);
-            lipDisplay.display();
+            if(updateDisplay) {
+                lipDisplay.clearDisplay();
+                lipDisplay.setCursor(0,0);
+                lipDisplay.print(number);
+                lipDisplay.display();
+                
+                updateDisplay = false;   
+            }
+        }
+
+        //comment in .h file
+        void showTrackCenters(uint32_t* trackCenters) {
+            if (updateDisplay) {
+                lipDisplay.clearDisplay();
+                        
+                for(int i = 0; i < VIDEO_RESOLUTION_Y; i++) {
+                    lipDisplay.drawPixel(trackCenters[i*4], i, SSD1306_WHITE); //track Center zugriff noch prüfen!
+                }
+                updateDisplay = false;
+            }
         }
     }
 }
