@@ -35,14 +35,13 @@ namespace CameraAnalysis {
         bool lastSteeringLineFound = false;
 
         OpenMVCam::updateTrackCenters();
-        DataVisualisation::Display::showTrackCenters(currentTrackCenterAnalysis.trackCenters);
+        //DataVisualisation::Display::showTrackCenters(currentTrackCenterAnalysis.trackCenters);
         //currentTrackCenterAnalysis.printTrackCenters(0,20);
             
         if(!imageAnalysIsComplete) {
 
             for(int i = 2; i < VIDEO_RESOLUTION_Y; i++) { //start by to (first two values not included!)
                 
-                //CONSOLE.println(currentTrackCenterAnalysis.trackCenters[i]);
                 //no more usable track center Values (turn detected on Camera)
                 if(currentTrackCenterAnalysis.trackCenters[i] == 321 && !lastSteeringLineFound) { //use 321 becaus 255 is mapped to 321 (* 320 / 254)
                     //currentTrackCenterAnalysis.lastSteeringLine = ((i-1) > MIN_STEERING_LINE) ? i-1 : MIN_STEERING_LINE;  //Min Steering Line festhalten
@@ -122,7 +121,7 @@ namespace CameraAnalysis {
     }
 
     void TrackCenterAnalysis::calculateSpeed() {
-        speed = 23;
+        speed = 60;
         speed += lastStraightLine/25;
         //CONSOLE.print(speed); CONSOLE.print(" - "); CONSOLE.println(lastStraightLine);
     }

@@ -48,7 +48,8 @@ namespace DataVisualisation {
                     CONSOLE.println(F("Display setup failed"));
                 #endif
             }    
-    
+            CONSOLE.println(lipDisplay.availableForWrite());
+
             lipDisplay.clearDisplay();
             lipDisplay.setTextSize(1);  
             lipDisplay.setTextColor(SSD1306_WHITE);

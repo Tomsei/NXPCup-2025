@@ -27,7 +27,7 @@ void setup() {
   #endif
   delay(1000);
 
-  Wire.begin(); //later in I2C Modul
+  Wire.begin(); //later in I2C Modul //ToDo Input Pullup auf den I2C Pinnen
 
   //ToDo Debugging - reomve later
   checkingForErrors();
@@ -53,8 +53,8 @@ void loop() {
   CarLogic::runCarLogic();
   TimingControl::runTasks();
   
-  //Sensors::printData();
-  CONSOLE.println("loop");
+  Sensors::printData();
+  //CONSOLE.println("loop");
 }
 
 

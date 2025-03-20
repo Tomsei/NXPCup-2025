@@ -57,10 +57,10 @@ namespace CarLogic {
             DataVisualisation::Display::update();
         }, 100, true, true);
 
-        /*
+        
         t_calculateSpeed = TimingControl::createTask([](TimingControl::Task* self) {
             Sensors::ArdLineFinder::calculateSpeed();
-        }, 100, true, true); */
+        }, 100, true, true); 
     }
 
 
