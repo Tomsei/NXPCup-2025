@@ -33,10 +33,12 @@ void setup() {
   checkingForErrors();
 
   DataVisualisation::setup();
+  CONSOLE.print("Vor kamera");
   CameraAnalysis::setup();
   BoardInput::setup();
   DrivingControl::setup();
   Sensors::setup();
+  TimingControl::setup();
   CarLogic::defineTimedTasks();
 
   #ifdef CONSOLE
@@ -52,7 +54,7 @@ void loop() {
   TimingControl::runTasks();
   
   //Sensors::printData();
-  //CONSOLE.println("loop");
+  CONSOLE.println("loop");
 }
 
 

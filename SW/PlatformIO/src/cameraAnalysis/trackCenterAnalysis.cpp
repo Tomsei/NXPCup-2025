@@ -17,7 +17,7 @@ namespace CameraAnalysis {
 
     //Todo Move to config + work correkt!
     #define MIN_STEERING_LINE 10
-    #define MAX_StEERING_LINE 70 //abhängig von der Ist Geschwindigkeit die Linie nach vorne verschieben!!
+    #define MAX_StEERING_LINE 100 //abhängig von der Ist Geschwindigkeit die Linie nach vorne verschieben!!
 
     void setup() {
 
@@ -35,7 +35,8 @@ namespace CameraAnalysis {
         bool lastSteeringLineFound = false;
 
         OpenMVCam::updateTrackCenters();
-        //currentTrackCenterAnalysis.printTrackCenters();
+        DataVisualisation::Display::showTrackCenters(currentTrackCenterAnalysis.trackCenters);
+        //currentTrackCenterAnalysis.printTrackCenters(0,20);
             
         if(!imageAnalysIsComplete) {
 
@@ -60,7 +61,7 @@ namespace CameraAnalysis {
             currentTrackCenterAnalysis.calculateSteeringAngle();
             currentTrackCenterAnalysis.calculateSpeed();
             imageAnalysIsComplete = 1; 
-            CONSOLE.print("Steering Row"); CONSOLE.println(currentTrackCenterAnalysis.lastSteeringLine);
+            //CONSOLE.print("Steering Row"); CONSOLE.println(currentTrackCenterAnalysis.lastSteeringLine);
         }       
     }
 
@@ -75,6 +76,8 @@ namespace CameraAnalysis {
 
     void TrackCenterAnalysis::calculateSteeringAngle() {
         float tempSteeringAngle = 0;
+        
+
         
         int steeringLine = (lastSteeringLine > MAX_StEERING_LINE) ? MAX_StEERING_LINE : lastSteeringLine; 
 
@@ -126,8 +129,6 @@ namespace CameraAnalysis {
 
     void TrackCenterAnalysis::updateTrackCenters(uint32_t* trackCenterData) {
         trackCenters = trackCenterData;
-        DataVisualisation::Display::showTrackCenters(trackCenters);
-        printTrackCenters(0, 20);
     }
 
     void TrackCenterAnalysis::printTrackCenters(int start /*= 0*/, int length /*= VIDEO_RESOLUTION_X*NUMBER_OF_LINES*/) {

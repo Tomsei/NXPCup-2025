@@ -15,7 +15,10 @@ namespace TimingControl {
     void runTasks() {
         for (uint8_t i = 0; i < MAX_TASK_COUNT; i++) {
             //check if there is an active task and the time is reached
-            if(!myTasks[i].isFree && myTasks[i].active && myTasks[i].nextCallAt > millis()) { 
+            //CONSOLE.print(i); CONSOLE.print(" - "); CONSOLE.print(myTasks[i].isFree); CONSOLE.print(" - "); CONSOLE.print(myTasks[i].active); CONSOLE.print(" - "); 
+            //CONSOLE.print(myTasks[i].nextCallAt); CONSOLE.print(" - ");  CONSOLE.print(millis());
+            //CONSOLE.println(" ----");
+            if((!myTasks[i].isFree) && myTasks[i].active && myTasks[i].nextCallAt < millis()) { 
                 myTasks[i].functionToCall(&myTasks[i]);
                 myTasks[i].nextCallAt = myTasks[i].nextCallAt + myTasks[i].timeInterval; //new time
             }
@@ -36,7 +39,9 @@ namespace TimingControl {
                 myTasks[i].isFree = false;
                 myTasks[i].active = active;
                 myTasks[i].timeInterval = timeInterval;
+                myTasks[i].functionToCall = functionToCall;
                 myTasks[i].nextCallAt = millis() + (imidiate ? 0 : timeInterval);
+                CONSOLE.println("Task Createt");
                 return &myTasks[i];
             }
         }

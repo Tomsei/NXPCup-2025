@@ -84,10 +84,16 @@ namespace DataVisualisation {
         void showTrackCenters(uint32_t* trackCenters) {
             if (updateDisplay) {
                 lipDisplay.clearDisplay();
-                        
-                for(int i = 0; i < VIDEO_RESOLUTION_Y; i++) {
-                    lipDisplay.drawPixel(trackCenters[i*4], i, SSD1306_WHITE); //track Center zugriff noch prüfen!
+                
+                
+                for(int i = 0; i < SCREEN_HEIGHT; i++) {
+                    int trackCenterPos = trackCenters[i*3] * 128 / 320;
+                    if(trackCenterPos > SCREEN_WIDTH-1) {
+                        trackCenterPos = SCREEN_WIDTH-1;
+                    } 
+                    lipDisplay.drawPixel(trackCenterPos, SCREEN_HEIGHT - 1 - i, SSD1306_WHITE); //track Center zugriff noch prüfen!
                 }
+                lipDisplay.display();
                 updateDisplay = false;
             }
         }

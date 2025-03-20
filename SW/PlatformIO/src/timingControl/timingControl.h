@@ -1,4 +1,6 @@
+#include "configuration/globalConfig.h"
 #include "Arduino.h"
+
 
 namespace TimingControl {
 
@@ -19,6 +21,8 @@ namespace TimingControl {
 
         CallbackFunction functionToCall;
     };
+
+    void setup();
 
     void runTasks();
     void runTasks();
