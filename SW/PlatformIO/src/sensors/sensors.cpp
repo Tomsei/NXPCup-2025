@@ -36,7 +36,7 @@ namespace Sensors {
         rawData.ardLineFinder = ArdLineFinder::getSpeed();
     }
 
-    void updateUsedSensorData() {
+    void updateUsedData() {
         usedData.tofDistance = TofDistance::getDistance();
         usedData.speed = ArdLineFinder::getSpeed();
     }

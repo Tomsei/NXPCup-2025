@@ -54,7 +54,7 @@ while True:
     img = sensor.snapshot()  # Take a picture and return the image.
 
     #img = nxpcup.analyseImage(img, img.height(), 50)
-    img = nxpcup.analyseImage(img, img.height(), 40)
+    img = nxpcup.analyseImage(img, img.height(), 70)
 
     #add Famre to video
     if videoRunning:

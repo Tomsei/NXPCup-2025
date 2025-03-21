@@ -46,6 +46,6 @@ while True:
     clock.tick()  # Track elapsed milliseconds between snapshots().
     img = sensor.snapshot()  # Take a picture and return the image.
 
-    img = nxpcup.analyseImage(img, img.height(), 100) #If nessesarry change return!
+    img = nxpcup.analyseImage(img, img.height(), 70) #If nessesarry change return!
     spiWriteTrackCenters()
     print(clock.fps())  # Note: Your OpenMV Cam runs about half as fast while

@@ -15,7 +15,7 @@
 #define ANALYSE_ON_CAMERA
 
 /* serial definition (bluetooth / usb)*/
-#define CONSOLE Serial
+#define CONSOLE Serial8
 
 
 

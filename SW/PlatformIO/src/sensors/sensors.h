@@ -41,6 +41,7 @@ namespace Sensors {
 
     //make it "public" to read data when it is needed
     extern RawSensorData rawData;
+    extern UsedSensorData usedData;
     
     /**
      * setup all sensors
@@ -52,6 +53,13 @@ namespace Sensors {
      * just call the getData functions of the sensors
      */
     void updateRawData();
+
+    /**
+     * update the sensor data of all sensors
+     * just call the getData functions of the sensors
+     */
+    void updateUsedData();
+
 
     /**
      * print the sensor data of all sensors

@@ -49,6 +49,7 @@ void setup() {
 void loop() {
   BoardInput::update();
   Sensors::updateRawData();
+  Sensors::updateUsedData();
   CameraAnalysis::analyse();
   CarLogic::runCarLogic();
   TimingControl::runTasks();

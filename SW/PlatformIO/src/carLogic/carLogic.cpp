@@ -17,6 +17,8 @@ namespace CarLogic {
     bool engineEnabled;
     bool steeringEnabled;
 
+    bool changeState = false;
+
     //pre decleration
     void showEnableStateOnLed(bool engineEnabled, bool steeringEnabled);
 
@@ -24,6 +26,13 @@ namespace CarLogic {
 
         engineEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S4);
         steeringEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S3);
+
+        //start and stop Wireles.
+        if(CONSOLE.available()) {
+            CONSOLE.read();
+            changeState = (changeState) ? false : true;
+        }
+        engineEnabled = (engineEnabled && changeState);
 
         //DataVisualisation::Display::showNumber(20);
         //DataVisualisation::LedStrip::showNumberInRange(200, 32);
@@ -48,7 +57,7 @@ namespace CarLogic {
     void defineTimedTasks () {
 
         t_updateLed = TimingControl::createTask([](TimingControl::Task* self) {
-            CONSOLE.println("every Second");
+            //CONSOLE.println("every Second");
             //DataVisualisation::LedStrip::update(); 
         }, 1000, true, true);
 
@@ -60,7 +69,7 @@ namespace CarLogic {
         
         t_calculateSpeed = TimingControl::createTask([](TimingControl::Task* self) {
             Sensors::ArdLineFinder::calculateSpeed();
-        }, 100, true, true); 
+        }, 150, true, true); 
     }
 
 

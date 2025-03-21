@@ -6,6 +6,7 @@
 #include "cameraAnalysis/trackCenterAnalysis.h"
 #include "cameraAnalysis/camera.h"
 #include "dataVisualisation/display.h"
+#include "sensors/sensors.h"
 
 namespace CameraAnalysis {
 
@@ -17,8 +18,9 @@ namespace CameraAnalysis {
 
     //Todo Move to config + work correkt!
     #define MIN_STEERING_LINE 10
-    #define MAX_StEERING_LINE 100 //abhängig von der Ist Geschwindigkeit die Linie nach vorne verschieben!!
-
+    #define MAX_STEERING_LINE 100
+    #define MAX_STEERING_LINE_TURN 80 //abhängig von der Ist Geschwindigkeit die Linie nach vorne verschieben!!
+    
     void setup() {
 
         OpenMVCam::setup();
@@ -35,7 +37,7 @@ namespace CameraAnalysis {
         bool lastSteeringLineFound = false;
 
         OpenMVCam::updateTrackCenters();
-        //DataVisualisation::Display::showTrackCenters(currentTrackCenterAnalysis.trackCenters);
+        DataVisualisation::Display::showTrackCenters(currentTrackCenterAnalysis.trackCenters);
         //currentTrackCenterAnalysis.printTrackCenters(0,20);
             
         if(!imageAnalysIsComplete) {
@@ -78,7 +80,16 @@ namespace CameraAnalysis {
         
 
         
-        int steeringLine = (lastSteeringLine > MAX_StEERING_LINE) ? MAX_StEERING_LINE : lastSteeringLine; 
+        int steeringLine = lastSteeringLine;
+
+        if(steeringAngle > 30 || Sensors::usedData.speed < 8) {
+            steeringLine = (lastSteeringLine > MAX_STEERING_LINE_TURN) ? MAX_STEERING_LINE_TURN : lastSteeringLine;
+            CONSOLE.print("Nah - -");
+        } else {
+            steeringLine = (lastSteeringLine > MAX_STEERING_LINE) ? MAX_STEERING_LINE : lastSteeringLine;
+            CONSOLE.print("Fern - - ");
+        } 
+        CONSOLE.print(" steeringLine: "); CONSOLE.print(steeringLine); CONSOLE.print("-----------");
 
         tempSteeringAngle = trackCenterOffset[steeringLine];
         //if (steeringAngle > 30) 
@@ -101,11 +112,11 @@ namespace CameraAnalysis {
         }
 
         //make stronger angles stronger!
-        float factor = 0.7;
+        float factor = 0.6;
         if(tempSteeringAngle > 10) {
-            factor = 1.0;
+            factor = 0.8;
         } else if (tempSteeringAngle > 15) {
-            factor = 1.4;
+            factor = 1.2;
         }
 
         //square steering 
@@ -121,7 +132,7 @@ namespace CameraAnalysis {
     }
 
     void TrackCenterAnalysis::calculateSpeed() {
-        speed = 60;
+        speed = 23;
         speed += lastStraightLine/25;
         //CONSOLE.print(speed); CONSOLE.print(" - "); CONSOLE.println(lastStraightLine);
     }
