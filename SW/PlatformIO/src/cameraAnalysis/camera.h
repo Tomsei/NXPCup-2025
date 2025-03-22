@@ -16,6 +16,7 @@
  */
 #include "configuration/globalConfig.h"
 #ifndef SINGLE_COMPONENTS_TEST
+#include "configuration/cameraAnalysisConfig.h"
 
 namespace CameraAnalysis {
 

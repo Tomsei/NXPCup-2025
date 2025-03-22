@@ -2,7 +2,6 @@
 #ifndef SINGLE_COMPONENTS_TEST
 #ifdef ANALYSE_ON_CAMERA //todo Change after copy
 
-#include "configuration/cameraConfig.h"
 #include "cameraAnalysis/trackCenterAnalysis.h"
 #include "cameraAnalysis/camera.h"
 #include "dataVisualisation/display.h"

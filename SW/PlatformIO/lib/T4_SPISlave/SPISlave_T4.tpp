@@ -1,5 +1,6 @@
 //changes
 #include "configuration/globalConfig.h"
+#include "configuration/cameraAnalysisConfig.h"
 
 #define SLAVE_CR spiAddr[4]
 #define SLAVE_FCR spiAddr[22]

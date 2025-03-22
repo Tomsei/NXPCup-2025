@@ -1,8 +1,10 @@
 #include "configuration/globalConfig.h"
-#include "Arduino.h"
 
 #ifndef SINGLE_COMPONENTS_TEST
 #ifdef ANALYSE_ON_CAMERA
+
+#include "Arduino.h"
+#include "configuration/cameraAnalysisConfig.h"
 
 extern volatile int imageAnalysIsComplete;
 

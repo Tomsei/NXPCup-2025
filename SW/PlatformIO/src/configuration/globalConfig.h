@@ -53,10 +53,3 @@
 #define IO_EX_DIPSWITCH6 5
 #define IO_EX_DIPSWITCH7 6
 #define IO_EX_DIPSWITCH8 7
-
-
-/* ----- cam configurations -----  */
-#define VIDEO_RESOLUTION_X 320
-#define VIDEO_RESOLUTION_Y 240
-#define NUMBER_OF_LINES 5
-#define CAM_OFFSET -7
