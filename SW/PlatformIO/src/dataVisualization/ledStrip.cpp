@@ -15,7 +15,7 @@
 
 #define NUMBER_OF_LEDS 8
 
-namespace DataVisualisation {
+namespace DataVisualization {
 
     namespace LedStrip {
         

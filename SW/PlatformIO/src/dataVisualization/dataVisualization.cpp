@@ -6,9 +6,9 @@
  *  
  * @author Tom Seiffert
  */
-#include "dataVisualisation/dataVisualisation.h"
+#include "dataVisualization/dataVisualization.h"
 
-namespace DataVisualisation  {
+namespace DataVisualization  {
 
     /* ------- public known methods ------------------ */
 

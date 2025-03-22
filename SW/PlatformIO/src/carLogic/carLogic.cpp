@@ -8,8 +8,8 @@
 #include "cameraAnalysis/trackCenterAnalysis.h"
 #include "boardInput/boardInput.h"
 #include "sensors/sensors.h"
-#include "dataVisualisation/display.h"
-#include "dataVisualisation/ledStrip.h"
+#include "dataVisualization/display.h"
+#include "dataVisualization/ledStrip.h"
 #include "timingControl/timingControl.h"
 
 namespace CarLogic {
@@ -34,8 +34,8 @@ namespace CarLogic {
         }
         engineEnabled = (engineEnabled && changeState);
 
-        //DataVisualisation::Display::showNumber(20);
-        //DataVisualisation::LedStrip::showNumberInRange(200, 32);
+        //DataVisualization::Display::showNumber(20);
+        //DataVisualization::LedStrip::showNumberInRange(200, 32);
 
         if (Sensors::rawData.tofDistance < DISTANCE_TO_STOP) {
             engineEnabled = false;
@@ -58,12 +58,12 @@ namespace CarLogic {
 
         t_updateLed = TimingControl::createTask([](TimingControl::Task* self) {
             //CONSOLE.println("every Second");
-            //DataVisualisation::LedStrip::update(); 
+            //DataVisualization::LedStrip::update(); 
         }, 1000, true, true);
 
         
         t_updateDisplay = TimingControl::createTask([](TimingControl::Task* self) {
-            DataVisualisation::Display::update();
+            DataVisualization::Display::update();
         }, 100, true, true);
 
         
@@ -82,19 +82,19 @@ namespace CarLogic {
      */
     void showEnableStateOnLed(bool engineEnabled, bool steeringEnabled) {
         
-        DataVisualisation::LedStrip::clear();
+        DataVisualization::LedStrip::clear();
         
         if(engineEnabled) {
-            DataVisualisation::LedStrip::setLeds(128, 0, 255, 0);
+            DataVisualization::LedStrip::setLeds(128, 0, 255, 0);
         }
         else {
-            DataVisualisation::LedStrip::setLeds(128, 255, 0, 0);
+            DataVisualization::LedStrip::setLeds(128, 255, 0, 0);
         }
         if(steeringEnabled) {
-            DataVisualisation::LedStrip::setLeds(64, 0, 255, 0);
+            DataVisualization::LedStrip::setLeds(64, 0, 255, 0);
         }
         else {
-            DataVisualisation::LedStrip::setLeds(64, 255, 0, 0);
+            DataVisualization::LedStrip::setLeds(64, 255, 0, 0);
         }
     }
 

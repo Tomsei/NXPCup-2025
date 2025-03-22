@@ -6,7 +6,7 @@
 
 #include "cameraAnalysis/cameraAnalysis.h"
 #include "cameraAnalysis/trackCenterAnalysis.h"
-#include "dataVisualisation/dataVisualisation.h"
+#include "dataVisualization/dataVisualization.h"
 #include "boardInput/boardInput.h"
 #include "drivingControl/drivingControl.h"
 #include "sensors/sensors.h"
@@ -32,7 +32,7 @@ void setup() {
   //ToDo Debugging - reomve later
   checkingForErrors();
 
-  DataVisualisation::setup();
+  DataVisualization::setup();
   CONSOLE.print("Vor kamera");
   CameraAnalysis::setup();
   BoardInput::setup();

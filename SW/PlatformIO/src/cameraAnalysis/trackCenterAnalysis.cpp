@@ -4,7 +4,7 @@
 
 #include "cameraAnalysis/trackCenterAnalysis.h"
 #include "cameraAnalysis/camera.h"
-#include "dataVisualisation/display.h"
+#include "dataVisualization/display.h"
 #include "sensors/sensors.h"
 
 namespace CameraAnalysis {
@@ -36,7 +36,7 @@ namespace CameraAnalysis {
         bool lastSteeringLineFound = false;
 
         OpenMVCam::updateTrackCenters();
-        DataVisualisation::Display::showTrackCenters(currentTrackCenterAnalysis.trackCenters);
+        DataVisualization::Display::showTrackCenters(currentTrackCenterAnalysis.trackCenters);
         //currentTrackCenterAnalysis.printTrackCenters(0,20);
             
         if(!imageAnalysIsComplete) {
