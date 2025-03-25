@@ -7,10 +7,10 @@
  * @author Tom Seiffert
  */
 #include "configuration/globalConfig.h"
-#include "dataVisualisation/display.h"
-#include "dataVisualisation/ledStrip.h"
+#include "dataVisualization/display.h"
+#include "dataVisualization/ledStrip.h"
 
-namespace DataVisualisation {
+namespace DataVisualization {
     
     /**
      * setup display and led

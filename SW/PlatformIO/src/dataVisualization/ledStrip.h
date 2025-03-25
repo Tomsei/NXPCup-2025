@@ -13,7 +13,7 @@
 #include "configuration/globalConfig.h"
 #include "Arduino.h"
 
-namespace DataVisualisation {
+namespace DataVisualization {
 
     namespace LedStrip {
 

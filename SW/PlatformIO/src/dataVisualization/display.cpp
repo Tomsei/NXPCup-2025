@@ -26,7 +26,7 @@
 
 #include <Adafruit_SSD1306.h>
 
-namespace DataVisualisation {
+namespace DataVisualization {
 
     namespace Display {
 

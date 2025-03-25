@@ -17,7 +17,7 @@
 #define SCREEN_HEIGHT 64
 
 
-namespace DataVisualisation {
+namespace DataVisualization {
 
     namespace Display { 
         /**
