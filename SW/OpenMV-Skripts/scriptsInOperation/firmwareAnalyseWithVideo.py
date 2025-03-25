@@ -32,8 +32,14 @@ clock = time.clock()  # Tracks FPS.
 
 imageHight = img.height()
 imageWidth = img.width()
+defaultTrackCenter = int(imageWidth/2)
 
-nxpcup.setup(imageWidth, imageHight, camOffset)
+nxpcup.setup(imageWidth,
+                imageHight,
+                camOffset,
+                defaultTrackCenter - 40,
+                defaultTrackCenter,
+                defaultTrackCenter + 40)
 
 #create the video file and needed configurations
 video = mjpeg.Mjpeg('driving_video.mjpeg')
@@ -54,7 +60,8 @@ while True:
     img = sensor.snapshot()  # Take a picture and return the image.
 
     #img = nxpcup.analyseImage(img, img.height(), 50)
-    img = nxpcup.analyseImage(img, img.height(), 70)
+    img = nxpcup.analyseImage(img, img.height(), 50)
+    print(img)
 
     #add Famre to video
     if videoRunning:
