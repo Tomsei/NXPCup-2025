@@ -1,6 +1,14 @@
 /**
  * style guide: everything of this module is consistent to the definded stylguide.
  * but everything that is used from the original firmware has another style!
+ * 
+ * SPI-Transfer Structure:
+ * Höhe des Bildes (240 Pixel)
+ * - Wert 0: nicht beschrieben (leer) - Start mit 255
+ * - Wert 1-238: track centers
+ *      track center values are mapped from 0 to 253
+ *      no track center calculatet: 254
+ * - Wert 239: finish line detected (255) if detected!
  */
 // Include MicroPython API.
 #include "py/runtime.h"
@@ -10,11 +18,12 @@
 #include "ports/mimxrt/modmachine.h"
 #include "extmod/modmachine.h"
 
+#define SPI_BUFFER_WIDTH 240 //change to optimize if resolution get changed
 
 //variables
-int16_t* width;
-int16_t* height;
-int16_t* lastTrackCenter;
+uint16_t* width;
+uint16_t* height;
+uint16_t* lastTrackCenter;
 int8_t* camOffset;
 uint8_t* trackCenters;
 bool* runTrackCenterCalculation;
@@ -24,16 +33,24 @@ uint16_t* finishLineRight;
 uint16_t* finishLineMid;
 
 
+
 /**
  * setup the nxp cup module
  * allocate the memory for the needed variables and initiate them //ToDo change comment
  * @param imgWidth: width of the image
  * @param imgHeight: height of the image
  * @param imgCamOffset: cam offset that schoul be added to the track centers
+ * @param args: the different parameters are used to get the arg parameter
+ *  0: image width
+ *  1: image height
+ *  2: camera offset for track centers
+ *  3: left line to check for finish line
+ *  4: mid line to check for finish line
+ *  5: right line to check for finish line
  * @return: width to check if value is corret
  */
 static mp_obj_t setup(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {   
-    trackCenters = fb_alloc(240, FB_ALLOC_NO_HINT);
+    trackCenters = fb_alloc(SPI_BUFFER_WIDTH, FB_ALLOC_NO_HINT);
     height = fb_alloc(2, FB_ALLOC_NO_HINT);
     width = fb_alloc(2, FB_ALLOC_NO_HINT);
     camOffset = fb_alloc(1, FB_ALLOC_NO_HINT);
@@ -53,10 +70,9 @@ static mp_obj_t setup(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
     *runTrackCenterCalculation = true;
     *lastTrackCenter = (*width/2);
 
-    //set first flag (first two rows not calculated)
+    //set first flag (first value is flag)
     trackCenters[0] = 255;
-    //set first track center to the center of the image
-    trackCenters[1] = (*width)/2;
+    trackCenters[1] = 0;
 
     return mp_obj_new_int(*width);
 }
@@ -69,20 +85,22 @@ static MP_DEFINE_CONST_FUN_OBJ_KW(setup_obj, 6, setup); //number defindes the am
  * it start at the start search and calculate the first edge left and right
  * with both edges it calculate the track center and stores it into track centers
  * @param imgData: a pointer to the image to analyse
- * @param trackCenters: a pointer to the trackCenters Array
  * @param row: row to calculate the track center
  * @param startSearch: start pixel for the anlyses (get first edge to each direaction from this point)
+ * @param lowestLine: the line to start analysis
  */
-void calculateTrackCenters(uint8_t* imgData, int row, int startSearch, int numberOfLines) {
+void calculateTrackCenters(uint8_t* imgData, uint16_t row, uint16_t startSearch, uint16_t lowestLine) {
     
-    int leftEdge = 0;
-    int rightEdge = *width;
-    int trackCenter = *width/2;
-    int rowOffset = row * (*width);
+    uint16_t leftEdge = 0;
+    uint16_t rightEdge = *width;
+    uint16_t trackCenter = *width/2;
+    uint32_t rowOffset = row * (*width);
 
     //tracking the first edge found in left direction
-    for(int i = startSearch; i >= 0; i--) {
+    for(int i = startSearch; i > -1; i--) {
         if(imgData[i + rowOffset] == 255) {
+            
+            //ToDo check amount of Pixel (min edge width)
             leftEdge = i;
             break;
         }
@@ -104,7 +122,7 @@ void calculateTrackCenters(uint8_t* imgData, int row, int startSearch, int numbe
         //track center on edge - stop calculating
         *runTrackCenterCalculation = false;
         imgData[rowOffset + trackCenter] = 255;
-        trackCenter = 254;
+        trackCenter = 254; //no track Center found
     }
     else {
         //normal track center calculation
@@ -125,17 +143,18 @@ void calculateTrackCenters(uint8_t* imgData, int row, int startSearch, int numbe
         }
     }
 
-    //check if numberOfLines could be remove with new implementation
-    trackCenters[numberOfLines - row - 1] = trackCenter; //change the order (lowest row is the first in Array)
+    //change the order (lowest row is the first in Array)
+    trackCenters[lowestLine - row + 1] = trackCenter; 
 }
 
 
 
 /**
  * detect finishline
- * checks two constant rows of image 
- * @todo: comment
- * @param imgData: a pointer to the image to analyse
+ * checks two constant rows of image if there is an edge.
+ * If bothe track an edge check that the middle is cleare (no turn)
+ * if left and right track an edge and the middle is clear it is a finisch line
+ * @param imgData: a pointer of the image to analyse
  */
 bool finishLineDetected(uint8_t* imgData) {
 
@@ -144,6 +163,7 @@ bool finishLineDetected(uint8_t* imgData) {
     uint16_t startFinishLineSearch = 180;
     uint16_t finishLineSearchLength = 60;
 
+    //check left line
     int rowOffset = startFinishLineSearch * (*width) + (*finishLineLeft);
     for (int i = 0; i < finishLineSearchLength; i++) {
         if(imgData[rowOffset + (i * (*width))] == 255) {
@@ -151,7 +171,12 @@ bool finishLineDetected(uint8_t* imgData) {
             imgData[rowOffset + (i * (*width))] = 100;
         }
     }
-    
+    //stop if no left edge found
+    if(!left) {
+        return false;
+    }
+
+    //check right line
     rowOffset = startFinishLineSearch * (*width) + (*finishLineRight);
     for (int i = 0; i < finishLineSearchLength; i++) {
         if(imgData[rowOffset + (i * (*width))] == 255) {
@@ -160,6 +185,7 @@ bool finishLineDetected(uint8_t* imgData) {
         }
     }
     
+    //check if middle line is clear
     if(left && right) {
         rowOffset = startFinishLineSearch * (*width) + (*finishLineMid);
         for (int i = 0; i < finishLineSearchLength; i++) {
@@ -181,6 +207,9 @@ bool finishLineDetected(uint8_t* imgData) {
  * a sobel filter is applied over the entire image
  * call method to calculate the track center for each row
  * @param args: the different parameters are used to get the arg parameter
+ *  0: image
+ *  1: lowestLine (where analysis should start)
+ *  2: Sobel Threshold 
  * @return the new calculatet image
  */
 static mp_obj_t analyseImage(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
@@ -189,51 +218,14 @@ static mp_obj_t analyseImage(uint n_args, const mp_obj_t *args, mp_map_t *kw_arg
     
     static uint16_t currentWidth;
     currentWidth = arg_img->w;
-    //static uint16_t currentHeight; 
-    //currentHeight = arg_img->h;
 
     uint8_t* imageData = arg_img->data;
     
-    //uint32_t idxLastTwoRows = currentWidth * currentHeight - (2 * currentWidth) -1; //ToDo Remove if new sobel works
-    //uint16_t numberOfLines = mp_obj_get_int(args[1]);
     uint16_t lowestLine = mp_obj_get_int(args[1]);
     int64_t threshold = mp_obj_get_int(args[2]);
     threshold *= threshold; //avoiding the root later
 
-
-    //Calculate Sobel to the image!
-    /*
-    for (int i = 0; i < numberOfLines * currentWidth ; i++) {
-
-        //cut the last two lines and the last two pixel of each line - don´t calculate sobel with pixels of new line
-        if(((i % currentWidth) > currentWidth - 3) ||  (i > lastTwoRows)) {
-            imageData[i] = 0;
-            continue;
-        }         
-        
-        //easy calculation - "single row for left and right"
-        //int g_x = ((imageData[i] * 2) + (imageData[i+2] * -2));
-        //int g_y = ((imageData[i + 1 + currentWidth] * 2) + (imageData[i + 1 + (currentWidth*2)] * -2));
-
-        // complexer but better calculation with matrix
-        int g_x =   (-1 * arg_img->data[i]) +           (1 * arg_img->data[i+2]) +
-                    (-2 * arg_img->data[i+currentWidth]) +     (2 * arg_img->data[i+2+currentWidth]) +
-                    (-1 * arg_img->data[i+(currentWidth*2)]) + (1 * arg_img->data[i+2+(currentWidth*2)]);
-
-        int g_y =   (-1 * arg_img->data[i]) +           (-2 * arg_img->data[i+1]) +             (-1 * arg_img->data[i+2]) +
-                    (1 * arg_img->data[i+(currentWidth*2)]) +  (2 * arg_img->data[i+1+(currentWidth*2)]) +    (1 * arg_img->data[i+2+(currentWidth*2)]);
-
-
-        int g = (g_x * g_x) + (g_y * g_y);
-        //takes long because of root int g = (int) fast_sqrtf((g_x * g_x) + (g_y * g_y));
-
-        if(g > threshold || g < -threshold) {
-            arg_img->data[i] = 255;
-        } else {
-            arg_img->data[i] = 0;
-        }
-    }
-    */
+    uint16_t amountOfCalculatetTrackCenters = 0;
 
 
     //new calculation of sobel - just for the one that are needed! (stop if track Center is on edge)
@@ -247,6 +239,7 @@ static mp_obj_t analyseImage(uint n_args, const mp_obj_t *args, mp_map_t *kw_arg
 
         //remove top lines
         if((i < currentWidth*2)) {
+            amountOfCalculatetTrackCenters = lowestLine - (i/currentWidth); //analysis worked complete (to the end!)
             imageData[i] = 0;
             break;
         }
@@ -269,37 +262,35 @@ static mp_obj_t analyseImage(uint n_args, const mp_obj_t *args, mp_map_t *kw_arg
             arg_img->data[i] = 0;
         }
 
-        //check if row finished, continue if not
+        //check if row finished, continue if not (start loop new)
         if((i % currentWidth) != 2 ) {
             continue;
         }
 
         calculateTrackCenters(imageData, i/currentWidth, *lastTrackCenter, lowestLine);
         if(!(*runTrackCenterCalculation)) {
+            amountOfCalculatetTrackCenters = lowestLine - (i/currentWidth);
             break;
         }
+    }
 
+    
+    //set every track Center thats not calculatet to 254
+    for(uint16_t i = amountOfCalculatetTrackCenters; i < SPI_BUFFER_WIDTH; i++) {
+        trackCenters[i] = 254;
     }
     
-    
-    //calculate edges and track_centers
-    /*
-    for (int i = numberOfLines - 3; i >= 0; i--) {
-        if(*runTrackCenterCalculation) {
-            calculateTrackCenters(imageData, i, *lastTrackCenter, numberOfLines); 
-        }
-        else {
-            trackCenters[currentHeight - i - 1] = 254; //change the order (lowest row is the first in Array)
-        }
-    }
-    */
     *runTrackCenterCalculation = true;
     *lastTrackCenter = trackCenters[2] * 320 / 253; 
 
-    /*if(finishLineDetected(imageData)) {
-        trackCenters[239] = 255;
-    }*/
-    //return mp_obj_new_memoryview('h', height, trackCenters);
+
+    if(finishLineDetected(imageData)) {
+        trackCenters[SPI_BUFFER_WIDTH - 1] = 255;
+    }
+    else {
+        trackCenters[SPI_BUFFER_WIDTH - 1] = 0;
+    }
+    //return mp_obj_new_memoryview('h', height, trackCenters); //just to check track Centers in micro pyton
     return args[0];
 }
 static MP_DEFINE_CONST_FUN_OBJ_KW(analyseImage_obj, 3, analyseImage); //number defindes the amoutn of arguments
