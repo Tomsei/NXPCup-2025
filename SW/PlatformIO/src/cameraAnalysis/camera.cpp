@@ -37,8 +37,8 @@ uint32_t spiBackBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
 #endif
 
 #ifdef ANALYSE_ON_CAMERA
-uint32_t spiFrontBuffer[VIDEO_RESOLUTION_Y];
-uint32_t spiBackBuffer[VIDEO_RESOLUTION_Y];
+uint32_t spiFrontBuffer[SPI_BUFFER_WIDTH];
+uint32_t spiBackBuffer[SPI_BUFFER_WIDTH];
 #endif
 
 uint32_t* spiBufferToRead = spiBackBuffer;
@@ -102,7 +102,8 @@ namespace CameraAnalysis {
   void OpenMVCam::updateTrackCenters() {
     //reading SPI-data when transfer is finished!
     if(spiTransferComplete){
-      //just updating image if analysis is finished
+
+      //just updating image if analysis is finished (otherwise skip the frame)
       if(imageAnalysIsComplete) {
         imageAnalysIsComplete = 0;
         currentTrackCenterAnalysis.updateTrackCenters(spiBufferToRead);

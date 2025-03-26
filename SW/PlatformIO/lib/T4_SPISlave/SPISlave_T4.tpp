@@ -116,9 +116,9 @@ extern uint32_t spiBackBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
 #endif
 
 #ifdef ANALYSE_ON_CAMERA
-extern uint32_t spiRx[VIDEO_RESOLUTION_Y];
-extern uint32_t spiFrontBuffer[VIDEO_RESOLUTION_Y];
-extern uint32_t spiBackBuffer[VIDEO_RESOLUTION_Y];
+extern uint32_t spiRx[SPI_BUFFER_WIDTH];
+extern uint32_t spiFrontBuffer[SPI_BUFFER_WIDTH];
+extern uint32_t spiBackBuffer[SPI_BUFFER_WIDTH];
 #endif
 
 extern uint32_t* spiBufferToRead;
@@ -163,11 +163,10 @@ SPISlave_T4_FUNC void __attribute__((section(".fustrun"))) SPISlave_T4_OPT::SLAV
     
     #ifdef ANALYSE_ON_CAMERA
       if(VIDEO_RESOLUTION_X == 320) {
-        spiBufferToWrite[spiBufferIdx] = spiBufferToWrite[spiBufferIdx] * 320 / 253; //mapping back from 0-254 to 0 - 320
+        spiBufferToWrite[spiBufferIdx] = spiBufferToWrite[spiBufferIdx] * 320 / 253; //mapping back from 0-253 to 0 - 320
       }
-      if (spiBufferIdx < VIDEO_RESOLUTION_Y-1) { spiBufferIdx++;}
-      else {
-        //CONSOLE.println("Passiert ??? ");
+      if (spiBufferIdx < SPI_BUFFER_WIDTH-1) { 
+        spiBufferIdx++; //incremet buffer until 239 ()
       }
     #endif
     
@@ -196,9 +195,7 @@ SPISlave_T4_FUNC void __attribute__((section(".fustrun"))) SPISlave_T4_OPT::SLAV
       }
       spiTransferComplete = 1;
     }
-
   }
-
   SLAVE_SR = 0x3F00;
   asm volatile ("dsb");
 }
