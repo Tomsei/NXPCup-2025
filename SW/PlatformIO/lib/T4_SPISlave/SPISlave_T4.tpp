@@ -125,6 +125,8 @@ extern uint32_t* spiBufferToRead;
 
 uint32_t* spiBufferToWrite = spiFrontBuffer;
 
+int test = 0;
+
 
 /**
  * spi interrupt method taken from the library
@@ -161,9 +163,12 @@ SPISlave_T4_FUNC void __attribute__((section(".fustrun"))) SPISlave_T4_OPT::SLAV
     
     #ifdef ANALYSE_ON_CAMERA
       if(VIDEO_RESOLUTION_X == 320) {
-        spiBufferToWrite[spiBufferIdx] = spiBufferToWrite[spiBufferIdx] * 320 / 254; //mapping back from 0-254 to 0 - 320
+        spiBufferToWrite[spiBufferIdx] = spiBufferToWrite[spiBufferIdx] * 320 / 253; //mapping back from 0-254 to 0 - 320
       }
-      if (spiBufferIdx < VIDEO_RESOLUTION_Y-1) spiBufferIdx++;
+      if (spiBufferIdx < VIDEO_RESOLUTION_Y-1) { spiBufferIdx++;}
+      else {
+        //CONSOLE.println("Passiert ??? ");
+      }
     #endif
     
     SLAVE_SR = (1UL << 1);

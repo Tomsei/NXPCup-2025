@@ -25,7 +25,7 @@ namespace Sensors {
         TofDistance::setup();
         //OpticalFlow::setup();
         //Imu::setup(); //ToDo: Check if IMU creates error
-        ArdLineFinder::setup();
+        //ArdLineFinder::setup();
     }
 
     //comment in .h file
@@ -33,12 +33,12 @@ namespace Sensors {
         rawData.tofDistance = TofDistance::getDistance();
         //OpticalFlow::readMotion(&rawData.opticalFlowX, &rawData.opticalFlowY);
         //Imu::getMotion(&rawData.imu);
-        rawData.ardLineFinder = ArdLineFinder::getSpeed();
+        //rawData.ardLineFinder = ArdLineFinder::getSpeed();
     }
 
     void updateUsedData() {
         usedData.tofDistance = TofDistance::getDistance();
-        usedData.speed = ArdLineFinder::getSpeed();
+        //usedData.speed = ArdLineFinder::getSpeed();
     }
 
     //comment in .h file

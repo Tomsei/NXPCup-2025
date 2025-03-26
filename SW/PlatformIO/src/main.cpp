@@ -48,14 +48,13 @@ void setup() {
 
 void loop() {
   BoardInput::update();
-  Sensors::updateRawData();
   Sensors::updateUsedData();
   CameraAnalysis::analyse();
   CarLogic::runCarLogic();
   TimingControl::runTasks();
   
-  Sensors::printData();
-  //CONSOLE.println("loop");
+  //Sensors::printData();
+  CONSOLE.println(micros());
 }
 
 

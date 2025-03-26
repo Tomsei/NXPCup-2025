@@ -24,26 +24,26 @@ namespace CarLogic {
 
     void runCarLogic() {
 
+        //ToDo: change
         engineEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S4);
         steeringEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S3);
-
-        //start and stop Wireles.
-        if(CONSOLE.available()) {
+        
+        //Bluetooth Control
+        /*if(CONSOLE.available()) {
             CONSOLE.read();
             changeState = (changeState) ? false : true;
         }
-        engineEnabled = (engineEnabled && changeState);
+        engineEnabled = (engineEnabled && changeState);*/
 
-        //DataVisualization::Display::showNumber(20);
-        //DataVisualization::LedStrip::showNumberInRange(200, 32);
-
-        if (Sensors::rawData.tofDistance < DISTANCE_TO_STOP) {
+        if (Sensors::usedData.tofDistance < DISTANCE_TO_STOP) {
             engineEnabled = false;
+            CONSOLE.println("stop");
         }
         
         uint8_t speed = CameraAnalysis::getSpeed();
         int steeringAngle = CameraAnalysis::getSteeringAngle();
-        //CONSOLE.print(speed); CONSOLE.println(steeringAngle);
+        //CONSOLE.print(speed); CONSOLE.print(" <- speed - steering Angle ->"); CONSOLE.println(steeringAngle);
+        //CONSOLE.print(engineEnabled);
         DrivingControl::drive(speed, steeringAngle);
         //showEnableStateOnLed(engineEnabled, steeringEnabled);
     }
@@ -69,7 +69,7 @@ namespace CarLogic {
         
         t_calculateSpeed = TimingControl::createTask([](TimingControl::Task* self) {
             Sensors::ArdLineFinder::calculateSpeed();
-        }, 150, true, true); 
+        }, 100, true, true); 
     }
 
 

@@ -94,6 +94,8 @@ namespace DataVisualization {
                     } 
                     lipDisplay.drawPixel(trackCenterPos, SCREEN_HEIGHT - 1 - i, SSD1306_WHITE); //track Center zugriff noch prüfen!
                 }
+                lipDisplay.setCursor(0,0);
+                lipDisplay.println(millis() % 10000);
                 lipDisplay.display();
                 updateDisplay = false;
             }
