@@ -17,7 +17,7 @@ namespace CameraAnalysis {
 
     //Todo Move to config + work correkt!
     #define MIN_STEERING_LINE 10
-    #define MAX_STEERING_LINE 100
+    #define MAX_STEERING_LINE 105
     #define MAX_STEERING_LINE_TURN 80 //abhängig von der Ist Geschwindigkeit die Linie nach vorne verschieben!!
     
     
@@ -44,6 +44,7 @@ namespace CameraAnalysis {
             bool lastSteeringLineFound = false;
         
             //DataVisualisation::Display::showTrackCenters(currentTrackCenterAnalysis.trackCenters); //TODo: Überlastung
+            currentTrackCenterAnalysis.printTrackCenters(0, 20);
 
             //check valid data
             if(currentTrackCenterAnalysis.trackCenters[0] != 322 || currentTrackCenterAnalysis.trackCenters[1] != 0) {
@@ -80,7 +81,7 @@ namespace CameraAnalysis {
                 currentTrackCenterAnalysis.calculateSpeed();
     
                 //finishline detected and wait 10 seconds
-                if(currentTrackCenterAnalysis.trackCenters[239] == 322 && millis() > 10000) {
+                if(currentTrackCenterAnalysis.trackCenters[239] == 322 && millis() > TIME_TO_FINISHLINE_DETECTION) {
                     Serial.print("FINISH");
                     DataVisualization::Display::showNumber(100);
                     currentTrackCenterAnalysis.finishLineDetected = true;
@@ -103,6 +104,7 @@ namespace CameraAnalysis {
 
 
 
+    bool farSteering = false;
 
     //comment in .h
     void TrackCenterAnalysis::calculateSteeringAngle() {
@@ -113,19 +115,20 @@ namespace CameraAnalysis {
         //ToDo: check how it works if i use the lastStraight line vor Min and May Line turn!
         
 
-        /*if(steeringAngle > 30 || Sensors::usedData.speed < 8) {
-            steeringLine = (lastSteeringLine > MAX_STEERING_LINE_TURN) ? MAX_STEERING_LINE_TURN : lastSteeringLine;
-            CONSOLE.print("Nah - -");
-        } else {
-            steeringLine = (lastSteeringLine > MAX_STEERING_LINE) ? MAX_STEERING_LINE : lastSteeringLine;
-            CONSOLE.print("Fern - - ");
-        } */
         steeringLine = (lastSteeringLine > MAX_STEERING_LINE_TURN) ? MAX_STEERING_LINE_TURN : lastSteeringLine;
+        if (lastStraightLine > steeringLine || farSteering) {
+            steeringLine = (lastSteeringLine > MAX_STEERING_LINE) ? MAX_STEERING_LINE : lastSteeringLine;
+            farSteering = true;
+            //CONSOLE.print("Yes i am here");
+        }
+        if(steeringLine < 81) {
+            farSteering = false;
+        }
 
+        //CONSOLE.print(" straight Line: "); CONSOLE.print(lastStraightLine);
         //CONSOLE.print(" steeringLine: "); CONSOLE.print(steeringLine); CONSOLE.print("-----------");
-        //CONSOLE.print(" steeringLine "); CONSOLE.print(steeringLine); 
         //CONSOLE.print(" TrackCenter"); CONSOLE.print(trackCenters[steeringLine]);
-        //CONSOLE.print(" TrackCenter Offset"); CONSOLE.print(trackCenterOffset[steeringLine]);
+        //CONSOLE.print(" TrackCenter Offset"); CONSOLE.println(trackCenterOffset[steeringLine]);
 
         tempSteeringAngle = trackCenterOffset[steeringLine];
         
@@ -156,11 +159,11 @@ namespace CameraAnalysis {
     //comment in .h
     void TrackCenterAnalysis::calculateSpeed() {
         if(!finishLineDetected) {
-            speed = 19;
+            speed = 23;
             speed += lastStraightLine/25;
         }
         else {
-            speed = 15;
+            speed = 13;
         }
         //CONSOLE.print(speed); CONSOLE.print(" <- speed - lastStraigLine -> "); CONSOLE.print(lastStraightLine); CONSOLE.print(" ----");
     }

@@ -13,7 +13,7 @@ import nxpcup
 import image, mjpeg
 
 #configurations
-camOffset = 15
+camOffset = 5
 vidoeDuration = 20000
 
 # define spi connection
@@ -34,12 +34,7 @@ imageHight = img.height()
 imageWidth = img.width()
 defaultTrackCenter = int(imageWidth/2)
 
-nxpcup.setup(imageWidth,
-                imageHight,
-                camOffset,
-                defaultTrackCenter - 40,
-                defaultTrackCenter,
-                defaultTrackCenter + 40)
+nxpcup.setup(imageWidth, imageHight, camOffset, 40, 180, 90)
 
 #create the video file and needed configurations
 video = mjpeg.Mjpeg('driving_video.mjpeg')
