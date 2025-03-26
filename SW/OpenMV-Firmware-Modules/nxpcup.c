@@ -276,7 +276,7 @@ static mp_obj_t analyseImage(uint n_args, const mp_obj_t *args, mp_map_t *kw_arg
 
     
     //set every track Center thats not calculatet to 254
-    for(uint16_t i = amountOfCalculatetTrackCenters; i < SPI_BUFFER_WIDTH; i++) {
+    for(uint16_t i = amountOfCalculatetTrackCenters + 1; i < SPI_BUFFER_WIDTH-1; i++) {
         trackCenters[i] = 254;
     }
     
