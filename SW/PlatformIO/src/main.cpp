@@ -54,7 +54,7 @@ void loop() {
   TimingControl::runTasks();
   
   //Sensors::printData();
-  CONSOLE.println(micros());
+  //CONSOLE.println(micros());
 }
 
 

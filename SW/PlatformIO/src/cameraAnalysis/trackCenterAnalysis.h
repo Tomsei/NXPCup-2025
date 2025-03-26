@@ -21,7 +21,7 @@ namespace CameraAnalysis {
     class TrackCenterAnalysis {
         public:
             uint32_t* trackCenters; //ToDo: uint32_t could be change to uint8_t (then also change image Buffer - Testing!)
-            int16_t trackCenterOffset[VIDEO_RESOLUTION_Y]; //could be int 16
+            int16_t trackCenterOffset[VIDEO_RESOLUTION_Y];
             int lastStraightLine;
             int lastSteeringLine;
             int steeringAngle;
@@ -31,7 +31,10 @@ namespace CameraAnalysis {
             void updateTrackCenters(uint32_t* trackCenterData);
             void calculateSteeringAngle();
             void calculateSpeed();
+            
             void printTrackCenters(int start = 0, int lenght = VIDEO_RESOLUTION_Y);
+            void printTrackCenterOffsets(int start = 0, int lenght = VIDEO_RESOLUTION_Y);
+            
     };
 
 }

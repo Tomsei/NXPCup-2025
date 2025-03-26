@@ -20,6 +20,8 @@ namespace CameraAnalysis {
     #define MAX_STEERING_LINE 100
     #define MAX_STEERING_LINE_TURN 80 //abhängig von der Ist Geschwindigkeit die Linie nach vorne verschieben!!
     
+    
+    //comment in .h
     void setup() {
 
         OpenMVCam::setup();
@@ -30,63 +32,87 @@ namespace CameraAnalysis {
         currentTrackCenterAnalysis.lastSteeringLine = MIN_STEERING_LINE;
     }
 
+    
+    //comment in .h
     void analyse() {
         
-        bool straightLineFound = false;
-        bool lastSteeringLineFound = false;
-
         OpenMVCam::updateTrackCenters();
-        //DataVisualisation::Display::showTrackCenters(currentTrackCenterAnalysis.trackCenters); //TODo: Überlastung
-        //currentTrackCenterAnalysis.printTrackCenters(0,20);
-            
+
         if(!imageAnalysIsComplete) {
 
-            for(int i = 2; i < VIDEO_RESOLUTION_Y; i++) { //start by to (first two values not included!)
+            bool straightLineFound = false;
+            bool lastSteeringLineFound = false;
+        
+            //DataVisualisation::Display::showTrackCenters(currentTrackCenterAnalysis.trackCenters); //TODo: Überlastung
+
+            //check valid data
+            if(currentTrackCenterAnalysis.trackCenters[0] != 322 || currentTrackCenterAnalysis.trackCenters[1] != 0) {
+                CONSOLE.print("error");
+            }
+            else {
+
+                for(int i = 2; i < VIDEO_RESOLUTION_Y; i++) { //start by two (first two values are no track center infos!)
                 
-                //no more usable track center Values (turn detected on Camera)
-                if(currentTrackCenterAnalysis.trackCenters[i] == 321 && !lastSteeringLineFound) { //use 321 becaus 255 is mapped to 321 (* 320 / 254)
-                    //currentTrackCenterAnalysis.lastSteeringLine = ((i-1) > MIN_STEERING_LINE) ? i-1 : MIN_STEERING_LINE;  //Min Steering Line festhalten
-                    currentTrackCenterAnalysis.lastSteeringLine = i-2;
-                    lastSteeringLineFound = true;
-                    //CONSOLE.println("Test");
+                    //no more usable track center Values (turn detected on Camera)
+                    if(currentTrackCenterAnalysis.trackCenters[i] > 320 && !lastSteeringLineFound) { //use 321 becaus 255 is mapped to 321 (* 320 / 254)
+                        currentTrackCenterAnalysis.lastSteeringLine = i-1; //first two track centers arent used  
+                        lastSteeringLineFound = true;
+                        /*check last steering line + trackCenters
+                        CONSOLE.print(currentTrackCenterAnalysis.lastSteeringLine); CONSOLE.print("\t");
+                        currentTrackCenterAnalysis.printTrackCenters(0,20);
+                        */
+                    }
+    
+                    //Todo: if needed the calculation can stop here
+                    currentTrackCenterAnalysis.trackCenterOffset[i] = (VIDEO_RESOLUTION_X/2) - currentTrackCenterAnalysis.trackCenters[i];
+                
+                    if(abs(currentTrackCenterAnalysis.trackCenterOffset[i]) > STRAIGHT_THRESHOLD && !straightLineFound) {
+                        currentTrackCenterAnalysis.lastStraightLine = i-1; //first tro track centers arend used
+                        straightLineFound = true;
+                    }
                 }
 
-                //Todo: if needed the calculation can stop here
-                currentTrackCenterAnalysis.trackCenterOffset[i] = (VIDEO_RESOLUTION_X/2) - currentTrackCenterAnalysis.trackCenters[i];
-            
-                if(abs(currentTrackCenterAnalysis.trackCenterOffset[i]) > STRAIGHT_THRESHOLD && !straightLineFound) {
-                    currentTrackCenterAnalysis.lastStraightLine = i-1;
-                    straightLineFound = true;
+                /* //check Track Offsets
+                CONSOLE.print(currentTrackCenterAnalysis.trackCenterOffset[currentTrackCenterAnalysis.lastSteeringLine]); CONSOLE.print("\t");
+                currentTrackCenterAnalysis.printTrackCenterOffsets(0,20);
+                */
+                currentTrackCenterAnalysis.calculateSteeringAngle();
+                currentTrackCenterAnalysis.calculateSpeed();
+    
+                //finishline detected and wait 10 seconds
+                if(currentTrackCenterAnalysis.trackCenters[239] == 322 && millis() > 10000) {
+                    Serial.print("FINISH");
+                    DataVisualization::Display::showNumber(100);
+                    currentTrackCenterAnalysis.finishLineDetected = true;
                 }
             }
-            currentTrackCenterAnalysis.calculateSteeringAngle();
-            currentTrackCenterAnalysis.calculateSpeed();
-
-            //finishline detected and wait 10 seconds
-            if(currentTrackCenterAnalysis.trackCenters[239] == 322 && millis() > 10000) {
-                Serial.print("FINISH");
-                currentTrackCenterAnalysis.finishLineDetected = true;
-            }
-
             imageAnalysIsComplete = 1; 
-            //CONSOLE.print("Steering Row"); CONSOLE.println(currentTrackCenterAnalysis.lastSteeringLine);
         }       
     }
 
+    
+    //comment in .h
     int getSteeringAngle() {
         return 90 + currentTrackCenterAnalysis.steeringAngle;
     }
 
+    //comment in .h
     uint8_t getSpeed() {
         return currentTrackCenterAnalysis.speed;
     }
 
 
+
+
+    //comment in .h
     void TrackCenterAnalysis::calculateSteeringAngle() {
         float tempSteeringAngle = 0;
         
         int steeringLine = lastSteeringLine;
-        //CONSOLE.print("lastSteeringLine "); CONSOLE.print(lastSteeringLine);
+
+        //ToDo: check how it works if i use the lastStraight line vor Min and May Line turn!
+        
+
         /*if(steeringAngle > 30 || Sensors::usedData.speed < 8) {
             steeringLine = (lastSteeringLine > MAX_STEERING_LINE_TURN) ? MAX_STEERING_LINE_TURN : lastSteeringLine;
             CONSOLE.print("Nah - -");
@@ -95,40 +121,18 @@ namespace CameraAnalysis {
             CONSOLE.print("Fern - - ");
         } */
         steeringLine = (lastSteeringLine > MAX_STEERING_LINE_TURN) ? MAX_STEERING_LINE_TURN : lastSteeringLine;
-        
-        /*if (lastSteeringLine > MAX_STEERING_LINE_TURN) {
-            steeringLine = MAX_STEERING_LINE_TURN;
-        }
-        else {
-            steeringLine = lastSteeringLine;
-        }*/
-        
+
         //CONSOLE.print(" steeringLine: "); CONSOLE.print(steeringLine); CONSOLE.print("-----------");
-        
         //CONSOLE.print(" steeringLine "); CONSOLE.print(steeringLine); 
         //CONSOLE.print(" TrackCenter"); CONSOLE.print(trackCenters[steeringLine]);
         //CONSOLE.print(" TrackCenter Offset"); CONSOLE.print(trackCenterOffset[steeringLine]);
 
         tempSteeringAngle = trackCenterOffset[steeringLine];
         
-        //if (steeringAngle > 30) 
-        //    tempSteeringAngle = trackCenterOffset[45];
-        //else
-        //    tempSteeringAngle = trackCenterOffset[90];
 
-        //uint16_t steeringRow = (lastStraightLine  > MIN_STEERING_LINE)  ? lastStraightLine : MIN_STEERING_LINE; 
-        //tempSteeringAngle = trackCenterOffset[steeringRow]; 
     
-        //CONSOLE.print("Steering Test:"); CONSOLE.println(tempSteeringAngle);
-
-        //map value to usable size for steering
-        
-        if (steeringLine < 30) {
-            tempSteeringAngle *= 0.1;
-        }
-        else {
-            tempSteeringAngle *= 0.1;
-        }
+        //map value to usable size for steering        
+        tempSteeringAngle *= 0.1;
 
         //make stronger angles stronger!
         float factor = 0.6;
@@ -138,35 +142,43 @@ namespace CameraAnalysis {
 
         //square steering 
         if(tempSteeringAngle < 0) {
-            tempSteeringAngle *= tempSteeringAngle*factor;
+            tempSteeringAngle *= (tempSteeringAngle * factor);
             tempSteeringAngle = -tempSteeringAngle;    
         }
         else {
-            tempSteeringAngle *= (tempSteeringAngle*factor);
+            tempSteeringAngle *= (tempSteeringAngle * factor);
         }   
         steeringAngle = tempSteeringAngle;
-        //CONSOLE.print("steering Angle: "); CONSOLE.println(steeringAngle);
     }
 
+
+    
+    //comment in .h
     void TrackCenterAnalysis::calculateSpeed() {
         if(!finishLineDetected) {
             speed = 19;
             speed += lastStraightLine/25;
         }
         else {
-            speed = 19;
+            speed = 15;
         }
-
         //CONSOLE.print(speed); CONSOLE.print(" <- speed - lastStraigLine -> "); CONSOLE.print(lastStraightLine); CONSOLE.print(" ----");
     }
 
+    
+    //comment in .h
     void TrackCenterAnalysis::updateTrackCenters(uint32_t* trackCenterData) {
         trackCenters = trackCenterData;
-        //printArray(trackCenterOffset, 0, 20, "print Offsets;");
     }
 
+    //comment in .h
     void TrackCenterAnalysis::printTrackCenters(int start /*= 0*/, int length /*= VIDEO_RESOLUTION_X*NUMBER_OF_LINES*/) {
         printArray(trackCenters, start, length, "print TC:\t");
+    }
+
+    //comment in .h
+    void TrackCenterAnalysis::printTrackCenterOffsets(int start /*= 0*/, int length /*= VIDEO_RESOLUTION_X*NUMBER_OF_LINES*/) {
+        printArray(trackCenterOffset, start, length, "print TCOffset:\t");
     }
 
 
