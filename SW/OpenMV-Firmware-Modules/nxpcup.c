@@ -28,9 +28,9 @@ int8_t* camOffset;
 uint8_t* trackCenters;
 bool* runTrackCenterCalculation;
 
-uint16_t* finishLineLeft;
-uint16_t* finishLineRight;
-uint16_t* finishLineMid;
+uint16_t* finishLineScanOffset;
+uint16_t* finishLineScanStart;
+uint16_t* finishLineScanLength;
 
 
 
@@ -56,16 +56,16 @@ static mp_obj_t setup(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
     camOffset = fb_alloc(1, FB_ALLOC_NO_HINT);
     runTrackCenterCalculation = fb_alloc(1, FB_ALLOC_NO_HINT);
     lastTrackCenter = fb_alloc(2, FB_ALLOC_NO_HINT);
-    finishLineLeft = fb_alloc(2, FB_ALLOC_NO_HINT);
-    finishLineRight = fb_alloc(2, FB_ALLOC_NO_HINT);
-    finishLineMid = fb_alloc(2, FB_ALLOC_NO_HINT);
+    finishLineScanOffset = fb_alloc(2, FB_ALLOC_NO_HINT);
+    finishLineScanStart = fb_alloc(2, FB_ALLOC_NO_HINT);
+    finishLineScanLength = fb_alloc(2, FB_ALLOC_NO_HINT);
 
     *width = mp_obj_get_int(args[0]);
     *height = mp_obj_get_int(args[1]);
     *camOffset = mp_obj_get_int(args[2]);
-    *finishLineLeft = mp_obj_get_int(args[3]);
-    *finishLineMid = mp_obj_get_int(args[4]);
-    *finishLineRight = mp_obj_get_int(args[5]);
+    *finishLineScanOffset = mp_obj_get_int(args[3]);
+    *finishLineScanStart = mp_obj_get_int(args[4]);
+    *finishLineScanLength = mp_obj_get_int(args[5]);
 
     *runTrackCenterCalculation = true;
     *lastTrackCenter = (*width/2);
@@ -156,15 +156,15 @@ void calculateTrackCenters(uint8_t* imgData, uint16_t row, uint16_t startSearch,
  * if left and right track an edge and the middle is clear it is a finisch line
  * @param imgData: a pointer of the image to analyse
  */
-bool finishLineDetected(uint8_t* imgData) {
+bool finishLineDetected(uint8_t* imgData, uint16_t centerLine) {
 
     bool left = false;
     bool right = false;
-    uint16_t startFinishLineSearch = 180;
-    uint16_t finishLineSearchLength = 60;
+    uint16_t startFinishLineSearch = (*finishLineScanStart);
+    uint16_t finishLineSearchLength = (*finishLineScanLength);
 
     //check left line
-    int rowOffset = startFinishLineSearch * (*width) + (*finishLineLeft);
+    int rowOffset = startFinishLineSearch * (*width) + (centerLine - (*finishLineScanOffset));
     for (int i = 0; i < finishLineSearchLength; i++) {
         if(imgData[rowOffset + (i * (*width))] == 255) {
             left = true;
@@ -177,7 +177,7 @@ bool finishLineDetected(uint8_t* imgData) {
     }
 
     //check right line
-    rowOffset = startFinishLineSearch * (*width) + (*finishLineRight);
+    rowOffset = startFinishLineSearch * (*width) + (centerLine + (*finishLineScanOffset));
     for (int i = 0; i < finishLineSearchLength; i++) {
         if(imgData[rowOffset + (i * (*width))] == 255) {
             right = true;
@@ -187,7 +187,7 @@ bool finishLineDetected(uint8_t* imgData) {
     
     //check if middle line is clear
     if(left && right) {
-        rowOffset = startFinishLineSearch * (*width) + (*finishLineMid);
+        rowOffset = startFinishLineSearch * (*width) + (centerLine);
         for (int i = 0; i < finishLineSearchLength; i++) {
             if(imgData[rowOffset + (i * (*width))] == 255) {
                 imgData[rowOffset + (i * (*width))] = 100;
@@ -284,12 +284,16 @@ static mp_obj_t analyseImage(uint n_args, const mp_obj_t *args, mp_map_t *kw_arg
     *lastTrackCenter = trackCenters[2] * 320 / 253; 
 
 
-    if(finishLineDetected(imageData)) {
-        trackCenters[SPI_BUFFER_WIDTH - 1] = 255;
+    //check if finishLine is possible
+    if(amountOfCalculatetTrackCenters > 60) {
+        if(finishLineDetected(imageData, trackCenters[20] * 320 / 253)) { //check the used finish line!
+            trackCenters[SPI_BUFFER_WIDTH - 1] = 255;
+        }
+        else {
+            trackCenters[SPI_BUFFER_WIDTH - 1] = 0;
+        }
     }
-    else {
-        trackCenters[SPI_BUFFER_WIDTH - 1] = 0;
-    }
+    
     //return mp_obj_new_memoryview('h', height, trackCenters); //just to check track Centers in micro pyton
     return args[0];
 }

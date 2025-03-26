@@ -30,14 +30,8 @@ clock = time.clock()  # Tracks FPS.
 
 imageHight = img.height()
 imageWidth = img.width()
-defaultTrackCenter = int(imageWidth/2)
 
-nxpcup.setup(imageWidth,
-                imageHight,
-                camOffset,
-                defaultTrackCenter - 40,
-                defaultTrackCenter,
-                defaultTrackCenter + 40)
+nxpcup.setup(imageWidth, imageHight, camOffset, 40, 180, 60)
 
 """
 run the prepared spi transfer for the nxpcup data
