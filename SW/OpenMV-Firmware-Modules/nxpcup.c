@@ -121,8 +121,7 @@ void calculateTrackCenters(uint8_t* imgData, uint16_t row, uint16_t startSearch,
     if(imgData[rowOffset + trackCenter] == 255) {
         //track center on edge - stop calculating
         *runTrackCenterCalculation = false;
-        imgData[rowOffset + trackCenter] = 255;
-        trackCenter = 254; //no track Center found
+        //trackCenter = 254; //no track Center found
     }
     else {
         //normal track center calculation
@@ -275,9 +274,12 @@ static mp_obj_t analyseImage(uint n_args, const mp_obj_t *args, mp_map_t *kw_arg
     }
 
     
-    //set every track Center thats not calculatet to 254
-    for(uint16_t i = amountOfCalculatetTrackCenters + 1; i < SPI_BUFFER_WIDTH-1; i++) {
-        trackCenters[i] = 254;
+    //skip frame if no track Center was found
+    if(amountOfCalculatetTrackCenters > 1) {
+        //set every track Center thats not calculatet to 254
+        for(uint16_t i = amountOfCalculatetTrackCenters + 1; i < SPI_BUFFER_WIDTH-1; i++) {
+            trackCenters[i] = 254;
+        }
     }
     
     *runTrackCenterCalculation = true;
