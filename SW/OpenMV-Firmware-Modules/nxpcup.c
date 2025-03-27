@@ -19,6 +19,10 @@
 #include "extmod/modmachine.h"
 
 #define SPI_BUFFER_WIDTH 240 //change to optimize if resolution get changed
+#define VIS_SOBEL 80
+#define VIS_EDGE 200
+#define VIS_TRACKCENTER 120
+#define VIS_FINISHLINE 150
 
 //variables
 uint16_t* width;
@@ -31,7 +35,7 @@ bool* runTrackCenterCalculation;
 uint16_t* finishLineScanOffset;
 uint16_t* finishLineScanStart;
 uint16_t* finishLineScanLength;
-
+uint8_t* minEdgeWidth;
 
 
 /**
@@ -59,6 +63,7 @@ static mp_obj_t setup(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
     finishLineScanOffset = fb_alloc(2, FB_ALLOC_NO_HINT);
     finishLineScanStart = fb_alloc(2, FB_ALLOC_NO_HINT);
     finishLineScanLength = fb_alloc(2, FB_ALLOC_NO_HINT);
+    minEdgeWidth = fb_alloc(1, FB_ALLOC_NO_HINT);
 
     *width = mp_obj_get_int(args[0]);
     *height = mp_obj_get_int(args[1]);
@@ -66,6 +71,7 @@ static mp_obj_t setup(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
     *finishLineScanOffset = mp_obj_get_int(args[3]);
     *finishLineScanStart = mp_obj_get_int(args[4]);
     *finishLineScanLength = mp_obj_get_int(args[5]);
+    *minEdgeWidth = mp_obj_get_int(args[6]);
 
     *runTrackCenterCalculation = true;
     *lastTrackCenter = (*width/2);
@@ -76,7 +82,7 @@ static mp_obj_t setup(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
 
     return mp_obj_new_int(*width);
 }
-static MP_DEFINE_CONST_FUN_OBJ_KW(setup_obj, 6, setup); //number defindes the amoutn of arguments
+static MP_DEFINE_CONST_FUN_OBJ_KW(setup_obj, 7, setup); //number defindes the amoutn of arguments
 
 
 
@@ -93,39 +99,64 @@ void calculateTrackCenters(uint8_t* imgData, uint16_t row, uint16_t startSearch,
     
     uint16_t leftEdge = 0;
     uint16_t rightEdge = *width;
+    uint8_t leftCount = 0;
+    uint8_t rightCount = 0;
+
     uint16_t trackCenter = *width/2;
     uint32_t rowOffset = row * (*width);
 
     //tracking the first edge found in left direction
     for(int i = startSearch; i > -1; i--) {
-        if(imgData[i + rowOffset] == 255) {
+        if(imgData[i + rowOffset] == VIS_SOBEL) {
             
-            //ToDo check amount of Pixel (min edge width)
-            leftEdge = i;
-            break;
+            leftCount++;
+
+            //min edge width
+            if(leftCount > (*minEdgeWidth)) {
+                leftEdge = i;
+                for(uint8_t j = leftCount; j > 0; j--) {
+                    imgData[i + rowOffset + j - 1] = VIS_EDGE;
+                }
+                break;
+            }
+        }
+        else {
+            leftCount = 0;
         }
     }
 
     //tracking the first edge found in right direction
     for (int i = startSearch; i <= (*width); i++) {
-        if(imgData[i + rowOffset] == 255) {
+        if(imgData[i + rowOffset] == VIS_SOBEL) {
             
-        //ToDo check amount of pixel (min edge width!)
-            rightEdge = i;
-            break;
+            rightCount++;
+            
+
+            if(rightCount > (*minEdgeWidth)) {
+                rightEdge = i;
+                for(uint8_t j = rightCount; j > 0; j--) {
+                    imgData[i + rowOffset - j - 1] = VIS_EDGE;
+                }
+                
+                break;
+            }
+        }
+        else {
+            rightCount = 0;
         }
     }
 
     trackCenter = ((leftEdge + rightEdge) / 2);
 
-    if(imgData[rowOffset + trackCenter] == 255) {
-        //track center on edge - stop calculating
+    
+    //track center on edge - stop calculating
+    if(imgData[rowOffset + trackCenter] == VIS_EDGE) {
         *runTrackCenterCalculation = false;
         //trackCenter = 254; //no track Center found
     }
     else {
         //normal track center calculation
-        imgData[rowOffset + trackCenter] = 120;
+        imgData[rowOffset + trackCenter] = VIS_TRACKCENTER;
 
         *lastTrackCenter = trackCenter;
         trackCenter = trackCenter + *camOffset;
@@ -165,9 +196,9 @@ bool finishLineDetected(uint8_t* imgData, uint16_t centerLine) {
     //check left line
     int rowOffset = startFinishLineSearch * (*width) + (centerLine - (*finishLineScanOffset));
     for (int i = 0; i < finishLineSearchLength; i++) {
-        if(imgData[rowOffset + (i * (*width))] == 255) {
+        if(imgData[rowOffset + (i * (*width))] == VIS_SOBEL) {
             left = true;
-            imgData[rowOffset + (i * (*width))] = 100;
+            imgData[rowOffset + (i * (*width))] = VIS_FINISHLINE;
         }
     }
     //stop if no left edge found
@@ -178,9 +209,9 @@ bool finishLineDetected(uint8_t* imgData, uint16_t centerLine) {
     //check right line
     rowOffset = startFinishLineSearch * (*width) + (centerLine + (*finishLineScanOffset));
     for (int i = 0; i < finishLineSearchLength; i++) {
-        if(imgData[rowOffset + (i * (*width))] == 255) {
+        if(imgData[rowOffset + (i * (*width))] == VIS_SOBEL) {
             right = true;
-            imgData[rowOffset + (i * (*width))] = 100;
+            imgData[rowOffset + (i * (*width))] = VIS_FINISHLINE;
         }
     }
     
@@ -188,8 +219,8 @@ bool finishLineDetected(uint8_t* imgData, uint16_t centerLine) {
     if(left && right) {
         rowOffset = startFinishLineSearch * (*width) + (centerLine);
         for (int i = 0; i < finishLineSearchLength; i++) {
-            if(imgData[rowOffset + (i * (*width))] == 255) {
-                imgData[rowOffset + (i * (*width))] = 100;
+            if(imgData[rowOffset + (i * (*width))] == VIS_SOBEL) {
+                imgData[rowOffset + (i * (*width))] = VIS_FINISHLINE;
                 return false; //no finish line (mid detected)
             }
         }
@@ -256,7 +287,7 @@ static mp_obj_t analyseImage(uint n_args, const mp_obj_t *args, mp_map_t *kw_arg
 
         //calculate sobel threshold
         if(g > threshold || g < -threshold) {
-            arg_img->data[i] = 255;
+            arg_img->data[i] = VIS_SOBEL;
         } else {
             arg_img->data[i] = 0;
         }

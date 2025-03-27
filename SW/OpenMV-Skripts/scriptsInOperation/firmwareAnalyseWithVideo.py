@@ -14,9 +14,16 @@ import image, mjpeg
 
 #configurations
 camOffset = 5
-vidoeDuration = 30000
-lowestLine = 218
+lowestLine = 215
 sobelThreshold = 200
+
+finishLineScanOffset = 40
+finishLineScanStart = 155
+finishLineScanLength = 60
+
+minEdgeWidth = 2
+
+vidoeDuration = 30000
 
 # define spi connection
 from machine import Pin, SPI
@@ -34,9 +41,13 @@ clock = time.clock()  # Tracks FPS.
 
 imageHight = img.height()
 imageWidth = img.width()
-defaultTrackCenter = int(imageWidth/2)
 
-nxpcup.setup(imageWidth, imageHight, camOffset, 40, 180, 60)
+nxpcup.setup(   imageWidth,
+                imageHight,
+                camOffset,
+                finishLineScanOffset,
+                finishLineScanStart,
+                finishLineScanLength)
 
 #create the video file and needed configurations
 video = mjpeg.Mjpeg('driving_video.mjpeg')

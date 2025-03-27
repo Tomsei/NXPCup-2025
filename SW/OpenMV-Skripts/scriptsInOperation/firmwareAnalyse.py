@@ -13,6 +13,14 @@ import nxpcup
 
 #configurations
 camOffset = 5
+lowestLine = 215 #avoid bumper shadow
+sobelThreshold = 100
+
+finishLineScanOffset = 40
+finishLineScanStart = 155
+finishLineScanLength = 60
+
+minEdgeWidth = 2
 
 # define spi connection
 from machine import Pin, SPI
@@ -30,10 +38,15 @@ clock = time.clock()  # Tracks FPS.
 
 imageHight = img.height()
 imageWidth = img.width()
-lowestLine = 218
-sobelThreshold = 100
 
-nxpcup.setup(imageWidth, imageHight, camOffset, 40, 180, 60)
+
+nxpcup.setup(   imageWidth,
+                imageHight,
+                camOffset,
+                finishLineScanOffset,
+                finishLineScanStart,
+                finishLineScanLength,
+                minEdgeWidth)
 
 """
 run the prepared spi transfer for the nxpcup data
