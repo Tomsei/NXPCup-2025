@@ -49,7 +49,7 @@ void setup() {
 void loop() {
   BoardInput::update();
   Sensors::updateUsedData();
-  CameraAnalysis::analyse();
+  CameraAnalysis::analyse(BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S2));
   CarLogic::runCarLogic();
   TimingControl::runTasks();
   

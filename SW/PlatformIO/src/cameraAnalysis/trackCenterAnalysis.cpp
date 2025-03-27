@@ -34,7 +34,7 @@ namespace CameraAnalysis {
 
     
     //comment in .h
-    void analyse() {
+    void analyse(bool enableFinishLineDetection) {
         
         OpenMVCam::updateTrackCenters();
 
@@ -43,6 +43,7 @@ namespace CameraAnalysis {
             bool straightLineFound = false;
             bool lastSteeringLineFound = false;
         
+            currentTrackCenterAnalysis.enableFinishLineDetection = enableFinishLineDetection;
             //DataVisualisation::Display::showTrackCenters(currentTrackCenterAnalysis.trackCenters); //TODo: Überlastung
             currentTrackCenterAnalysis.printTrackCenters(0, 20);
 
@@ -158,7 +159,7 @@ namespace CameraAnalysis {
     
     //comment in .h
     void TrackCenterAnalysis::calculateSpeed() {
-        if(!finishLineDetected) {
+        if(!finishLineDetected  || (!enableFinishLineDetection)) {
             speed = 23;
             speed += lastStraightLine/25;
         }
