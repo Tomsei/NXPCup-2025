@@ -160,7 +160,7 @@ namespace CameraAnalysis {
     //comment in .h
     void TrackCenterAnalysis::calculateSpeed() {
         if(!finishLineDetected  || (!enableFinishLineDetection)) {
-            speed = 23;
+            speed = 16;
             speed += lastStraightLine/25;
         }
         else {

@@ -15,7 +15,7 @@ import image, mjpeg
 #configurations
 camOffset = 5
 lowestLine = 215
-sobelThreshold = 200
+sobelThreshold = 80
 
 finishLineScanOffset = 40
 finishLineScanStart = 155
@@ -47,7 +47,8 @@ nxpcup.setup(   imageWidth,
                 camOffset,
                 finishLineScanOffset,
                 finishLineScanStart,
-                finishLineScanLength)
+                finishLineScanLength,
+                minEdgeWidth)
 
 #create the video file and needed configurations
 video = mjpeg.Mjpeg('driving_video.mjpeg')

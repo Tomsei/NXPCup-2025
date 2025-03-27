@@ -14,7 +14,7 @@ import nxpcup
 #configurations
 camOffset = 5
 lowestLine = 215 #avoid bumper shadow
-sobelThreshold = 100
+sobelThreshold = 60
 
 finishLineScanOffset = 40
 finishLineScanStart = 155
