@@ -30,6 +30,8 @@ clock = time.clock()  # Tracks FPS.
 
 imageHight = img.height()
 imageWidth = img.width()
+lowestLine = 218
+sobelThreshold = 100
 
 nxpcup.setup(imageWidth, imageHight, camOffset, 40, 180, 60)
 
@@ -46,7 +48,7 @@ while True:
     clock.tick()  # Track elapsed milliseconds between snapshots().
     img = sensor.snapshot()  # Take a picture and return the image.
 
-    img = nxpcup.analyseImage(img, img.height(), 90) #If nessesarry change return!
+    img = nxpcup.analyseImage(img, lowestLine, sobelThreshold) #If nessesarry change return!
     print(img)
     spiWriteTrackCenters()
     print(clock.fps())  # Note: Your OpenMV Cam runs about half as fast while

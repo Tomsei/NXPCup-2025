@@ -17,8 +17,8 @@ namespace CameraAnalysis {
 
     //Todo Move to config + work correkt!
     #define MIN_STEERING_LINE 10
-    #define MAX_STEERING_LINE 105
-    #define MAX_STEERING_LINE_TURN 80 //abhängig von der Ist Geschwindigkeit die Linie nach vorne verschieben!!
+    #define MAX_STEERING_LINE 90
+    #define MAX_STEERING_LINE_TURN 70 //abhängig von der Ist Geschwindigkeit die Linie nach vorne verschieben!!
     
     
     //comment in .h

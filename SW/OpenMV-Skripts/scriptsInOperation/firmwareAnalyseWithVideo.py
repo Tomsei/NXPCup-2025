@@ -14,7 +14,9 @@ import image, mjpeg
 
 #configurations
 camOffset = 5
-vidoeDuration = 20000
+vidoeDuration = 30000
+lowestLine = 218
+sobelThreshold = 200
 
 # define spi connection
 from machine import Pin, SPI
@@ -34,7 +36,7 @@ imageHight = img.height()
 imageWidth = img.width()
 defaultTrackCenter = int(imageWidth/2)
 
-nxpcup.setup(imageWidth, imageHight, camOffset, 40, 180, 90)
+nxpcup.setup(imageWidth, imageHight, camOffset, 40, 180, 60)
 
 #create the video file and needed configurations
 video = mjpeg.Mjpeg('driving_video.mjpeg')
@@ -55,7 +57,7 @@ while True:
     img = sensor.snapshot()  # Take a picture and return the image.
 
     #img = nxpcup.analyseImage(img, img.height(), 50)
-    img = nxpcup.analyseImage(img, img.height(), 50)
+    img = nxpcup.analyseImage(img, lowestLine, sobelThreshold)
     print(img)
 
     #add Famre to video
