@@ -12,9 +12,9 @@ import time
 import nxpcup
 
 #configurations
-camOffset = 5
+camOffset = 25 #new cam module
 lowestLine = 215 #avoid bumper shadow
-sobelThreshold = 60
+sobelThreshold = 90
 
 finishLineScanOffset = 40
 finishLineScanStart = 155

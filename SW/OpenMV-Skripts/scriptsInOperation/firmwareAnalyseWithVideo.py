@@ -13,9 +13,9 @@ import nxpcup
 import image, mjpeg
 
 #configurations
-camOffset = 5
+camOffset = 25 #new cam module
 lowestLine = 215
-sobelThreshold = 80
+sobelThreshold = 90
 
 finishLineScanOffset = 40
 finishLineScanStart = 155

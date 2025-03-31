@@ -25,9 +25,11 @@ namespace CarLogic {
     void runCarLogic() {
 
         //ToDo: change
-        engineEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S4);
-        steeringEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S3);
+        //engineEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S4);
+        //steeringEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S3);
         
+        engineEnabled = true;
+        steeringEnabled = true;
         //Bluetooth Control
         /*if(CONSOLE.available()) {
             CONSOLE.read();
@@ -35,10 +37,10 @@ namespace CarLogic {
         }
         engineEnabled = (engineEnabled && changeState);*/
 
-        if (Sensors::usedData.tofDistance < DISTANCE_TO_STOP) {
+        /*if (Sensors::usedData.tofDistance < DISTANCE_TO_STOP) {
             engineEnabled = false;
             CONSOLE.println("stop");
-        }
+        }*/
         
         uint8_t speed = CameraAnalysis::getSpeed();
         int steeringAngle = CameraAnalysis::getSteeringAngle();

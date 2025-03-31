@@ -17,7 +17,7 @@ namespace CameraAnalysis {
 
     //Todo Move to config + work correkt!
     #define MIN_STEERING_LINE 10
-    #define MAX_STEERING_LINE 90
+    #define MAX_STEERING_LINE 85
     #define MAX_STEERING_LINE_TURN 70 //abhängig von der Ist Geschwindigkeit die Linie nach vorne verschieben!!
     
     
@@ -44,8 +44,9 @@ namespace CameraAnalysis {
             bool lastSteeringLineFound = false;
         
             currentTrackCenterAnalysis.enableFinishLineDetection = enableFinishLineDetection;
+            currentTrackCenterAnalysis.enableFinishLineDetection = false ;
             //DataVisualisation::Display::showTrackCenters(currentTrackCenterAnalysis.trackCenters); //TODo: Überlastung
-            currentTrackCenterAnalysis.printTrackCenters(0, 20);
+            //currentTrackCenterAnalysis.printTrackCenters(0, 150);
 
             //check valid data
             if(currentTrackCenterAnalysis.trackCenters[0] != 322 || currentTrackCenterAnalysis.trackCenters[1] != 0) {
@@ -160,8 +161,8 @@ namespace CameraAnalysis {
     //comment in .h
     void TrackCenterAnalysis::calculateSpeed() {
         if(!finishLineDetected  || (!enableFinishLineDetection)) {
-            speed = 16;
-            speed += lastStraightLine/25;
+            speed = 32;
+            speed += lastStraightLine/10;
         }
         else {
             speed = 13;
