@@ -25,10 +25,10 @@ namespace CarLogic {
     void runCarLogic() {
 
         //ToDo: change
-        //engineEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S4);
+        engineEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S4);
         //steeringEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S3);
         
-        engineEnabled = true;
+        //engineEnabled = false;
         steeringEnabled = true;
         //Bluetooth Control
         /*if(CONSOLE.available()) {

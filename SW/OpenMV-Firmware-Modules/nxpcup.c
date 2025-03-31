@@ -36,7 +36,9 @@ bool* runTrackCenterCalculation;
 uint16_t* finishLineScanOffset;
 uint16_t* finishLineScanStart;
 uint16_t* finishLineScanLength;
+uint16_t* finishLineCenter;
 uint8_t* minEdgeWidth;
+
 
 
 /**
@@ -65,6 +67,7 @@ static mp_obj_t setup(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
     finishLineScanOffset = fb_alloc(2, FB_ALLOC_NO_HINT);
     finishLineScanStart = fb_alloc(2, FB_ALLOC_NO_HINT);
     finishLineScanLength = fb_alloc(2, FB_ALLOC_NO_HINT);
+    finishLineCenter = fb_alloc(2, FB_ALLOC_NO_HINT);
     minEdgeWidth = fb_alloc(1, FB_ALLOC_NO_HINT);
 
     *width = mp_obj_get_int(args[0]);
@@ -78,6 +81,7 @@ static mp_obj_t setup(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
     *runTrackCenterCalculation = true;
     *lastTrackCenter = (*width/2);
     *lastFrameTrackCenter = (*width/2);
+    *finishLineCenter = (*width/2);
     //set first flag (first value is flag)
     trackCenters[0] = 255;
     trackCenters[1] = 0;
@@ -169,6 +173,10 @@ void calculateTrackCenters(uint8_t* imgData, uint16_t row, uint16_t startSearch,
         }
         *lastTrackCenter = trackCenter;
 
+        if(row == lowestLine - 40) {
+            *finishLineCenter = trackCenter;
+        }
+
         //add track center Offset if nessesary
         if(addOffset) {
             trackCenter = trackCenter + (*camOffset);
@@ -211,8 +219,8 @@ bool finishLineDetected(uint8_t* imgData, uint16_t centerLine) {
     for (int i = 0; i < finishLineSearchLength; i++) {
         if(imgData[rowOffset + (i * (*width))] == VIS_SOBEL) {
             left = true;
-            imgData[rowOffset + (i * (*width))] = VIS_FINISHLINE;
         }
+        imgData[rowOffset + (i * (*width))] = VIS_FINISHLINE;
     }
     //stop if no left edge found
     if(!left) {
@@ -224,14 +232,15 @@ bool finishLineDetected(uint8_t* imgData, uint16_t centerLine) {
     for (int i = 0; i < finishLineSearchLength; i++) {
         if(imgData[rowOffset + (i * (*width))] == VIS_SOBEL) {
             right = true;
-            imgData[rowOffset + (i * (*width))] = VIS_FINISHLINE;
         }
+        imgData[rowOffset + (i * (*width))] = VIS_FINISHLINE;
     }
     
     //check if middle line is clear
-    if(left && right) {
+    if((left && right)) {
+        startFinishLineSearch -= 5; //move a bit down
         rowOffset = startFinishLineSearch * (*width) + (centerLine);
-        for (int i = 0; i < finishLineSearchLength; i++) {
+        for (int i = 0; i < finishLineSearchLength + 5; i++) {
             if(imgData[rowOffset + (i * (*width))] == VIS_SOBEL) {
                 imgData[rowOffset + (i * (*width))] = VIS_FINISHLINE;
                 return false; //no finish line (mid detected)
@@ -327,18 +336,18 @@ static mp_obj_t analyseImage(uint n_args, const mp_obj_t *args, mp_map_t *kw_arg
     } 
     
     *runTrackCenterCalculation = true;
-    *lastTrackCenter = *lastFrameTrackCenter; 
+    *lastTrackCenter = *lastFrameTrackCenter;
 
     //check if finishLine is possible
     if(amountOfCalculatetTrackCenters > 60) {
-        if(finishLineDetected(imageData, trackCenters[20] * 320 / 253)) { //check the used finish line!
+        if(finishLineDetected(imageData, *finishLineCenter)) { //check the used finish line!
             trackCenters[SPI_BUFFER_WIDTH - 1] = 255;
         }
         else {
             trackCenters[SPI_BUFFER_WIDTH - 1] = 0;
         }
     }
-    
+    *finishLineCenter = (currentWidth/2);
     //return mp_obj_new_memoryview('h', height, trackCenters); //just to check track Centers in micro pyton
     return args[0];
 }

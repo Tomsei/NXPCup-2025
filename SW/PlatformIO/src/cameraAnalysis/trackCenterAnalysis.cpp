@@ -17,7 +17,7 @@ namespace CameraAnalysis {
 
     //Todo Move to config + work correkt!
     #define MIN_STEERING_LINE 10
-    #define MAX_STEERING_LINE 85
+    #define MAX_STEERING_LINE 80
     #define MAX_STEERING_LINE_TURN 70 //abhängig von der Ist Geschwindigkeit die Linie nach vorne verschieben!!
     
     
@@ -46,11 +46,11 @@ namespace CameraAnalysis {
             currentTrackCenterAnalysis.enableFinishLineDetection = enableFinishLineDetection;
             currentTrackCenterAnalysis.enableFinishLineDetection = false ;
             //DataVisualisation::Display::showTrackCenters(currentTrackCenterAnalysis.trackCenters); //TODo: Überlastung
-            //currentTrackCenterAnalysis.printTrackCenters(0, 150);
+            //currentTrackCenterAnalysis.printTrackCenters(0, 20);
 
             //check valid data
             if(currentTrackCenterAnalysis.trackCenters[0] != 322 || currentTrackCenterAnalysis.trackCenters[1] != 0) {
-                CONSOLE.print("error");
+                CONSOLE.print("data - error");
             }
             else {
 
@@ -84,9 +84,12 @@ namespace CameraAnalysis {
     
                 //finishline detected and wait 10 seconds
                 if(currentTrackCenterAnalysis.trackCenters[239] == 322 && millis() > TIME_TO_FINISHLINE_DETECTION) {
-                    Serial.print("FINISH");
-                    DataVisualization::Display::showNumber(100);
+                    CONSOLE.println("FINISH");
+                    DataVisualization::Display::showNumber(1111111111);
                     currentTrackCenterAnalysis.finishLineDetected = true;
+                }
+                else {
+                    DataVisualization::Display::showNumber(1000000000);
                 }
             }
             imageAnalysIsComplete = 1; 
@@ -161,11 +164,11 @@ namespace CameraAnalysis {
     //comment in .h
     void TrackCenterAnalysis::calculateSpeed() {
         if(!finishLineDetected  || (!enableFinishLineDetection)) {
-            speed = 32;
+            speed = 22;
             speed += lastStraightLine/10;
         }
         else {
-            speed = 13;
+            speed = 14;
         }
         //CONSOLE.print(speed); CONSOLE.print(" <- speed - lastStraigLine -> "); CONSOLE.print(lastStraightLine); CONSOLE.print(" ----");
     }

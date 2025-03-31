@@ -17,13 +17,13 @@ camOffset = 25 #new cam module
 lowestLine = 215
 sobelThreshold = 90
 
-finishLineScanOffset = 40
+finishLineScanOffset = 25
 finishLineScanStart = 155
 finishLineScanLength = 60
 
 minEdgeWidth = 2
 
-vidoeDuration = 30000
+vidoeDuration = 60000
 
 # define spi connection
 from machine import Pin, SPI

@@ -12,7 +12,7 @@ import time
 import nxpcup
 
 #configurations
-camOffset = 25 #new cam module
+camOffset = 25 #new cam module 25 - check - configure
 lowestLine = 215 #avoid bumper shadow
 sobelThreshold = 90
 
@@ -64,4 +64,4 @@ while True:
     img = nxpcup.analyseImage(img, lowestLine, sobelThreshold) #If nessesarry change return!
     print(img)
     spiWriteTrackCenters()
-    print(clock.fps())  # Note: Your OpenMV Cam runs about half as fast while
+    #print(clock.fps())  # Note: Your OpenMV Cam runs about half as fast while
