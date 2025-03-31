@@ -19,15 +19,16 @@
 #include "extmod/modmachine.h"
 
 #define SPI_BUFFER_WIDTH 240 //change to optimize if resolution get changed
-#define VIS_SOBEL 80
-#define VIS_EDGE 200
-#define VIS_TRACKCENTER 120
-#define VIS_FINISHLINE 150
+#define VIS_SOBEL 40
+#define VIS_EDGE 120
+#define VIS_TRACKCENTER 255
+#define VIS_FINISHLINE 200
 
 //variables
 uint16_t* width;
 uint16_t* height;
 uint16_t* lastTrackCenter;
+uint16_t* lastFrameTrackCenter;
 int8_t* camOffset;
 uint8_t* trackCenters;
 bool* runTrackCenterCalculation;
@@ -55,11 +56,12 @@ uint8_t* minEdgeWidth;
  */
 static mp_obj_t setup(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {   
     trackCenters = fb_alloc(SPI_BUFFER_WIDTH, FB_ALLOC_NO_HINT);
-    height = fb_alloc(2, FB_ALLOC_NO_HINT);
     width = fb_alloc(2, FB_ALLOC_NO_HINT);
+    height = fb_alloc(2, FB_ALLOC_NO_HINT);
     camOffset = fb_alloc(1, FB_ALLOC_NO_HINT);
     runTrackCenterCalculation = fb_alloc(1, FB_ALLOC_NO_HINT);
     lastTrackCenter = fb_alloc(2, FB_ALLOC_NO_HINT);
+    lastFrameTrackCenter = fb_alloc(2, FB_ALLOC_NO_HINT);
     finishLineScanOffset = fb_alloc(2, FB_ALLOC_NO_HINT);
     finishLineScanStart = fb_alloc(2, FB_ALLOC_NO_HINT);
     finishLineScanLength = fb_alloc(2, FB_ALLOC_NO_HINT);
@@ -75,7 +77,7 @@ static mp_obj_t setup(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
 
     *runTrackCenterCalculation = true;
     *lastTrackCenter = (*width/2);
-
+    *lastFrameTrackCenter = (*width/2);
     //set first flag (first value is flag)
     trackCenters[0] = 255;
     trackCenters[1] = 0;
@@ -105,6 +107,8 @@ void calculateTrackCenters(uint8_t* imgData, uint16_t row, uint16_t startSearch,
     uint16_t trackCenter = *width/2;
     uint32_t rowOffset = row * (*width);
 
+    bool addOffset = true;
+
     //tracking the first edge found in left direction
     for(int i = startSearch; i > -1; i--) {
         if(imgData[i + rowOffset] == VIS_SOBEL) {
@@ -123,6 +127,10 @@ void calculateTrackCenters(uint8_t* imgData, uint16_t row, uint16_t startSearch,
         else {
             leftCount = 0;
         }
+        if(i == 0) {
+            //make it a bit more left (it is the edge of the image)
+            addOffset = false;
+        }
     }
 
     //tracking the first edge found in right direction
@@ -131,7 +139,6 @@ void calculateTrackCenters(uint8_t* imgData, uint16_t row, uint16_t startSearch,
             
             rightCount++;
             
-
             if(rightCount > (*minEdgeWidth)) {
                 rightEdge = i;
                 for(uint8_t j = rightCount; j > 0; j--) {
@@ -152,14 +159,20 @@ void calculateTrackCenters(uint8_t* imgData, uint16_t row, uint16_t startSearch,
     //track center on edge - stop calculating
     if(imgData[rowOffset + trackCenter] == VIS_EDGE) {
         *runTrackCenterCalculation = false;
-        //trackCenter = 254; //no track Center found
     }
     else {
         //normal track center calculation
         imgData[rowOffset + trackCenter] = VIS_TRACKCENTER;
 
+        if(row+1 == lowestLine ) {
+            *lastFrameTrackCenter = trackCenter;
+        }
         *lastTrackCenter = trackCenter;
-        trackCenter = trackCenter + *camOffset;
+
+        //add track center Offset if nessesary
+        if(addOffset) {
+            trackCenter = trackCenter + (*camOffset);
+        }
         trackCenter = (trackCenter > 0) ? trackCenter : 0; //make sure trackCenter is not negativ
         
         //if high resolution: map values to range of 0 - 253 (254 - no Track Center) - 255 other states
@@ -311,11 +324,10 @@ static mp_obj_t analyseImage(uint n_args, const mp_obj_t *args, mp_map_t *kw_arg
         for(uint16_t i = amountOfCalculatetTrackCenters + 1; i < SPI_BUFFER_WIDTH-1; i++) {
             trackCenters[i] = 254;
         }
-    }
+    } 
     
     *runTrackCenterCalculation = true;
-    *lastTrackCenter = trackCenters[2] * 320 / 253; 
-
+    *lastTrackCenter = *lastFrameTrackCenter; 
 
     //check if finishLine is possible
     if(amountOfCalculatetTrackCenters > 60) {
