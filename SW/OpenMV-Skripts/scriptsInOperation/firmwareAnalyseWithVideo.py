@@ -17,7 +17,7 @@ camOffset = 25 #new cam module
 lowestLine = 215
 sobelThreshold = 90
 
-finishLineScanOffset = 25
+finishLineScanOffset = 15
 finishLineScanStart = 155
 finishLineScanLength = 60
 
