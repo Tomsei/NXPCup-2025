@@ -18,8 +18,8 @@ namespace CameraAnalysis {
     //Todo Move to config + work correkt!
     #define MIN_STEERING_LINE 10
     #define MAX_STEERING_LINE 80
-    #define MAX_STEERING_LINE_CUTTING 90
-    #define MAX_STEERING_LINE_TURN 70 //abhängig von der Ist Geschwindigkeit die Linie nach vorne verschieben!!
+    #define MAX_STEERING_LINE_CUTTING 85
+    #define MAX_STEERING_LINE_TURN 75 //abhängig von der Ist Geschwindigkeit die Linie nach vorne verschieben!!
     
     uint16_t maxSteeringLine = MAX_STEERING_LINE;
     uint16_t maxSteeringLineTurn = MAX_STEERING_LINE_TURN;
@@ -56,7 +56,6 @@ namespace CameraAnalysis {
             bool lastSteeringLineFound = false;
         
             currentTrackCenterAnalysis.enableFinishLineDetection = enableFinishLineDetection;
-            currentTrackCenterAnalysis.enableFinishLineDetection = false ;
             //DataVisualisation::Display::showTrackCenters(currentTrackCenterAnalysis.trackCenters); //TODo: Überlastung
             //currentTrackCenterAnalysis.printTrackCenters(0, 20);
 
@@ -132,9 +131,9 @@ namespace CameraAnalysis {
         //ToDo: check how it works if i use the lastStraight line vor Min and May Line turn!
         
 
-        steeringLine = (lastSteeringLine > MAX_STEERING_LINE_TURN) ? MAX_STEERING_LINE_TURN : lastSteeringLine;
+        steeringLine = (lastSteeringLine > maxSteeringLineTurn) ? maxSteeringLineTurn : lastSteeringLine;
         if (lastStraightLine > steeringLine || farSteering) {
-            steeringLine = (lastSteeringLine > MAX_STEERING_LINE) ? MAX_STEERING_LINE : lastSteeringLine;
+            steeringLine = (lastSteeringLine > maxSteeringLine) ? maxSteeringLine : lastSteeringLine;
             farSteering = true;
             //CONSOLE.print("Yes i am here");
         }
@@ -176,7 +175,7 @@ namespace CameraAnalysis {
     //comment in .h
     void TrackCenterAnalysis::calculateSpeed() {
         if(!finishLineDetected  || (!enableFinishLineDetection)) {
-            speed = 22;
+            speed = 19;
             speed += lastStraightLine/10;
         }
         else {

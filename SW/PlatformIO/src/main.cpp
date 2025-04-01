@@ -28,6 +28,7 @@ void setup() {
   delay(1000);
 
   Wire.begin();
+  Wire1.begin();
 
   //ToDo: remove - avoid i2c IO-Expander
   pinMode(DIPSWITSCH1, INPUT_PULLUP);

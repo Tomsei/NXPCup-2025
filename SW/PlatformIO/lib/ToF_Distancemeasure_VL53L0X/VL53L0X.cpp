@@ -35,7 +35,7 @@
 // Constructors ////////////////////////////////////////////////////////////////
 
 VL53L0X::VL53L0X()
-  : bus(&Wire)
+  : bus(&Wire1)
   , address(ADDRESS_DEFAULT)
   , io_timeout(0) // no timeout
   , did_timeout(false)
