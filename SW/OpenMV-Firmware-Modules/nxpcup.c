@@ -23,6 +23,7 @@
 #define VIS_EDGE 120
 #define VIS_TRACKCENTER 255
 #define VIS_FINISHLINE 200
+#define VIS_STEERING_LINES 255
 
 //variables
 uint16_t* width;
@@ -32,6 +33,8 @@ uint16_t* lastFrameTrackCenter;
 int8_t* camOffset;
 uint8_t* trackCenters;
 bool* runTrackCenterCalculation;
+
+
 
 uint16_t* finishLineScanOffset;
 uint16_t* finishLineScanStart;
@@ -254,6 +257,39 @@ bool finishLineDetected(uint8_t* imgData, uint16_t centerLine) {
 
 
 /**
+ * method to visualize the area of the choosen steering lines
+ */
+static mp_obj_t visualizeSteeringLines(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
+
+    image_t *arg_img = py_helper_arg_to_image(args[0], ARG_IMAGE_GRAYSCALE);
+    uint8_t* imageData = arg_img->data;
+    uint16_t lowestLine = mp_obj_get_int(args[1]);
+    uint16_t firstLine = mp_obj_get_int(args[2]);
+    uint16_t secondLine = mp_obj_get_int(args[3]);
+    uint16_t thirdLine = mp_obj_get_int(args[4]);
+
+    uint32_t rowOffset = (lowestLine * (*width)) - (firstLine * (*width));
+    
+    for (uint16_t i = 0; i < (*width); i++) {
+        imageData[rowOffset + i] = VIS_STEERING_LINES;
+    }
+    
+    rowOffset = (lowestLine * (*width)) - (secondLine * (*width));
+    for (uint16_t i = 0; i < (*width); i++) {
+        imageData[rowOffset + i] = VIS_STEERING_LINES;
+    }
+
+    rowOffset = (lowestLine * (*width)) - (thirdLine * (*width));
+    for (uint16_t i = 0; i < (*width); i++) {
+        imageData[rowOffset + i] = VIS_STEERING_LINES;
+    }
+
+    return(args[0]);
+}
+static MP_DEFINE_CONST_FUN_OBJ_KW(visualizeSteeringLines_obj, 3, visualizeSteeringLines); //number defindes the amoutn of arguments
+
+
+/**
  * method to analyse the picture
  * all configurations of the analysis are read
  * a sobel filter is applied over the entire image
@@ -390,6 +426,7 @@ static const mp_rom_map_elem_t nxpcup_globals_table[] = {
     { MP_ROM_QSTR(MP_QSTR_analyseImage), MP_ROM_PTR(&analyseImage_obj) },
     { MP_ROM_QSTR(MP_QSTR_setup), MP_ROM_PTR(&setup_obj) },
     { MP_ROM_QSTR(MP_QSTR_spiWrite), MP_ROM_PTR(&spiWrite_obj) },
+    { MP_ROM_QSTR(MP_QSTR_visualizeSteeringLines), MP_ROM_PTR(&visualizeSteeringLines_obj) }, 
 };
 static MP_DEFINE_CONST_DICT(nxpcup_module_globals, nxpcup_globals_table);
 

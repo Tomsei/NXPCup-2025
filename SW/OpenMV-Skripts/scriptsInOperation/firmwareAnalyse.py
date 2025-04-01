@@ -14,13 +14,13 @@ import nxpcup
 #configurations
 camOffset = 25 #new cam module 25 - check - configure
 lowestLine = 215 #avoid bumper shadow
-sobelThreshold = 90
+sobelThreshold = 170
 
 finishLineScanOffset = 40
 finishLineScanStart = 155
 finishLineScanLength = 60
 
-minEdgeWidth = 2
+minEdgeWidth = 1
 
 # define spi connection
 from machine import Pin, SPI
@@ -60,8 +60,8 @@ def spiWriteTrackCenters():
 while True:
     clock.tick()  # Track elapsed milliseconds between snapshots().
     img = sensor.snapshot()  # Take a picture and return the image.
-
     img = nxpcup.analyseImage(img, lowestLine, sobelThreshold) #If nessesarry change return!
-    print(img)
+    img = nxpcup.visualizeSteeringLines(img, lowestLine, 70, 80, 120)
+    #print(img)
     spiWriteTrackCenters()
-    #print(clock.fps())  # Note: Your OpenMV Cam runs about half as fast while
+    print(clock.fps())  # Note: Your OpenMV Cam runs about half as fast while
