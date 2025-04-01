@@ -18,9 +18,13 @@ namespace CameraAnalysis {
     //Todo Move to config + work correkt!
     #define MIN_STEERING_LINE 10
     #define MAX_STEERING_LINE 80
+    #define MAX_STEERING_LINE_CUTTING 90
     #define MAX_STEERING_LINE_TURN 70 //abhängig von der Ist Geschwindigkeit die Linie nach vorne verschieben!!
     
+    uint16_t maxSteeringLine = MAX_STEERING_LINE;
+    uint16_t maxSteeringLineTurn = MAX_STEERING_LINE_TURN;
     
+
     //comment in .h
     void setup() {
 
@@ -30,6 +34,14 @@ namespace CameraAnalysis {
             currentTrackCenterAnalysis.trackCenters[i]  = (VIDEO_RESOLUTION_X/2);
         }
         currentTrackCenterAnalysis.lastSteeringLine = MIN_STEERING_LINE;
+
+        if(!digitalRead(DIPSWITSCH1)) {
+            maxSteeringLine = MAX_STEERING_LINE_CUTTING;
+        }
+        else {
+            maxSteeringLine = MAX_STEERING_LINE;
+        }
+        CONSOLE.print("Trackcenter successfull - max Steering Line: "); CONSOLE.println(maxSteeringLine);
     }
 
     
