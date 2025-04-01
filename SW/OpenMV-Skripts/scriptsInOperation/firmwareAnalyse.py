@@ -14,7 +14,7 @@ import nxpcup
 #configurations
 camOffset = 25 #new cam module 25 - check - configure
 lowestLine = 215 #avoid bumper shadow
-sobelThreshold = 170
+sobelThreshold = 80
 
 finishLineScanOffset = 25
 finishLineScanStart = 155
@@ -22,6 +22,7 @@ finishLineScanLength = 60
 
 minEdgeWidth = 1
 macCrossCount = 4;
+crossMinHeight = 30;
 
 # define spi connection
 from machine import Pin, SPI
@@ -48,7 +49,8 @@ nxpcup.setup(   imageWidth,
                 finishLineScanStart,
                 finishLineScanLength,
                 minEdgeWidth,
-                macCrossCount)
+                macCrossCount,
+                crossMinHeight)
 
 """
 run the prepared spi transfer for the nxpcup data

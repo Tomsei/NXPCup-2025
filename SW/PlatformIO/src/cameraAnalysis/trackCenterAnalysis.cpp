@@ -154,9 +154,9 @@ namespace CameraAnalysis {
         tempSteeringAngle *= 0.1;
 
         //make stronger angles stronger!
-        float factor = 0.6;
+        float factor = 0.55;
         if(tempSteeringAngle > 10) {
-            factor = 0.8;
+            factor = 0.6;
         }
 
         //square steering 
@@ -175,8 +175,8 @@ namespace CameraAnalysis {
     //comment in .h
     void TrackCenterAnalysis::calculateSpeed() {
         if(!finishLineDetected  || (!enableFinishLineDetection)) {
-            speed = 19;
-            speed += lastStraightLine/10;
+            speed = 21;
+            speed += lastStraightLine/15;
         }
         else {
             speed = 14;

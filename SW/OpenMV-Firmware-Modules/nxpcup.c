@@ -35,6 +35,7 @@ uint8_t* trackCenters;
 uint8_t* possibleCrossCountLeft;
 uint8_t* possibleCrossCountRight;
 uint8_t* maxCrossCount;
+uint8_t* crossMinHeight;
 bool* runTrackCenterCalculation;
 
 uint16_t* finishLineScanOffset;
@@ -76,6 +77,7 @@ static mp_obj_t setup(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
     possibleCrossCountRight = fb_alloc(2, FB_ALLOC_NO_HINT);
     minEdgeWidth = fb_alloc(1, FB_ALLOC_NO_HINT);
     maxCrossCount = fb_alloc(1, FB_ALLOC_NO_HINT);
+    crossMinHeight = fb_alloc(1, FB_ALLOC_NO_HINT);
 
     *width = mp_obj_get_int(args[0]);
     *height = mp_obj_get_int(args[1]);
@@ -85,6 +87,7 @@ static mp_obj_t setup(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
     *finishLineScanLength = mp_obj_get_int(args[5]);
     *minEdgeWidth = mp_obj_get_int(args[6]);
     *maxCrossCount = mp_obj_get_int(args[7]);
+    *crossMinHeight = mp_obj_get_int(args[8]);
 
     *runTrackCenterCalculation = true;
     *lastTrackCenter = (*width/2);
@@ -99,7 +102,7 @@ static mp_obj_t setup(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
 
     return mp_obj_new_int(*width);
 }
-static MP_DEFINE_CONST_FUN_OBJ_KW(setup_obj, 8, setup); //number defindes the amoutn of arguments
+static MP_DEFINE_CONST_FUN_OBJ_KW(setup_obj, 9, setup); //number defindes the amoutn of arguments
 
 
 
@@ -170,20 +173,23 @@ void calculateTrackCenters(uint8_t* imgData, uint16_t row, uint16_t startSearch,
 
     trackCenter = ((leftEdge + rightEdge) / 2);
 
-    //crossing detection
-    if(leftEdge == 0 && (trackCenter > (*lastTrackCenter))) {
-        *possibleCrossCountLeft += 1;
+    if(lowestLine - row  > (*crossMinHeight)) {
+
+        //crossing detection
+        if(leftEdge == 0 && (trackCenter > (*lastTrackCenter))) {
+            *possibleCrossCountLeft += 1;
+        }
+        else {
+            *possibleCrossCountLeft = 0;
+        }
+        if(rightEdge == (*width) && (trackCenter < (*lastTrackCenter))) {
+            *possibleCrossCountRight += 1;
+        }
+        else {
+            *possibleCrossCountRight = 0;
+        }
     }
-    else {
-        *possibleCrossCountLeft = 0;
-    }
-    if(rightEdge == (*width) && (trackCenter < (*lastTrackCenter))) {
-        *possibleCrossCountRight += 1;
-    }
-    else {
-        *possibleCrossCountRight = 0;
-    }
-    
+
     //track center on edge - stop calculating
     if((imgData[rowOffset + trackCenter] == VIS_EDGE) || (*possibleCrossCountLeft > *maxCrossCount ) || (*possibleCrossCountRight > *maxCrossCount)) {
         *runTrackCenterCalculation = false;

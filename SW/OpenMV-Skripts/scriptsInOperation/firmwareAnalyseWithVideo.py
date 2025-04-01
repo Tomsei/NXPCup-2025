@@ -23,6 +23,7 @@ finishLineScanLength = 60
 
 minEdgeWidth = 2
 macCrossCount = 4
+crossMinHeight = 30
 
 vidoeDuration = 30000
 
@@ -50,7 +51,8 @@ nxpcup.setup(   imageWidth,
                 finishLineScanStart,
                 finishLineScanLength,
                 minEdgeWidth,
-                macCrossCount)
+                macCrossCount,
+                crossMinHeight)
 
 #create the video file and needed configurations
 video = mjpeg.Mjpeg('driving_video.mjpeg')
