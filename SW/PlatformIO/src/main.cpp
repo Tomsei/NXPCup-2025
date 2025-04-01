@@ -15,11 +15,7 @@
 
 void checkingForErrors(); //ToDo: Just to Debug
 
-int count;
-
-void onInterrupt() {
-  count++;
-}
+bool setupSensor = true;
 
 void setup() {
   #ifdef CONSOLE
@@ -29,7 +25,7 @@ void setup() {
 
   Wire.begin();
   Wire1.begin();
-
+  
   //ToDo: remove - avoid i2c IO-Expander
   pinMode(DIPSWITSCH1, INPUT_PULLUP);
   pinMode(DIPSWITSCH2, INPUT_PULLUP);
@@ -40,9 +36,9 @@ void setup() {
   CameraAnalysis::setup();
   BoardInput::setup();
   DrivingControl::setup();
-  Sensors::setup();
   TimingControl::setup();
   CarLogic::defineTimedTasks();
+  Sensors::setup();
 
   #ifdef CONSOLE
     CONSOLE.println("Main | Setup Done!");
@@ -51,11 +47,24 @@ void setup() {
 
 void loop() {
   BoardInput::update();
-  Sensors::updateUsedData();
   CameraAnalysis::analyse(!digitalRead(DIPSWITSCH2));
   CarLogic::runCarLogic();
   TimingControl::runTasks();
   
+
+  if(CameraAnalysis::TrackCenterAnalysis::finishLineDetected) {
+
+    if (setupSensor) {
+      setupSensor = false;
+
+      TimingControl::createTask([](TimingControl::Task* self) {
+        Sensors::updateUsedData();
+      }, 50, true, true);
+
+    }
+    //Sensors::printData();
+  }
+
   //Sensors::printData();
   //CONSOLE.println(micros());
 }

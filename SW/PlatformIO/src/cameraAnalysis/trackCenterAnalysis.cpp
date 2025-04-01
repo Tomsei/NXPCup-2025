@@ -9,6 +9,9 @@
 
 namespace CameraAnalysis {
 
+    
+    bool TrackCenterAnalysis::finishLineDetected = false;
+
     //forward declaration
     template<typename IntArray>
     void printArray(IntArray* arrayToPrint, int start, int length, String linePrefix);
@@ -71,10 +74,6 @@ namespace CameraAnalysis {
                     if(currentTrackCenterAnalysis.trackCenters[i] > 320 && !lastSteeringLineFound) { //use 321 becaus 255 is mapped to 321 (* 320 / 254)
                         currentTrackCenterAnalysis.lastSteeringLine = i-1; //first two track centers arent used  
                         lastSteeringLineFound = true;
-                        /*check last steering line + trackCenters
-                        CONSOLE.print(currentTrackCenterAnalysis.lastSteeringLine); CONSOLE.print("\t");
-                        currentTrackCenterAnalysis.printTrackCenters(0,20);
-                        */
                     }
     
                     //Todo: if needed the calculation can stop here
@@ -86,18 +85,13 @@ namespace CameraAnalysis {
                     }
                 }
 
-                /* //check Track Offsets
-                CONSOLE.print(currentTrackCenterAnalysis.trackCenterOffset[currentTrackCenterAnalysis.lastSteeringLine]); CONSOLE.print("\t");
-                currentTrackCenterAnalysis.printTrackCenterOffsets(0,20);
-                */
                 currentTrackCenterAnalysis.calculateSteeringAngle();
                 currentTrackCenterAnalysis.calculateSpeed();
     
                 //finishline detected and wait 10 seconds
                 if(currentTrackCenterAnalysis.trackCenters[239] == 322 && millis() > TIME_TO_FINISHLINE_DETECTION) {
                     CONSOLE.println("FINISH");
-                    DataVisualization::Display::showNumber(1111111111);
-                    currentTrackCenterAnalysis.finishLineDetected = true;
+                    TrackCenterAnalysis::finishLineDetected = true;
                 }
                 else {
                     DataVisualization::Display::showNumber(1000000000);
@@ -174,8 +168,8 @@ namespace CameraAnalysis {
     
     //comment in .h
     void TrackCenterAnalysis::calculateSpeed() {
-        if(!finishLineDetected  || (!enableFinishLineDetection)) {
-            speed = 21;
+        if(!TrackCenterAnalysis::finishLineDetected  || (!enableFinishLineDetection)) {
+            speed = 30;
             speed += lastStraightLine/15;
         }
         else {

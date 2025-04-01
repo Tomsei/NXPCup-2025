@@ -26,6 +26,8 @@ namespace Sensors {
         //OpticalFlow::setup();
         //Imu::setup(); //ToDo: Check if IMU creates error
         //ArdLineFinder::setup();
+
+        usedData.tofDistance = 2000; //ToDo all values initiate
     }
 
     //comment in .h file
@@ -44,7 +46,7 @@ namespace Sensors {
     //comment in .h file
     void printData() {
         #ifdef CONSOLE
-            CONSOLE.print("ToF Distance: "); CONSOLE.print(rawData.tofDistance);
+            CONSOLE.print("ToF Distance: "); CONSOLE.print(usedData.tofDistance);
             // CONSOLE.print("\t Optical Flow - X: "); CONSOLE.print(rawData.opticalFlowX);
             // CONSOLE.print("\t Y: "); CONSOLE.print(rawData.opticalFlowY);
             // CONSOLE.print("\t IMU - AX:"); CONSOLE.print(rawData.imu.ax);
@@ -54,7 +56,7 @@ namespace Sensors {
             // CONSOLE.print("\t IMU - GY:"); CONSOLE.print(rawData.imu.gy);
             // CONSOLE.print("\t IMU - GZ:"); CONSOLE.print(rawData.imu.gz);
             //CONSOLE.print("\t Linefinder: "); CONSOLE.print(rawData.ardLineFinder);
-            //CONSOLE.println("");
+            CONSOLE.println("");
         #endif
     }
 }

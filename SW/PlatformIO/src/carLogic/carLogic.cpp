@@ -41,10 +41,9 @@ namespace CarLogic {
         }
         engineEnabled = (engineEnabled && changeState);*/
 
-        CONSOLE.print(engineEnabled); CONSOLE.print(steeringEnabled); CONSOLE.println("----");
-
-        if (Sensors::usedData.tofDistance < DISTANCE_TO_STOP) {
+        if (CameraAnalysis::TrackCenterAnalysis::finishLineDetected && Sensors::usedData.tofDistance < DISTANCE_TO_STOP) {
             engineEnabled = false;
+            steeringEnabled = false;
             CONSOLE.println("stop");
         }
         
@@ -59,23 +58,25 @@ namespace CarLogic {
     TimingControl::Task* t_updateLed;
     TimingControl::Task* t_updateDisplay;
     TimingControl::Task* t_calculateSpeed;
+    TimingControl::Task* t_updateSensor;
 
     void defineTimedTasks () {
 
-        t_updateLed = TimingControl::createTask([](TimingControl::Task* self) {
+        /*t_updateLed = TimingControl::createTask([](TimingControl::Task* self) {
             //CONSOLE.println("every Second");
             //DataVisualization::LedStrip::update(); 
-        }, 1000, true, true);
+        }, 1000, true, true);*/
 
         
-        t_updateDisplay = TimingControl::createTask([](TimingControl::Task* self) {
+        /*t_updateDisplay = TimingControl::createTask([](TimingControl::Task* self) {
             DataVisualization::Display::update();
-        }, 100, true, true);
+        }, 100, true, true);*/
 
         
-        t_calculateSpeed = TimingControl::createTask([](TimingControl::Task* self) {
+        /*t_calculateSpeed = TimingControl::createTask([](TimingControl::Task* self) {
             Sensors::ArdLineFinder::calculateSpeed();
-        }, 100, true, true); 
+        }, 100, true, true);*/ 
+
     }
 
 

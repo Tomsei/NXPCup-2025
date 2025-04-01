@@ -21,7 +21,7 @@ namespace Sensors {
 
         //comment in .h file
         void setup() {
-            tofSensor.setTimeout(500);
+            tofSensor.setTimeout(50);
             if(tofSensor.init()) {
                 #ifdef CONSOLE
                     CONSOLE.println("TOF Sensor setup succesfull");
