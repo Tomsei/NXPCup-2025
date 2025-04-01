@@ -29,9 +29,6 @@ void setup() {
 
   Wire.begin(); //later in I2C Modul //ToDo Input Pullup auf den I2C Pinnen
 
-  //ToDo Debugging - reomve later
-  checkingForErrors();
-
   DataVisualization::setup();
   CONSOLE.print("Vor kamera");
   CameraAnalysis::setup();
@@ -56,64 +53,4 @@ void loop() {
   
   //Sensors::printData();
   //CONSOLE.println(micros());
-}
-
-
-
-
-
-void checkingForErrors() {
-  /*Check the last restart reason*/
-  CONSOLE.println();
-  CONSOLE.print("SCR_SRSR: ");
-  CONSOLE.println(SRC_SRSR);
-
-  if (SRC_SRSR & (1 << 8)) {       
-    CONSOLE.println("Cause of Reset = Over Temperature" );
-  }
-  else if (SRC_SRSR & (1 << 7)) {   
-    CONSOLE.println("Cause of Reset = Watchdog Reset" );
-  }
-  else if (SRC_SRSR & (1 << 6)) {    
-    CONSOLE.println("Cause of Reset = JTag-SW Reset" );
-  }
-  else if (SRC_SRSR & (1 << 5)) {    
-    CONSOLE.println("Cause of Reset = JTag-HW Reset" );
-  }
-  else if (SRC_SRSR & (1 << 4)) {    
-    CONSOLE.println("Cause of Reset = Watchdog Reset" );
-  }
-  else if (SRC_SRSR & (1 << 3)) {    
-    CONSOLE.println("Cause of Reset = User Reset" );
-  } 
-  else if (SRC_SRSR & (1 << 2)) {    
-    CONSOLE.println("Cause of Reset = CSU Reset (ggf. Brown Out)" );
-  } 
-  else if (SRC_SRSR & (1 << 1)) {    
-    CONSOLE.println("Cause of Reset = Lock Up" );
-  } 
-  else if (SRC_SRSR & (1 << 0)) {    
-    CONSOLE.println("Cause of Reset = Power Up Sequenz" );
-  }
-
-  if(SRC_SRSR != 1) {
-    while(CONSOLE.available()) CONSOLE.read();
-    while (1)
-    {
-      CONSOLE.println(SRC_SRSR);
-      if(CONSOLE.available()) {
-        break;
-      }
-      delay(100);
-    }
-  }
-  
-  CONSOLE.flush();
-}
-
-void createError() {
-  /*int tetsArray[2];
-  CONSOLE.print(tetsArray[400]);
-  tetsArray[600] = 6;*/
-  return;
 }
