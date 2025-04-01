@@ -17,13 +17,14 @@ camOffset = 25 #new cam module
 lowestLine = 215
 sobelThreshold = 90
 
-finishLineScanOffset = 15
+finishLineScanOffset = 25
 finishLineScanStart = 155
 finishLineScanLength = 60
 
 minEdgeWidth = 2
+macCrossCount = 4
 
-vidoeDuration = 60000
+vidoeDuration = 30000
 
 # define spi connection
 from machine import Pin, SPI
@@ -48,7 +49,8 @@ nxpcup.setup(   imageWidth,
                 finishLineScanOffset,
                 finishLineScanStart,
                 finishLineScanLength,
-                minEdgeWidth)
+                minEdgeWidth,
+                macCrossCount)
 
 #create the video file and needed configurations
 video = mjpeg.Mjpeg('driving_video.mjpeg')
@@ -70,7 +72,7 @@ while True:
 
     #img = nxpcup.analyseImage(img, img.height(), 50)
     img = nxpcup.analyseImage(img, lowestLine, sobelThreshold)
-    print(img)
+    img = nxpcup.visualizeSteeringLines(img, lowestLine, 70, 80, 120)
 
     #add Famre to video
     if videoRunning:

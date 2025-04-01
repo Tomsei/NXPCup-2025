@@ -32,9 +32,10 @@ uint16_t* lastTrackCenter;
 uint16_t* lastFrameTrackCenter;
 int8_t* camOffset;
 uint8_t* trackCenters;
+uint8_t* possibleCrossCountLeft;
+uint8_t* possibleCrossCountRight;
+uint8_t* maxCrossCount;
 bool* runTrackCenterCalculation;
-
-
 
 uint16_t* finishLineScanOffset;
 uint16_t* finishLineScanStart;
@@ -71,7 +72,10 @@ static mp_obj_t setup(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
     finishLineScanStart = fb_alloc(2, FB_ALLOC_NO_HINT);
     finishLineScanLength = fb_alloc(2, FB_ALLOC_NO_HINT);
     finishLineCenter = fb_alloc(2, FB_ALLOC_NO_HINT);
+    possibleCrossCountLeft = fb_alloc(2, FB_ALLOC_NO_HINT);
+    possibleCrossCountRight = fb_alloc(2, FB_ALLOC_NO_HINT);
     minEdgeWidth = fb_alloc(1, FB_ALLOC_NO_HINT);
+    maxCrossCount = fb_alloc(1, FB_ALLOC_NO_HINT);
 
     *width = mp_obj_get_int(args[0]);
     *height = mp_obj_get_int(args[1]);
@@ -80,18 +84,22 @@ static mp_obj_t setup(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
     *finishLineScanStart = mp_obj_get_int(args[4]);
     *finishLineScanLength = mp_obj_get_int(args[5]);
     *minEdgeWidth = mp_obj_get_int(args[6]);
+    *maxCrossCount = mp_obj_get_int(args[7]);
 
     *runTrackCenterCalculation = true;
     *lastTrackCenter = (*width/2);
     *lastFrameTrackCenter = (*width/2);
     *finishLineCenter = (*width/2);
+    *possibleCrossCountLeft = 0;
+    *possibleCrossCountRight = 0;
+
     //set first flag (first value is flag)
     trackCenters[0] = 255;
     trackCenters[1] = 0;
 
     return mp_obj_new_int(*width);
 }
-static MP_DEFINE_CONST_FUN_OBJ_KW(setup_obj, 7, setup); //number defindes the amoutn of arguments
+static MP_DEFINE_CONST_FUN_OBJ_KW(setup_obj, 8, setup); //number defindes the amoutn of arguments
 
 
 
@@ -162,9 +170,22 @@ void calculateTrackCenters(uint8_t* imgData, uint16_t row, uint16_t startSearch,
 
     trackCenter = ((leftEdge + rightEdge) / 2);
 
+    //crossing detection
+    if(leftEdge == 0 && (trackCenter > (*lastTrackCenter))) {
+        *possibleCrossCountLeft += 1;
+    }
+    else {
+        *possibleCrossCountLeft = 0;
+    }
+    if(rightEdge == (*width) && (trackCenter < (*lastTrackCenter))) {
+        *possibleCrossCountRight += 1;
+    }
+    else {
+        *possibleCrossCountRight = 0;
+    }
     
     //track center on edge - stop calculating
-    if(imgData[rowOffset + trackCenter] == VIS_EDGE) {
+    if((imgData[rowOffset + trackCenter] == VIS_EDGE) || (*possibleCrossCountLeft > *maxCrossCount ) || (*possibleCrossCountRight > *maxCrossCount)) {
         *runTrackCenterCalculation = false;
     }
     else {
@@ -176,7 +197,7 @@ void calculateTrackCenters(uint8_t* imgData, uint16_t row, uint16_t startSearch,
         }
         *lastTrackCenter = trackCenter;
 
-        if(row == lowestLine - 40) {
+        if(row == lowestLine - 50) {
             *finishLineCenter = trackCenter;
         }
 
@@ -258,6 +279,7 @@ bool finishLineDetected(uint8_t* imgData, uint16_t centerLine) {
 
 /**
  * method to visualize the area of the choosen steering lines
+ * @todo: comment
  */
 static mp_obj_t visualizeSteeringLines(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
 
@@ -284,9 +306,9 @@ static mp_obj_t visualizeSteeringLines(uint n_args, const mp_obj_t *args, mp_map
         imageData[rowOffset + i] = VIS_STEERING_LINES;
     }
 
-    return(args[0]);
+    return args[0];
 }
-static MP_DEFINE_CONST_FUN_OBJ_KW(visualizeSteeringLines_obj, 3, visualizeSteeringLines); //number defindes the amoutn of arguments
+static MP_DEFINE_CONST_FUN_OBJ_KW(visualizeSteeringLines_obj, 5, visualizeSteeringLines); //number defindes the amoutn of arguments
 
 
 /**
@@ -370,9 +392,6 @@ static mp_obj_t analyseImage(uint n_args, const mp_obj_t *args, mp_map_t *kw_arg
             trackCenters[i] = 254;
         }
     } 
-    
-    *runTrackCenterCalculation = true;
-    *lastTrackCenter = *lastFrameTrackCenter;
 
     //check if finishLine is possible
     if(amountOfCalculatetTrackCenters > 60) {
@@ -383,7 +402,14 @@ static mp_obj_t analyseImage(uint n_args, const mp_obj_t *args, mp_map_t *kw_arg
             trackCenters[SPI_BUFFER_WIDTH - 1] = 0;
         }
     }
+    
+    //reset variables
+    *runTrackCenterCalculation = true;
+    *lastTrackCenter = *lastFrameTrackCenter;
     *finishLineCenter = (currentWidth/2);
+    *possibleCrossCountLeft = 0;
+    *possibleCrossCountRight = 0;
+    
     //return mp_obj_new_memoryview('h', height, trackCenters); //just to check track Centers in micro pyton
     return args[0];
 }
