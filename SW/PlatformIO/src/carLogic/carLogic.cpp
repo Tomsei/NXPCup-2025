@@ -1,6 +1,7 @@
 #include "configuration/globalConfig.h"
 #ifndef SINGLE_COMPONENTS_TEST
 
+#include "Arduino.h"
 #include "configuration/drivingConfig.h"
 #include "carLogic/carLogic.h"
 #include "drivingControl/drivingControl.h"
@@ -24,28 +25,30 @@ namespace CarLogic {
 
     void runCarLogic() {
 
-        //ToDo: change
+        /*//ToDo: normal i2C
         engineEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S4);
-        //steeringEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S3);
-        
-        //engineEnabled = false;
-        steeringEnabled = true;
+        steeringEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S3);
+        */
+
+        //ToDo: remove - avoid i2c IO-Expander
+        engineEnabled = !digitalRead(DIPSWITSCH4);
+        steeringEnabled = !digitalRead(DIPSWITSCH3);
+
         //Bluetooth Control
         /*if(CONSOLE.available()) {
             CONSOLE.read();
             changeState = (changeState) ? false : true;
         }
         engineEnabled = (engineEnabled && changeState);*/
+        
 
-        /*if (Sensors::usedData.tofDistance < DISTANCE_TO_STOP) {
+        if (Sensors::usedData.tofDistance < DISTANCE_TO_STOP) {
             engineEnabled = false;
-            CONSOLE.println("stop");
-        }*/
+            //CONSOLE.println("stop");
+        }
         
         uint8_t speed = CameraAnalysis::getSpeed();
         int steeringAngle = CameraAnalysis::getSteeringAngle();
-        //CONSOLE.print(speed); CONSOLE.print(" <- speed - steering Angle ->"); CONSOLE.println(steeringAngle);
-        //CONSOLE.print(engineEnabled);
         DrivingControl::drive(speed, steeringAngle);
         //showEnableStateOnLed(engineEnabled, steeringEnabled);
     }

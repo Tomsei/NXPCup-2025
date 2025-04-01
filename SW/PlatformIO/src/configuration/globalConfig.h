@@ -15,7 +15,7 @@
 #define ANALYSE_ON_CAMERA
 
 /* serial definition (bluetooth / usb)*/
-#define CONSOLE Serial8
+#define CONSOLE Serial
 
 
 
@@ -40,6 +40,11 @@
 
 #define CAM_SPI_MISO 12
 
+ //ToDo: remove - avoid i2c IO-Expander
+ #define DIPSWITSCH1 4
+ #define DIPSWITSCH2 5
+ #define DIPSWITSCH3 6
+ #define DIPSWITSCH4 7
 
 //IO-Expander pins
 #define IO_EX_BUTTON1 8

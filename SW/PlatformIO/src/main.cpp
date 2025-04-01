@@ -27,10 +27,15 @@ void setup() {
   #endif
   delay(1000);
 
-  Wire.begin(); //later in I2C Modul //ToDo Input Pullup auf den I2C Pinnen
+  Wire.begin();
+
+  //ToDo: remove - avoid i2c IO-Expander
+  pinMode(DIPSWITSCH1, INPUT_PULLUP);
+  pinMode(DIPSWITSCH2, INPUT_PULLUP);
+  pinMode(DIPSWITSCH3, INPUT_PULLUP);
+  pinMode(DIPSWITSCH4, INPUT_PULLUP);
 
   DataVisualization::setup();
-  CONSOLE.print("Vor kamera");
   CameraAnalysis::setup();
   BoardInput::setup();
   DrivingControl::setup();
