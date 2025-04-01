@@ -53,8 +53,8 @@ namespace Sensors {
             // CONSOLE.print("\t IMU - GX:"); CONSOLE.print(rawData.imu.gx);
             // CONSOLE.print("\t IMU - GY:"); CONSOLE.print(rawData.imu.gy);
             // CONSOLE.print("\t IMU - GZ:"); CONSOLE.print(rawData.imu.gz);
-            CONSOLE.print("\t Linefinder: "); CONSOLE.print(rawData.ardLineFinder);
-            CONSOLE.println("");
+            //CONSOLE.print("\t Linefinder: "); CONSOLE.print(rawData.ardLineFinder);
+            //CONSOLE.println("");
         #endif
     }
 }

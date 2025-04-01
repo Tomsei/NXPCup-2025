@@ -33,18 +33,19 @@ namespace CarLogic {
         //ToDo: remove - avoid i2c IO-Expander
         engineEnabled = !digitalRead(DIPSWITSCH4);
         steeringEnabled = !digitalRead(DIPSWITSCH3);
-
+        
         //Bluetooth Control
         /*if(CONSOLE.available()) {
             CONSOLE.read();
             changeState = (changeState) ? false : true;
         }
         engineEnabled = (engineEnabled && changeState);*/
-        
+
+        CONSOLE.print(engineEnabled); CONSOLE.print(steeringEnabled); CONSOLE.println("----");
 
         if (Sensors::usedData.tofDistance < DISTANCE_TO_STOP) {
             engineEnabled = false;
-            //CONSOLE.println("stop");
+            CONSOLE.println("stop");
         }
         
         uint8_t speed = CameraAnalysis::getSpeed();

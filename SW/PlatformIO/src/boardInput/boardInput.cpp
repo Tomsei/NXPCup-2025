@@ -30,7 +30,7 @@ namespace BoardInput {
 
     // comment in .h file
     void setup() {
-        setupIoExpander();
+        //setupIoExpander(); //ToDo: remove - avoid i2c IO-Expander
         setupData();
     }
 
@@ -39,9 +39,10 @@ namespace BoardInput {
     void update() {
         data.poti1 = readPoti(POTI1);
         data.poti2 = readPoti(POTI2);
+        /*//ToDo: remove - avoid i2c IO-Expander
         data.button1 = readButton(IO_EX_BUTTON1);
         data.button2 = readButton(IO_EX_BUTTON2);
-        data.dipSwitch = readDipSwitch();
+        data.dipSwitch = readDipSwitch(); */
     }
 
     // comment in .h file
@@ -98,11 +99,11 @@ namespace BoardInput {
      * - sets all values to -1
      */
     void setupData() {
-        data.poti1 = -1;
-        data.poti2 = -1;
-        data.button1 = -1;
-        data.button2 = -1;
-        data.dipSwitch = -1;
+        data.poti1 = 0;
+        data.poti2 = 0;
+        data.button1 = 0;
+        data.button2 = 0;
+        data.dipSwitch = 0;
     }
 
     /**

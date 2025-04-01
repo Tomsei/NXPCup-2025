@@ -39,7 +39,7 @@ void setup() {
   CameraAnalysis::setup();
   BoardInput::setup();
   DrivingControl::setup();
-  //Sensors::setup();
+  Sensors::setup();
   TimingControl::setup();
   CarLogic::defineTimedTasks();
 
@@ -50,9 +50,8 @@ void setup() {
 
 void loop() {
   BoardInput::update();
-  //Sensors::updateUsedData();
-  CameraAnalysis::analyse(BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S2));
-  CameraAnalysis::analyse(0);
+  Sensors::updateUsedData();
+  CameraAnalysis::analyse(!digitalRead(DIPSWITSCH2));
   CarLogic::runCarLogic();
   TimingControl::runTasks();
   
