@@ -181,8 +181,7 @@ void calculateTrackCenters(uint8_t* imgData, uint16_t row, uint16_t startSearch,
 
     if(lowestLine - row  > (*crossMinHeight)) {
 
-        /* Working*/
-        //crossing detection
+        /* Working cross detection*/
         if(leftEdge == 0 && (trackCenter > (*lastTrackCenter))) {
             *possibleCrossCountLeft += 1;
         }
@@ -197,8 +196,8 @@ void calculateTrackCenters(uint8_t* imgData, uint16_t row, uint16_t startSearch,
             *possibleCrossCountRight = 0;
         }
         
-        /* new Test - enable one equal  for detection
-        if(leftEdge == 0) {
+        /* new Test cross detection - enable one equal  for detection
+        if(leftEdge == 0 && !(rightEdge == (*width))) {
             if (trackCenter > (*lastTrackCenter)) {
                 *possibleCrossCountLeft += 1;
             }
@@ -214,8 +213,7 @@ void calculateTrackCenters(uint8_t* imgData, uint16_t row, uint16_t startSearch,
             *possibleCrossCountLeft = 0;
             *crossStraightEnabledLeft = true;
         }
-
-        if(rightEdge == (*width)) {
+        if(rightEdge == (*width) && !(leftedge == 0)) {
             if(trackCenter < (*lastTrackCenter)) {
                 *possibleCrossCountRight += 1;
             }
