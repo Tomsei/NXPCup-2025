@@ -37,6 +37,8 @@ uint8_t* possibleCrossCountRight;
 uint8_t* maxCrossCount;
 uint8_t* crossMinHeight;
 bool* runTrackCenterCalculation;
+bool* crossStraightEnabledLeft;
+bool* crossStraightEnabledRight;
 
 uint16_t* finishLineScanOffset;
 uint16_t* finishLineScanStart;
@@ -78,6 +80,8 @@ static mp_obj_t setup(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
     minEdgeWidth = fb_alloc(1, FB_ALLOC_NO_HINT);
     maxCrossCount = fb_alloc(1, FB_ALLOC_NO_HINT);
     crossMinHeight = fb_alloc(1, FB_ALLOC_NO_HINT);
+    crossStraightEnabledLeft = fb_alloc(1, FB_ALLOC_NO_HINT);
+    crossStraightEnabledRight = fb_alloc(1, FB_ALLOC_NO_HINT);
 
     *width = mp_obj_get_int(args[0]);
     *height = mp_obj_get_int(args[1]);
@@ -95,6 +99,8 @@ static mp_obj_t setup(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
     *finishLineCenter = (*width/2);
     *possibleCrossCountLeft = 0;
     *possibleCrossCountRight = 0;
+    *crossStraightEnabledLeft = true;
+    *crossStraightEnabledRight = true;
 
     //set first flag (first value is flag)
     trackCenters[0] = 255;
@@ -175,6 +181,7 @@ void calculateTrackCenters(uint8_t* imgData, uint16_t row, uint16_t startSearch,
 
     if(lowestLine - row  > (*crossMinHeight)) {
 
+        /* Working*/
         //crossing detection
         if(leftEdge == 0 && (trackCenter > (*lastTrackCenter))) {
             *possibleCrossCountLeft += 1;
@@ -182,12 +189,48 @@ void calculateTrackCenters(uint8_t* imgData, uint16_t row, uint16_t startSearch,
         else {
             *possibleCrossCountLeft = 0;
         }
+        
         if(rightEdge == (*width) && (trackCenter < (*lastTrackCenter))) {
             *possibleCrossCountRight += 1;
         }
         else {
             *possibleCrossCountRight = 0;
         }
+        
+        /* new Test - enable one equal  for detection
+        if(leftEdge == 0) {
+            if (trackCenter > (*lastTrackCenter)) {
+                *possibleCrossCountLeft += 1;
+            }
+            else if(trackCenter == (*lastTrackCenter) && crossStraightEnabledLeft) {
+                *possibleCrossCountLeft += 1;
+                *crossStraightEnabledLeft = false;
+            }
+            else {
+                *possibleCrossCountLeft = 0;
+            }
+        }
+        else {
+            *possibleCrossCountLeft = 0;
+            *crossStraightEnabledLeft = true;
+        }
+
+        if(rightEdge == (*width)) {
+            if(trackCenter < (*lastTrackCenter)) {
+                *possibleCrossCountRight += 1;
+            }
+            else if(trackCenter == (*lastTrackCenter) && crossStraightEnabledRight) {
+                *possibleCrossCountRight += 1;
+                *crossStraightEnabledRight = false;
+            }
+            else {
+                *possibleCrossCountRight = 0;
+            }
+        }
+        else {
+            *possibleCrossCountRight = 0;
+            *crossStraightEnabledRight = true;
+        }*/
     }
 
     //track center on edge - stop calculating

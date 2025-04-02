@@ -21,6 +21,7 @@ namespace CameraAnalysis {
     //Todo Move to config + work correkt!
     #define MIN_STEERING_LINE 10
     #define MAX_STEERING_LINE 80
+    #define MAX_STEERING_LINE_SLOW 40 //take slow line - in front of car
     #define MAX_STEERING_LINE_CUTTING 85
     #define MAX_STEERING_LINE_TURN 75 //abhängig von der Ist Geschwindigkeit die Linie nach vorne verschieben!!
     
@@ -125,6 +126,7 @@ namespace CameraAnalysis {
         //ToDo: check how it works if i use the lastStraight line vor Min and May Line turn!
         
 
+        //calculate choosen steering line
         steeringLine = (lastSteeringLine > maxSteeringLineTurn) ? maxSteeringLineTurn : lastSteeringLine;
         if (lastStraightLine > steeringLine || farSteering) {
             steeringLine = (lastSteeringLine > maxSteeringLine) ? maxSteeringLine : lastSteeringLine;
@@ -133,6 +135,9 @@ namespace CameraAnalysis {
         }
         if(steeringLine < 81) {
             farSteering = false;
+        }
+        if(finishLineDetected) {
+            steeringLine = MAX_STEERING_LINE_SLOW;
         }
 
         //CONSOLE.print(" straight Line: "); CONSOLE.print(lastStraightLine);
@@ -169,7 +174,7 @@ namespace CameraAnalysis {
     //comment in .h
     void TrackCenterAnalysis::calculateSpeed() {
         if(!TrackCenterAnalysis::finishLineDetected  || (!enableFinishLineDetection)) {
-            speed = 30;
+            speed = 19;
             speed += lastStraightLine/15;
         }
         else {
