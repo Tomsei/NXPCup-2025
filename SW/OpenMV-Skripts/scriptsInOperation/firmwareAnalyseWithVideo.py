@@ -23,7 +23,7 @@ finishLineScanLength = 60
 
 minEdgeWidth = 2
 macCrossCount = 4
-crossMinHeight = 30
+crossMinHeight = 25
 
 vidoeDuration = 30000
 

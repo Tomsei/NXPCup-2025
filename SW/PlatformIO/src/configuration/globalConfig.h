@@ -10,12 +10,12 @@
  * @author Tom Seiffert
  */
 
-
+ 
 //#define SINGLE_COMPONENTS_TEST //if SingleComponets should be used!
 #define ANALYSE_ON_CAMERA
 
 /* serial definition (bluetooth / usb)*/
-#define CONSOLE Serial
+#define CONSOLE Serial8
 
 
 

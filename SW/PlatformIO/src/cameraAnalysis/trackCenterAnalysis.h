@@ -28,6 +28,7 @@ namespace CameraAnalysis {
             uint8_t speed;
             bool enableFinishLineDetection;
             static bool finishLineDetected;
+            static uint64_t finishLineDetectedTime;
         
             void updateTrackCenters(uint32_t* trackCenterData);
             void calculateSteeringAngle();

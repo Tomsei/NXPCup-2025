@@ -11,6 +11,7 @@ namespace CameraAnalysis {
 
     
     bool TrackCenterAnalysis::finishLineDetected = false;
+    uint64_t TrackCenterAnalysis::finishLineDetectedTime = 100000000;
 
     //forward declaration
     template<typename IntArray>
@@ -21,7 +22,7 @@ namespace CameraAnalysis {
     //Todo Move to config + work correkt!
     #define MIN_STEERING_LINE 10
     #define MAX_STEERING_LINE 80
-    #define MAX_STEERING_LINE_SLOW 40 //take slow line - in front of car
+    #define MAX_STEERING_LINE_SLOW 20 //take slow line - in front of car
     #define MAX_STEERING_LINE_CUTTING 85
     #define MAX_STEERING_LINE_TURN 75 //abhängig von der Ist Geschwindigkeit die Linie nach vorne verschieben!!
     
@@ -91,8 +92,8 @@ namespace CameraAnalysis {
     
                 //finishline detected and wait 10 seconds
                 if(currentTrackCenterAnalysis.trackCenters[239] == 322 && millis() > TIME_TO_FINISHLINE_DETECTION) {
-                    CONSOLE.println("FINISH");
                     TrackCenterAnalysis::finishLineDetected = true;
+                    TrackCenterAnalysis::finishLineDetectedTime = millis();
                 }
                 else {
                     DataVisualization::Display::showNumber(1000000000);
@@ -136,8 +137,10 @@ namespace CameraAnalysis {
         if(steeringLine < 81) {
             farSteering = false;
         }
-        if(finishLineDetected) {
-            steeringLine = MAX_STEERING_LINE_SLOW;
+        if(finishLineDetected || (!enableFinishLineDetection)) {
+            if ((finishLineDetectedTime + 1000) < millis()) {
+                steeringLine = MAX_STEERING_LINE_SLOW;
+            }
         }
 
         //CONSOLE.print(" straight Line: "); CONSOLE.print(lastStraightLine);
@@ -158,6 +161,13 @@ namespace CameraAnalysis {
             factor = 0.6;
         }
 
+        if(finishLineDetected || (!enableFinishLineDetection)) {
+            //a short delay
+            if ((finishLineDetectedTime + 1000) < millis()) {
+                factor = 0.9; 
+            }
+        }
+
         //square steering 
         if(tempSteeringAngle < 0) {
             tempSteeringAngle *= (tempSteeringAngle * factor);
@@ -174,11 +184,11 @@ namespace CameraAnalysis {
     //comment in .h
     void TrackCenterAnalysis::calculateSpeed() {
         if(!TrackCenterAnalysis::finishLineDetected  || (!enableFinishLineDetection)) {
-            speed = 19;
+            speed = 22;
             speed += lastStraightLine/15;
         }
         else {
-            speed = 14;
+            speed = 13;
         }
         //CONSOLE.print(speed); CONSOLE.print(" <- speed - lastStraigLine -> "); CONSOLE.print(lastStraightLine); CONSOLE.print(" ----");
     }

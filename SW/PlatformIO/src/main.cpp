@@ -59,7 +59,7 @@ void loop() {
 
       TimingControl::createTask([](TimingControl::Task* self) {
         Sensors::updateUsedData();
-      }, 50, true, true);
+      }, 30, true, true);
 
     }
     //Sensors::printData();
