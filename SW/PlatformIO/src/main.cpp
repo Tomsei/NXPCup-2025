@@ -43,6 +43,7 @@ void setup() {
   #ifdef CONSOLE
     CONSOLE.println("Main | Setup Done!");
   #endif
+  DataVisualization::Display::showsetupDone();
 }
 
 void loop() {

@@ -46,5 +46,9 @@ namespace DataVisualization {
          * @param trackCenters: the trackcenters to draw
          */
         void showTrackCenters(uint32_t* trackCenters);
+
+        
+        //ToDo: remove - just testing
+        void showsetupDone();
     };
 }

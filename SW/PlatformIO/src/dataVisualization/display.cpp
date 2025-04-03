@@ -69,6 +69,10 @@ namespace DataVisualization {
             updateDisplay = true;
         }
 
+        void showsetupDone() {
+            lipDisplay.println(F("Complete Setup is done"));
+        }
+
         //comment in .h file
         void showNumber(int number) {
             if(updateDisplay) {
