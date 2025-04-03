@@ -70,7 +70,8 @@ namespace DataVisualization {
         }
 
         void showsetupDone() {
-            lipDisplay.println(F("Complete Setup is done"));
+            lipDisplay.println(F("Complete Setup done"));
+            lipDisplay.display();
         }
 
         //comment in .h file

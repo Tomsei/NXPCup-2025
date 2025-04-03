@@ -22,9 +22,13 @@ namespace CameraAnalysis {
     //Todo Move to config + work correkt!
     #define MIN_STEERING_LINE 10
     #define MAX_STEERING_LINE 80
-    #define MAX_STEERING_LINE_SLOW 20 //take slow line - in front of car
+    #define MAX_STEERING_LINE_SLOW 30 //take slow line - in front of car
     #define MAX_STEERING_LINE_CUTTING 85
     #define MAX_STEERING_LINE_TURN 75 //abhängig von der Ist Geschwindigkeit die Linie nach vorne verschieben!!
+
+    #define SPEED_HIGH 27
+    #define SPEED_MEDIUM 23
+    #define SPEED_SLOW 19
     
     uint16_t maxSteeringLine = MAX_STEERING_LINE;
     uint16_t maxSteeringLineTurn = MAX_STEERING_LINE_TURN;
@@ -40,13 +44,64 @@ namespace CameraAnalysis {
         }
         currentTrackCenterAnalysis.lastSteeringLine = MIN_STEERING_LINE;
 
-        if(!digitalRead(DIPSWITSCH1)) {
+
+        /* setup configurations*/
+
+        bool success = true;
+    
+        //reed maxSteeringLine (cutting)
+        bool steeringLineCrossing = false;
+        for (uint8_t i = 0; i < 3; i++) {
+            if(i > 0 && steeringLineCrossing != !digitalRead(DIPSWITSCH4)) {
+                success = false; 
+            }
+            steeringLineCrossing = !digitalRead(DIPSWITSCH4);            
+        }
+
+        if(steeringLineCrossing) {
             maxSteeringLine = MAX_STEERING_LINE_CUTTING;
         }
         else {
             maxSteeringLine = MAX_STEERING_LINE;
         }
+
+        //read choosen speed //slow / Medium
+        bool lowMediumSpeed = false;
+        for (uint8_t i = 0; i < 3; i++) {
+            if(i > 0 && lowMediumSpeed != !digitalRead(DIPSWITSCH2)) {
+                success = false; 
+            }
+            lowMediumSpeed = !digitalRead(DIPSWITSCH2);            
+        }
+
+        if(lowMediumSpeed) {
+            currentTrackCenterAnalysis.choosenSpeed = SPEED_MEDIUM;
+        }
+        else {
+            currentTrackCenterAnalysis.choosenSpeed = SPEED_SLOW;
+        }
+
+        // high speed
+        bool highSpeed = false;
+        for (uint8_t i = 0; i < 3; i++) {
+            if(i > 0 && highSpeed != !digitalRead(DIPSWITSCH1)) {
+                success = false; 
+            }
+            highSpeed = !digitalRead(DIPSWITSCH1);            
+        }
+
+        if(highSpeed) {
+            currentTrackCenterAnalysis.choosenSpeed = SPEED_HIGH;
+        }
+
         CONSOLE.print("Trackcenter successfull - max Steering Line: "); CONSOLE.println(maxSteeringLine);
+        CONSOLE.print("speed: "); CONSOLE.println(currentTrackCenterAnalysis.choosenSpeed);
+        
+
+        if(!success) {
+            DataVisualization::Display::showNumber(-1);
+            delay(5000);
+        }
     }
 
     
@@ -94,9 +149,6 @@ namespace CameraAnalysis {
                 if(currentTrackCenterAnalysis.trackCenters[239] == 322 && millis() > TIME_TO_FINISHLINE_DETECTION) {
                     TrackCenterAnalysis::finishLineDetected = true;
                     TrackCenterAnalysis::finishLineDetectedTime = millis();
-                }
-                else {
-                    DataVisualization::Display::showNumber(1000000000);
                 }
             }
             imageAnalysIsComplete = 1; 
@@ -184,7 +236,7 @@ namespace CameraAnalysis {
     //comment in .h
     void TrackCenterAnalysis::calculateSpeed() {
         if(!TrackCenterAnalysis::finishLineDetected  || (!enableFinishLineDetection)) {
-            speed = 22;
+            speed = choosenSpeed;
             speed += lastStraightLine/15;
         }
         else {

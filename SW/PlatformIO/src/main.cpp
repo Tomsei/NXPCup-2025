@@ -40,15 +40,15 @@ void setup() {
   CarLogic::defineTimedTasks();
   Sensors::setup();
 
+  DataVisualization::Display::showsetupDone();
   #ifdef CONSOLE
     CONSOLE.println("Main | Setup Done!");
   #endif
-  DataVisualization::Display::showsetupDone();
 }
 
 void loop() {
   BoardInput::update();
-  CameraAnalysis::analyse(!digitalRead(DIPSWITSCH2));
+  CameraAnalysis::analyse(true);
   CarLogic::runCarLogic();
   TimingControl::runTasks();
   

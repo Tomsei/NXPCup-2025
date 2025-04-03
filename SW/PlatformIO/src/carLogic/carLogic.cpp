@@ -31,8 +31,8 @@ namespace CarLogic {
         */
 
         //ToDo: remove - avoid i2c IO-Expander
-        engineEnabled = !digitalRead(DIPSWITSCH4);
-        steeringEnabled = !digitalRead(DIPSWITSCH3);
+        engineEnabled = true;
+        steeringEnabled = true;
         
         //Bluetooth Control
         /*if(CONSOLE.available()) {

@@ -26,6 +26,7 @@ namespace CameraAnalysis {
             int lastSteeringLine;
             int steeringAngle;
             uint8_t speed;
+            uint8_t choosenSpeed;
             bool enableFinishLineDetection;
             static bool finishLineDetected;
             static uint64_t finishLineDetectedTime;
