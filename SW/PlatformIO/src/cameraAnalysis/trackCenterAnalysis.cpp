@@ -184,7 +184,6 @@ namespace CameraAnalysis {
         if (lastStraightLine > steeringLine || farSteering) {
             steeringLine = (lastSteeringLine > maxSteeringLine) ? maxSteeringLine : lastSteeringLine;
             farSteering = true;
-            //CONSOLE.print("Yes i am here");
         }
         if(steeringLine < 81) {
             farSteering = false;

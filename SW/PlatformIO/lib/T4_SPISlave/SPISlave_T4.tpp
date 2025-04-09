@@ -130,7 +130,7 @@ int test = 0;
 
 /**
  * spi interrupt method taken from the library
- * and enriched with swap Buffer implementation and modification for own array
+ * and enriched with double buffering implementation and modification for own array
  */
 SPISlave_T4_FUNC void __attribute__((section(".fustrun"))) SPISlave_T4_OPT::SLAVE_ISR() {
 
@@ -158,14 +158,14 @@ SPISlave_T4_FUNC void __attribute__((section(".fustrun"))) SPISlave_T4_OPT::SLAV
     
     //increment index depending on array size
     #ifndef ANALYSE_ON_CAMERA
-      if (spiBufferIdx < VIDEO_RESOLUTION_X*NUMBER_OF_LINES-1) spiBufferIdx++;
+      if (spiBufferIdx < (VIDEO_RESOLUTION_X * NUMBER_OF_LINES)-1) spiBufferIdx++;
     #endif
     
     #ifdef ANALYSE_ON_CAMERA
       if(VIDEO_RESOLUTION_X == 320) {
         spiBufferToWrite[spiBufferIdx] = spiBufferToWrite[spiBufferIdx] * 320 / 253; //mapping back from 0-253 to 0 - 320
       }
-      if (spiBufferIdx < SPI_BUFFER_WIDTH-1) { 
+      if (spiBufferIdx < SPI_BUFFER_WIDTH - 1) { 
         spiBufferIdx++; //incremet buffer until 239 ()
       }
     #endif

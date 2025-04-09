@@ -34,12 +34,12 @@ namespace CarLogic {
         engineEnabled = true;
         steeringEnabled = true;
         
-        //Bluetooth Control
-        /*if(CONSOLE.available()) {
+        //Bluetooth Control - comment out in final run
+        if(CONSOLE.available()) {
             CONSOLE.read();
             changeState = (changeState) ? false : true;
         }
-        engineEnabled = (engineEnabled && changeState);*/
+        engineEnabled = (engineEnabled && changeState);
 
         if (CameraAnalysis::TrackCenterAnalysis::finishLineDetected && Sensors::usedData.tofDistance < DISTANCE_TO_STOP) {
             engineEnabled = false;
@@ -50,7 +50,7 @@ namespace CarLogic {
         uint8_t speed = CameraAnalysis::getSpeed();
         int steeringAngle = CameraAnalysis::getSteeringAngle();
         DrivingControl::drive(speed, steeringAngle);
-        //showEnableStateOnLed(engineEnabled, steeringEnabled);
+        showEnableStateOnLed(engineEnabled, steeringEnabled); //remove in final run
     }
 
 

@@ -65,7 +65,6 @@ method to write an image to spi
 def writeImageSpi(img):
     cs.low()
     spi.write(img)
-    #printRowPixel(img, 0, 0, 30)
     cs.high()
 
 """
