@@ -13,6 +13,7 @@
 #include <Servo.h>
 
 #include "configuration/globalConfig.h"
+#include "configuration/drivingConfig.h"
 
 namespace DrivingControl {
     
