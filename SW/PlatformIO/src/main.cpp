@@ -47,7 +47,7 @@ void setup() {
 }
 
 void loop() {
-  BoardInput::update();
+  BoardInput::update(); //toDo Move into CarLogc - umsetzen (Anpassen an Diagramm!)
   CameraAnalysis::analyse(true);
   CarLogic::runCarLogic();
   TimingControl::runTasks();

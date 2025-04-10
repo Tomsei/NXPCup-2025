@@ -26,8 +26,8 @@ namespace CameraAnalysis {
     #define MAX_STEERING_LINE_CUTTING 85
     #define MAX_STEERING_LINE_TURN 75 //abhängig von der Ist Geschwindigkeit die Linie nach vorne verschieben!!
 
-    #define SPEED_HIGH 27
-    #define SPEED_MEDIUM 23
+    #define SPEED_HIGH 28
+    #define SPEED_MEDIUM 25
     #define SPEED_SLOW 19
     
     uint16_t maxSteeringLine = MAX_STEERING_LINE;
@@ -116,7 +116,7 @@ namespace CameraAnalysis {
             bool lastSteeringLineFound = false;
         
             currentTrackCenterAnalysis.enableFinishLineDetection = enableFinishLineDetection;
-            //DataVisualisation::Display::showTrackCenters(currentTrackCenterAnalysis.trackCenters); //TODo: Überlastung
+            DataVisualization::Display::showTrackCenters(currentTrackCenterAnalysis.trackCenters); //TODo: Überlastung
             //currentTrackCenterAnalysis.printTrackCenters(0, 20);
 
             //check valid data
@@ -184,7 +184,6 @@ namespace CameraAnalysis {
         if (lastStraightLine > steeringLine || farSteering) {
             steeringLine = (lastSteeringLine > maxSteeringLine) ? maxSteeringLine : lastSteeringLine;
             farSteering = true;
-            //CONSOLE.print("Yes i am here");
         }
         if(steeringLine < 81) {
             farSteering = false;
@@ -237,7 +236,7 @@ namespace CameraAnalysis {
     void TrackCenterAnalysis::calculateSpeed() {
         if(!TrackCenterAnalysis::finishLineDetected  || (!enableFinishLineDetection)) {
             speed = choosenSpeed;
-            speed += lastStraightLine/15;
+            speed += lastStraightLine/25;
         }
         else {
             speed = 13;
