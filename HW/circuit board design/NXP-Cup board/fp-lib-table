@@ -1,0 +1,8 @@
+(fp_lib_table
+  (lib (name Teensy)(type KiCad)(uri F:/Tom/Kit0/Schaltplan/teensy.pretty-master)(options "")(descr ""))
+  (lib (name DIT120N08)(type KiCad)(uri F:/Tom/Kit0/Schaltplan/DIT120N08)(options "")(descr ""))
+  (lib (name 418117270908)(type KiCad)(uri F:/Tom/Kit0/Schaltplan/418117270908)(options "")(descr ""))
+  (lib (name Display)(type KiCad)(uri F:/Tom/Kit0/Schaltplan/KiCad-SSD1306-128x64-master/library/SSD1306.pretty)(options "")(descr ""))
+  (lib (name I2CIOExpander)(type KiCad)(uri F:/Tom/Kit0/Schaltplan/MCP23017-E_SP)(options "")(descr ""))
+  (lib (name Taster)(type KiCad)(uri F:/Tom/Kit0/Schaltplan/Taster)(options "")(descr ""))
+)

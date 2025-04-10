@@ -1,0 +1,8 @@
+(sym_lib_table
+  (lib (name Teensy)(type Legacy)(uri F:/Tom/Kit0/Schaltplan/teensy_library-master/teensy.lib)(options "")(descr ""))
+  (lib (name DIT120N08)(type Legacy)(uri F:/Tom/Kit0/Schaltplan/DIT120N08/DIT120N08.lib)(options "")(descr ""))
+  (lib (name 418117270908)(type Legacy)(uri F:/Tom/Kit0/Schaltplan/418117270908/418117270908.lib)(options "")(descr ""))
+  (lib (name Display)(type Legacy)(uri F:/Tom/Kit0/Schaltplan/KiCad-SSD1306-128x64-master/library/SSD1306-128x64_OLED.lib)(options "")(descr ""))
+  (lib (name I2CIOExpander)(type Legacy)(uri F:/Tom/Kit0/Schaltplan/MCP23017-E_SP/MCP23017-E_SP.lib)(options "")(descr ""))
+  (lib (name Taster)(type Legacy)(uri F:/Tom/Kit0/Schaltplan/Taster/TS02-66-95-BK-260-LCR-D.lib)(options "")(descr ""))
+)
