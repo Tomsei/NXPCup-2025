@@ -6,15 +6,15 @@
  * - definition of the cam features (e.g. resolution)
  * 
  * define the SINGLE_COMPONENTS_TEST when using the single component source files
- * 
+ * define the ANALYSE_ON_CAMERA when using the firmware analyse approach
  * @author Tom Seiffert
  */
 
  
 //#define SINGLE_COMPONENTS_TEST //if SingleComponets should be used!
-#define ANALYSE_ON_CAMERA
+#define ANALYSE_ON_CAMERA //if firmware analysis is used | ToDO: change to Analyze
 
-/* serial definition (bluetooth / usb)*/
+/* serial definition (choose usb -> Serial | or bluetooth -> Serial 8)*/
 #define CONSOLE Serial
 
 

@@ -1,4 +1,10 @@
 /* ----- cam analysis configurations -----  */
+/**
+ * cam analysis - defines 
+ * all defines that contains to camera analysis 
+ * 
+ * @author Tom Seiffert
+ */
 #define VIDEO_RESOLUTION_X 320
 #define VIDEO_RESOLUTION_Y 240
 #define NUMBER_OF_LINES 5
