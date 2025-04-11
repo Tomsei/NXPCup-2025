@@ -104,7 +104,7 @@ SPISlave_T4_FUNC uint32_t SPISlave_T4_OPT::popr() {
   return data;
 }
 
-//changes
+// own changes
 extern volatile int spiBufferIdx;
 extern volatile int spiTransferComplete;
 extern volatile int imageAnalysIsComplete;
@@ -124,9 +124,6 @@ extern uint32_t spiBackBuffer[SPI_BUFFER_WIDTH];
 extern uint32_t* spiBufferToRead;
 
 uint32_t* spiBufferToWrite = spiFrontBuffer;
-
-int test = 0;
-
 
 /**
  * spi interrupt method taken from the library
