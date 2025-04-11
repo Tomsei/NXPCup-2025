@@ -1,3 +1,17 @@
+/**
+ * car logic - definition
+ * 
+ * car logic is the mergin point of all other working ears (for example cameraAnalysis, drivingControl...)
+ * it connect the different areas to each other and controls the driving Behaviour of the car (stop, driving...).
+ * 
+ * Main parts are:
+ * - controling car state (engine run...)
+ * - reading data (cameraAnalysis, sensors, boardinput)
+ * - use the input data to decide behavior
+ * - control car witch drivingControl and Data Vizualisation
+ * 
+ * @author Tom Seiffert
+ */
 #include "configuration/globalConfig.h"
 #ifndef SINGLE_COMPONENTS_TEST
 
@@ -25,12 +39,11 @@ namespace CarLogic {
 
     void runCarLogic() {
 
-        /*//ToDo: normal i2C
+        /* normal i2C implementation (comment out to avoid i2c IO-Expander)
         engineEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S4);
         steeringEnabled = BoardInput::getSingleDipswitchValue(BoardInput::DipSwitchEnum::S3);
         */
-
-        //ToDo: remove - avoid i2c IO-Expander
+       
         engineEnabled = true;
         steeringEnabled = true;
         
@@ -53,7 +66,7 @@ namespace CarLogic {
         //showEnableStateOnLed(engineEnabled, steeringEnabled);
     }
 
-
+    // ------ Timing Control ------
 
     TimingControl::Task* t_updateLed;
     TimingControl::Task* t_updateDisplay;
@@ -62,20 +75,20 @@ namespace CarLogic {
 
     void defineTimedTasks () {
 
-        /*t_updateLed = TimingControl::createTask([](TimingControl::Task* self) {
-            //CONSOLE.println("every Second");
-            //DataVisualization::LedStrip::update(); 
-        }, 1000, true, true);*/
+        t_updateLed = TimingControl::createTask([](TimingControl::Task* self) {
+
+            DataVisualization::LedStrip::update(); 
+        }, 1000, true, true);
 
         
-        /*t_updateDisplay = TimingControl::createTask([](TimingControl::Task* self) {
+        t_updateDisplay = TimingControl::createTask([](TimingControl::Task* self) {
             DataVisualization::Display::update();
-        }, 100, true, true);*/
+        }, 100, true, true);
 
         
-        /*t_calculateSpeed = TimingControl::createTask([](TimingControl::Task* self) {
+        t_calculateSpeed = TimingControl::createTask([](TimingControl::Task* self) {
             Sensors::ArdLineFinder::calculateSpeed();
-        }, 100, true, true);*/ 
+        }, 100, true, true);
 
     }
 
