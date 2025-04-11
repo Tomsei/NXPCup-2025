@@ -21,6 +21,8 @@ namespace DataVisualization {
         
         int lastShownNumber;
 
+        bool updateLed = false;
+
         //pre decleration
         void setAllLeds(CRGB color);
 
@@ -44,7 +46,7 @@ namespace DataVisualization {
 
         //comment in .h
         void update() {
-            FastLED.show();
+            updateLed = true;
         }
 
         //coment in .h file
@@ -55,58 +57,62 @@ namespace DataVisualization {
 
         //coment in .h file
         void showNumberInRange(int number, int range) {
-            //ToDo: Servo Bug when updating the led strip - probably just update LED every second?
-            //bool updateLed = false;
             
-            //convert number to positiv and show the sign with color
-            CRGB color;
-            if(number >= 0) {
-                color = CRGB::Green;
-            } else {
-                color = CRGB::Blue;
-            }
-            number = abs(number);
-
-            //map number to range
-            float numberInRange = 0.0;
-            numberInRange = number / (range / NUMBER_OF_LEDS);
-
-            if(lastShownNumber != (int)numberInRange) {
-                lastShownNumber = (int)numberInRange;
-
-                FastLED.clear();
-                for(int i = 0; i < numberInRange && i < NUMBER_OF_LEDS; i ++) {
-                    lipLedStrip[i] = color;
+            if(updateLed) {
+                //convert number to positiv and show the sign with color
+                CRGB color;
+                if(number >= 0) {
+                    color = CRGB::Green;
+                } else {
+                    color = CRGB::Blue;
                 }
-                FastLED.show(); //ToDo: remove - update LED every half second
+                number = abs(number);
+
+                //map number to range
+                float numberInRange = 0.0;
+                numberInRange = number / (range / NUMBER_OF_LEDS);
+
+                if(lastShownNumber != (int)numberInRange) {
+                    lastShownNumber = (int)numberInRange;
+
+                    FastLED.clear();
+                    for(int i = 0; i < numberInRange && i < NUMBER_OF_LEDS; i ++) {
+                        lipLedStrip[i] = color;
+                    }
+                    FastLED.show();
+                }
+                updateLed = false;
             }
         }
 
         //comment in .h
         void setLeds(uint8_t led, u_int8_t r, u_int8_t g, u_int8_t b) {
-            if (1 & led) {
-                lipLedStrip[0].setRGB(r, g, b);
-            }
-            if (2 & led) {
-                lipLedStrip[1].setRGB(r, g, b);
-            }
-            if (4 & led) {
-                lipLedStrip[2].setRGB(r, g, b);
-            }
-            if (8 & led) {
-                lipLedStrip[3].setRGB(r, g, b);
-            }
-            if (16 & led) {
-                lipLedStrip[4].setRGB(r, g, b);
-            }
-            if (32 & led) {
-                lipLedStrip[5].setRGB(r, g, b);
-            }
-            if (64 & led) {
-                lipLedStrip[6].setRGB(r, g, b);
-            }
-            if (128 & led) {
-                lipLedStrip[7].setRGB(r, g, b);
+            if(updateLed) {
+                if (1 & led) {
+                    lipLedStrip[0].setRGB(r, g, b);
+                }
+                if (2 & led) {
+                    lipLedStrip[1].setRGB(r, g, b);
+                }
+                if (4 & led) {
+                    lipLedStrip[2].setRGB(r, g, b);
+                }
+                if (8 & led) {
+                    lipLedStrip[3].setRGB(r, g, b);
+                }
+                if (16 & led) {
+                    lipLedStrip[4].setRGB(r, g, b);
+                }
+                if (32 & led) {
+                    lipLedStrip[5].setRGB(r, g, b);
+                }
+                if (64 & led) {
+                    lipLedStrip[6].setRGB(r, g, b);
+                }
+                if (128 & led) {
+                    lipLedStrip[7].setRGB(r, g, b);
+                }
+                updateLed = false;
             }
         }
 
@@ -122,7 +128,6 @@ namespace DataVisualization {
             for (int i = 0; i < NUMBER_OF_LEDS; i++) {
                 lipLedStrip[i] = color;
             }
-            FastLED.show(); //ToDo Remove - update LED every half second
         } 
     }
 }

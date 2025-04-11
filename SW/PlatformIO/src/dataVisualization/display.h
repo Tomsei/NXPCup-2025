@@ -48,7 +48,10 @@ namespace DataVisualization {
         void showTrackCenters(uint32_t* trackCenters);
 
         
-        //ToDo: remove - just testing
+        /**
+         * test to visuzalize that setup is done
+         * could be change to general show text
+         */
         void showsetupDone();
     };
 }

@@ -69,6 +69,7 @@ namespace DataVisualization {
             updateDisplay = true;
         }
 
+        //comment in .h file
         void showsetupDone() {
             lipDisplay.println(F("Complete Setup done"));
             lipDisplay.display();
@@ -91,7 +92,6 @@ namespace DataVisualization {
             if (updateDisplay) {
                 lipDisplay.clearDisplay();
                 
-                
                 for(int i = 0; i < SCREEN_HEIGHT; i++) {
                     int trackCenterPos = trackCenters[i*3] * 128 / 320;
                     if(trackCenterPos > SCREEN_WIDTH-1) {
@@ -99,8 +99,6 @@ namespace DataVisualization {
                     } 
                     lipDisplay.drawPixel(trackCenterPos, SCREEN_HEIGHT - 1 - i, SSD1306_WHITE); //track Center zugriff noch prüfen!
                 }
-                lipDisplay.setCursor(0,0);
-                lipDisplay.println(millis() % 10000);
                 lipDisplay.display();
                 updateDisplay = false;
             }
