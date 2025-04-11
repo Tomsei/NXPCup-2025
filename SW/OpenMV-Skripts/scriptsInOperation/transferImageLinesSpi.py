@@ -1,6 +1,8 @@
 """
 Example: SPI picture line transfer
-Inspired from: Open MV - Board control - spi_control.py Example
+Inspired from: Open MV - board control - spi_control.py example
+
+@author Tom Seiffert
 """
 import sensor
 import time
@@ -18,7 +20,7 @@ spi = SPI(1, baudrate=int(1000000000 / 66), polarity=0, phase=0)
 numberOfLines = 5
 lineWidth = 1
 
-# confrigure while choosing resolution (change lines and Pixel amount)
+# configure while choosing resolution (change lines and pixel amount)
 horizontalPixelCount = 320
 rowLine1 = 170
 rowLine2 = 160
@@ -65,7 +67,6 @@ method to write an image to spi
 def writeImageSpi(img):
     cs.low()
     spi.write(img)
-    #printRowPixel(img, 0, 0, 30)
     cs.high()
 
 """

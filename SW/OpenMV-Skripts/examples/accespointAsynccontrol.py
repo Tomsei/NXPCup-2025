@@ -5,7 +5,7 @@ Example: async control of an accespoint connection and cam control with more adv
 - parallel there are running other task (increase some counters), to make sure other task could run,
   while waiting for incoming reqeusts
 
-Inspired of OpenMV examples codes and some help of the OpenMV Forum posts
+Inspired of OpenMV examples codes, some help of the OpenMV Forum posts and this video tutorial series: https://www.youtube.com/watch?v=eym8NpHr9Xw
 @author Tom Seiffert
 """
 

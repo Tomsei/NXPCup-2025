@@ -6,7 +6,7 @@ Example: async control of an accespoint connection and cam control to control th
   while waiting for incoming reqeusts
 - transfer the engine state over spi to control the car
 
-Inspired of OpenMV examples codes and some help of the OpenMV Forum posts
+Inspired of OpenMV examples codes, some help of the OpenMV Forum posts and this video tutorial series: https://www.youtube.com/watch?v=eym8NpHr9Xw
 @author Tom Seiffert
 """
 
