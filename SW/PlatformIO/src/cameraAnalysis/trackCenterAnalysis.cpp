@@ -1,3 +1,20 @@
+/**
+ * track center analysis - definitions
+ * 
+ * this file ist relevant if the camera sends trackcenter data! (analysis on camera)
+ * 
+ * handles everything belonging to the trackcenter analysis.
+ * This includes the generala camera analysis method (same structure like other approach)
+ * which conrols the complete analysis of Trackcenters.
+ * 
+ * For the management of the track center analysis the TrackCenterAnalysis class is used.
+ * This class is also implemented in this file and provides methods to
+ * - manage all data belonging to track center analysis
+ * - calculate speed
+ * - calculate steering angle
+ * 
+ * @author Tom Seiffert
+ */
 #include "configuration/globalConfig.h"
 #ifndef SINGLE_COMPONENTS_TEST
 #ifdef ANALYSIS_ON_CAMERA //todo Change after copy
@@ -7,11 +24,26 @@
 #include "dataVisualization/display.h"
 #include "sensors/sensors.h"
 
+//defines here to stay in context
+#define MIN_STEERING_LINE 10
+#define MAX_STEERING_LINE 80
+#define MAX_STEERING_LINE_SLOW 30 //take slow line - in front of car
+#define MAX_STEERING_LINE_CUTTING 85
+#define MAX_STEERING_LINE_TURN 75 //abhängig von der Ist Geschwindigkeit die Linie nach vorne verschieben!!
+#define STRAIGHT_ACCELERATION 25 //the lower the faster
+
+#define SPEED_HIGH 27
+#define SPEED_MEDIUM 23
+#define SPEED_SLOW 19
+
+
 namespace CameraAnalysis {
 
-    
+    //init static variable
     bool TrackCenterAnalysis::finishLineDetected = false;
     uint64_t TrackCenterAnalysis::finishLineDetectedTime = 100000000;
+
+    bool farSteering = false;
 
     //forward declaration
     template<typename IntArray>
@@ -19,17 +51,6 @@ namespace CameraAnalysis {
 
     TrackCenterAnalysis currentTrackCenterAnalysis;
 
-    //Todo Move to config + work correkt!
-    #define MIN_STEERING_LINE 10
-    #define MAX_STEERING_LINE 80
-    #define MAX_STEERING_LINE_SLOW 30 //take slow line - in front of car
-    #define MAX_STEERING_LINE_CUTTING 85
-    #define MAX_STEERING_LINE_TURN 75 //abhängig von der Ist Geschwindigkeit die Linie nach vorne verschieben!!
-
-    #define SPEED_HIGH 27
-    #define SPEED_MEDIUM 23
-    #define SPEED_SLOW 19
-    
     uint16_t maxSteeringLine = MAX_STEERING_LINE;
     uint16_t maxSteeringLineTurn = MAX_STEERING_LINE_TURN;
     
@@ -43,65 +64,8 @@ namespace CameraAnalysis {
             currentTrackCenterAnalysis.trackCenters[i]  = (VIDEO_RESOLUTION_X/2);
         }
         currentTrackCenterAnalysis.lastSteeringLine = MIN_STEERING_LINE;
+        currentTrackCenterAnalysis.choosenBaseSpeed = SPEED_HIGH;
 
-
-        /* setup configurations*/
-
-        bool success = true;
-    
-        //reed maxSteeringLine (cutting)
-        bool steeringLineCrossing = false;
-        for (uint8_t i = 0; i < 3; i++) {
-            if(i > 0 && steeringLineCrossing != !digitalRead(DIPSWITSCH4)) {
-                success = false; 
-            }
-            steeringLineCrossing = !digitalRead(DIPSWITSCH4);            
-        }
-
-        if(steeringLineCrossing) {
-            maxSteeringLine = MAX_STEERING_LINE_CUTTING;
-        }
-        else {
-            maxSteeringLine = MAX_STEERING_LINE;
-        }
-
-        //read choosen speed //slow / Medium
-        bool lowMediumSpeed = false;
-        for (uint8_t i = 0; i < 3; i++) {
-            if(i > 0 && lowMediumSpeed != !digitalRead(DIPSWITSCH2)) {
-                success = false; 
-            }
-            lowMediumSpeed = !digitalRead(DIPSWITSCH2);            
-        }
-
-        if(lowMediumSpeed) {
-            currentTrackCenterAnalysis.choosenSpeed = SPEED_MEDIUM;
-        }
-        else {
-            currentTrackCenterAnalysis.choosenSpeed = SPEED_SLOW;
-        }
-
-        // high speed
-        bool highSpeed = false;
-        for (uint8_t i = 0; i < 3; i++) {
-            if(i > 0 && highSpeed != !digitalRead(DIPSWITSCH1)) {
-                success = false; 
-            }
-            highSpeed = !digitalRead(DIPSWITSCH1);            
-        }
-
-        if(highSpeed) {
-            currentTrackCenterAnalysis.choosenSpeed = SPEED_HIGH;
-        }
-
-        CONSOLE.print("Trackcenter successfull - max Steering Line: "); CONSOLE.println(maxSteeringLine);
-        CONSOLE.print("speed: "); CONSOLE.println(currentTrackCenterAnalysis.choosenSpeed);
-        
-
-        if(!success) {
-            DataVisualization::Display::showNumber(-1);
-            delay(5000);
-        }
     }
 
     
@@ -116,7 +80,7 @@ namespace CameraAnalysis {
             bool lastSteeringLineFound = false;
         
             currentTrackCenterAnalysis.enableFinishLineDetection = enableFinishLineDetection;
-            //DataVisualisation::Display::showTrackCenters(currentTrackCenterAnalysis.trackCenters); //TODo: Überlastung
+            DataVisualization::Display::showTrackCenters(currentTrackCenterAnalysis.trackCenters); //remove in final run
             //currentTrackCenterAnalysis.printTrackCenters(0, 20);
 
             //check valid data
@@ -127,17 +91,16 @@ namespace CameraAnalysis {
 
                 for(int i = 2; i < VIDEO_RESOLUTION_Y; i++) { //start by two (first two values are no track center infos!)
                 
-                    //no more usable track center Values (turn detected on Camera)
+                    //no more valid track center Values (turn detected on Camera)
                     if(currentTrackCenterAnalysis.trackCenters[i] > 320 && !lastSteeringLineFound) { //use 321 becaus 255 is mapped to 321 (* 320 / 254)
-                        currentTrackCenterAnalysis.lastSteeringLine = i-1; //first two track centers arent used  
+                        currentTrackCenterAnalysis.lastSteeringLine = i-1; 
                         lastSteeringLineFound = true;
                     }
     
-                    //Todo: if needed the calculation can stop here
                     currentTrackCenterAnalysis.trackCenterOffset[i] = (VIDEO_RESOLUTION_X/2) - currentTrackCenterAnalysis.trackCenters[i];
                 
                     if(abs(currentTrackCenterAnalysis.trackCenterOffset[i]) > STRAIGHT_THRESHOLD && !straightLineFound) {
-                        currentTrackCenterAnalysis.lastStraightLine = i-1; //first tro track centers arend used
+                        currentTrackCenterAnalysis.lastStraightLine = i-1;
                         straightLineFound = true;
                     }
                 }
@@ -145,7 +108,7 @@ namespace CameraAnalysis {
                 currentTrackCenterAnalysis.calculateSteeringAngle();
                 currentTrackCenterAnalysis.calculateSpeed();
     
-                //finishline detected and wait 10 seconds
+                //wait 10 seconds before finishline detection
                 if(currentTrackCenterAnalysis.trackCenters[239] == 322 && millis() > TIME_TO_FINISHLINE_DETECTION) {
                     TrackCenterAnalysis::finishLineDetected = true;
                     TrackCenterAnalysis::finishLineDetectedTime = millis();
@@ -167,42 +130,30 @@ namespace CameraAnalysis {
     }
 
 
-
-    bool farSteering = false;
-
     //comment in .h
     void TrackCenterAnalysis::calculateSteeringAngle() {
+        
         float tempSteeringAngle = 0;
-        
         int steeringLine = lastSteeringLine;
-
-        //ToDo: check how it works if i use the lastStraight line vor Min and May Line turn!
-        
 
         //calculate choosen steering line
         steeringLine = (lastSteeringLine > maxSteeringLineTurn) ? maxSteeringLineTurn : lastSteeringLine;
         if (lastStraightLine > steeringLine || farSteering) {
             steeringLine = (lastSteeringLine > maxSteeringLine) ? maxSteeringLine : lastSteeringLine;
             farSteering = true;
-            //CONSOLE.print("Yes i am here");
         }
         if(steeringLine < 81) {
             farSteering = false;
         }
+        //slow drive after finish Line Detection -> near steering line 
         if(finishLineDetected || (!enableFinishLineDetection)) {
             if ((finishLineDetectedTime + 1000) < millis()) {
                 steeringLine = MAX_STEERING_LINE_SLOW;
             }
         }
 
-        //CONSOLE.print(" straight Line: "); CONSOLE.print(lastStraightLine);
-        //CONSOLE.print(" steeringLine: "); CONSOLE.print(steeringLine); CONSOLE.print("-----------");
-        //CONSOLE.print(" TrackCenter"); CONSOLE.print(trackCenters[steeringLine]);
-        //CONSOLE.print(" TrackCenter Offset"); CONSOLE.println(trackCenterOffset[steeringLine]);
 
         tempSteeringAngle = trackCenterOffset[steeringLine];
-        
-
     
         //map value to usable size for steering        
         tempSteeringAngle *= 0.1;
@@ -213,8 +164,8 @@ namespace CameraAnalysis {
             factor = 0.6;
         }
 
+        //change factor if near steering is active (slow drive)
         if(finishLineDetected || (!enableFinishLineDetection)) {
-            //a short delay
             if ((finishLineDetectedTime + 1000) < millis()) {
                 factor = 0.9; 
             }
@@ -232,20 +183,17 @@ namespace CameraAnalysis {
     }
 
 
-    
     //comment in .h
     void TrackCenterAnalysis::calculateSpeed() {
         if(!TrackCenterAnalysis::finishLineDetected  || (!enableFinishLineDetection)) {
-            speed = choosenSpeed;
-            speed += lastStraightLine/15;
+            speed = choosenBaseSpeed;
+            speed += lastStraightLine/STRAIGHT_ACCELERATION;
         }
         else {
             speed = 13;
         }
-        //CONSOLE.print(speed); CONSOLE.print(" <- speed - lastStraigLine -> "); CONSOLE.print(lastStraightLine); CONSOLE.print(" ----");
     }
 
-    
     //comment in .h
     void TrackCenterAnalysis::updateTrackCenters(uint32_t* trackCenterData) {
         trackCenters = trackCenterData;

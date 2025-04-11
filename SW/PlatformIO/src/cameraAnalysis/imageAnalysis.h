@@ -35,6 +35,7 @@ namespace CameraAnalysis {
             
             /**
              * update the image pointer to new image data 
+             * @param pixelData: pointer new image data
              */
             void updateImage(uint32_t* pixelData);
 
