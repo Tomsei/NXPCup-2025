@@ -25,8 +25,10 @@ namespace CameraAnalysis {
 
     extern int sobelThreshold;
 
+    /* ------- public known methods ------------------ */
+
     //comment in .h
-     void SingleRowAnalysis::updateRow(uint32_t* pixelData, int row) {
+    void SingleRowAnalysis::updateRow(uint32_t* pixelData, int row) {
         int startIndexOfLine = row * VIDEO_RESOLUTION_X;
         rowDataBufferPointer = pixelData + startIndexOfLine;
     }
@@ -35,10 +37,9 @@ namespace CameraAnalysis {
     void SingleRowAnalysis::calculateSobelRow() {
         for (int i = 0; i < VIDEO_RESOLUTION_X-2; i++) {
             //int carsting to get negativ values
-            sobelRowDataBuffer[i] = ((int(rowDataBufferPointer[i] * 2)) + (int(rowDataBufferPointer[i+2] * -2)));
+            sobelRowDataBuffer[i] = ((int(rowDataBufferPointer[i] * 2)) + (int(rowDataBufferPointer[i + 2] * -2)));
         }
     }
-
 
     //comment in .h
     uint16_t SingleRowAnalysis::calculateTrackCenter(uint16_t startSearch) {
@@ -59,7 +60,7 @@ namespace CameraAnalysis {
         printArray(sobelRowDataBuffer, start, length, "sobel row:\t\t");
     }
 
-    //--------------- private ----------------
+    /* ------- privat - public unknown methods ------- */
 
     //comment in .h
     std::tuple<uint16_t, uint16_t> SingleRowAnalysis::calculateEdges(uint16_t startSearch) {

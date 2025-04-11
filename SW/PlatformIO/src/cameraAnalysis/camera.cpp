@@ -5,10 +5,10 @@
  * This includes the administration of the Swapped SPI Buffer 
  * and the setup and use of the spi transfer where Teensy is a slave
  * 
- * using the Library: SPISlave_T4.h
+ * using the library: SPISlave_T4.h
  * https://github.com/tonton81/SPISlave_T4
  * 
- * inspiration for improvments from Tjaekel: 
+ * inspiration for library improvments from Tjaekel: 
  * https://forum.pjrc.com/index.php?threads/teensy-4-1-spi-slave-here-it-is.72792/
  * https://github.com/tjaekel/Teesny_4_1
  * 
@@ -26,7 +26,7 @@
 #include "cameraAnalysis/trackCenterAnalysis.h"
 
 
-//SPI Transfer variables and buffers for swapped Buffer implementation
+//SPI transfer variables and buffers for swapped Buffer implementation
 volatile int spiBufferIdx = 0;
 volatile int spiTransferComplete = 0;
 volatile int imageAnalysIsComplete = 1;
@@ -64,7 +64,7 @@ namespace CameraAnalysis {
   void OpenMVCam::setup() {
     mySPI.begin();
     mySPI.swapPins(true);
-    pinMode(CAM_SPI_MISO, OUTPUT); //important!
+    pinMode(CAM_SPI_MISO, OUTPUT); 
 
     #ifdef ANALYSE_ON_CAMERA
       currentTrackCenterAnalysis.updateTrackCenters(spiBufferToRead);
@@ -84,7 +84,8 @@ namespace CameraAnalysis {
 
     //reading SPI-data when transfer is finished!
     if(spiTransferComplete){
-      //just updating image if analysis is finished
+      
+      //just updating image if analysis is finished (otherwise skip the frame)
       if(imageAnalysIsComplete) {
         imageAnalysIsComplete = 0;
         currentImageAnalysis.updateImage(spiBufferToRead);
