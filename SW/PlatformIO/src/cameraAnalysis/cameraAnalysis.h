@@ -19,7 +19,7 @@
 #ifndef ANALYSIS_ON_CAMERA
 
 #include <Arduino.h>
-#include "configuration/cameraConfig.h"
+#include "configuration/cameraAnalysisConfig.h"
 
 extern volatile int imageAnalysIsComplete;
 

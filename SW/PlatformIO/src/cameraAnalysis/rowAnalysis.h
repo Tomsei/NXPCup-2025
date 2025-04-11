@@ -15,6 +15,7 @@
  * @author Tom Seiffert
  */
 #include "configuration/globalConfig.h"
+#include "configuration/cameraAnalysisConfig.h"
 #ifndef SINGLE_COMPONENTS_TEST
 #ifndef ANALYSIS_ON_CAMERA
 #include "Arduino.h"
