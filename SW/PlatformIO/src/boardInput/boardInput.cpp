@@ -30,7 +30,7 @@ namespace BoardInput {
 
     // comment in .h file
     void setup() {
-        //setupIoExpander(); //ToDo: remove - avoid i2c IO-Expander
+        setupIoExpander();
         setupData();
     }
 
@@ -39,10 +39,9 @@ namespace BoardInput {
     void update() {
         data.poti1 = readPoti(POTI1);
         data.poti2 = readPoti(POTI2);
-        /*//ToDo: remove - avoid i2c IO-Expander
         data.button1 = readButton(IO_EX_BUTTON1);
         data.button2 = readButton(IO_EX_BUTTON2);
-        data.dipSwitch = readDipSwitch(); */
+        data.dipSwitch = readDipSwitch();
     }
 
     // comment in .h file
@@ -58,7 +57,7 @@ namespace BoardInput {
 
     // comment in .h file
     Data* getData() {
-        return &data; //ToDo: Test!
+        return &data;
     }
 
     // comment in .h file
@@ -96,7 +95,7 @@ namespace BoardInput {
 
     /**
      * setup the data struct
-     * - sets all values to -1
+     * - sets all values to 0
      */
     void setupData() {
         data.poti1 = 0;
@@ -127,7 +126,7 @@ namespace BoardInput {
     /**
      * read the dip switch
      * - create decimal representation of dip switch values 
-     * @return: the value of all switches as decimal number
+     * @return: the value of all switches together as decimal number
      */
     uint8_t readDipSwitch() {
         uint8_t dipSwitchvalue = 15;

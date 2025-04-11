@@ -104,7 +104,7 @@ SPISlave_T4_FUNC uint32_t SPISlave_T4_OPT::popr() {
   return data;
 }
 
-//changes
+//own changes
 extern volatile int spiBufferIdx;
 extern volatile int spiTransferComplete;
 extern volatile int imageAnalysIsComplete;
