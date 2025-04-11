@@ -1,8 +1,9 @@
-
+/**
+ * general main file with setup and loop
+ * calls the required methods of the implemented modules
+ */
 #include <Arduino.h>
 #include <Wire.h>
-
-#include "configuration/globalConfig.h"
 
 #include "drivingControl/drivingControl.h"
 #include "carLogic/carLogic.h"
@@ -20,7 +21,6 @@ void setup() {
 }
 
 void loop() {
-
   CarLogic::runCarLogic();
   CameraAnalysis::OpenMVCam::updateImage();
 }

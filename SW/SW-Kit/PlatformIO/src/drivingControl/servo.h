@@ -2,7 +2,7 @@
  * servo - declaration
  * 
  * Controll the servo for driving to the correct direction.
- * This includes an servo setup and the control the steeringangle
+ * This includes a servo setup and the control the steeringangle
  * 
  * using the Library: servo.h (Arudio)
  * 
@@ -26,7 +26,7 @@ namespace DrivingControl {
         void setup();
 
         /**
-         * control servo steering and check valid input
+         * control servo steering and check if input is valid
          * @param steeringAngle: the angle to steer (direction) 
          */
         void setSteeringAngle(int steeringAngle);

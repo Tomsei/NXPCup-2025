@@ -2,13 +2,13 @@
  * camera - definitions
  * 
  * Handles everything belonging to the Camera SPI Connection. 
- * This includes the administration of the Swapped SPI Buffer 
+ * This includes the administration of the SPI Buffer 
  * and the setup and use of the spi transfer where Teensy is a slave
  * 
- * using the Library: SPISlave_T4.h
+ * using the library: SPISlave_T4.h
  * https://github.com/tonton81/SPISlave_T4
  * 
- * inspiration for improvments from Tjaekel: 
+ * inspiration for library improvments from Tjaekel: 
  * https://forum.pjrc.com/index.php?threads/teensy-4-1-spi-slave-here-it-is.72792/
  * https://github.com/tjaekel/Teesny_4_1
  * 
@@ -23,7 +23,7 @@
 
 
 
-//SPI Transfer variables and buffers for swapped Buffer implementation
+//SPI transfer variables and buffer
 volatile int spiBufferIdx = 0;
 volatile int spiTransferComplete = 0;
 volatile int imageAnalysIsComplete = 1;
@@ -53,12 +53,10 @@ namespace CameraAnalysis {
         //print values that were sent
         Serial.print("\t"); Serial.print(spiBuffer[i], DEC);
       }
-      //amount of values and time difference
+      //amount of values
       Serial.print("\t"); Serial.println(spiBufferIdx);
 
-
-
-      //reset spi (start getting the new data)
+      //reset spi
       spiTransferComplete = false;
       spiBufferIdx = 0;
     }

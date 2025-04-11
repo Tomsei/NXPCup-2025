@@ -2,7 +2,7 @@
  * servo - definition
  * 
  * Controll the servo for driving to the correct direction.
- * This includes an servo setup and the control the steeringangle
+ * This includes a servo setup and the control the steeringangle
  * 
  * using the Library: servo.h (Arudio)
  * 
