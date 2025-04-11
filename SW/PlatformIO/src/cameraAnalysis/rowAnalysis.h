@@ -33,7 +33,7 @@ namespace CameraAnalysis {
              * update the row data to new row data
              * set rowDataBuffer to the data that should be analysed
              * @param pixelData: the data (image) to analyse
-             * @param row: the row of the image tat shuld get analysed
+             * @param row: the row of the image that should get analysed
              */
             void updateRow(uint32_t* pixelData, int row);
 
@@ -68,7 +68,7 @@ namespace CameraAnalysis {
             /**
              * calulate the track edges of the row
              * just checking if the sobelThreshold is high enough to be an edge
-             * it start from a beginning point and track the first edge to left and right of it
+             * it starts from a beginning point and track the first edge to left and right of it
              * it just calculate one edge to each direction (the first)
              * @param startSearch: the pixel to start looking left and right
              * @return {leftEdge, rightEdge}: a tupel of the left and right Edge 

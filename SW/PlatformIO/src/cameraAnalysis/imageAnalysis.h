@@ -22,7 +22,9 @@ namespace CameraAnalysis {
      * class for the analysis of the complete image
      */
     class ImageAnalysis {
+        
         public:
+
             uint32_t* imageDataBuffer;
             uint16_t trackCenters[NUMBER_OF_LINES];
             uint16_t lastTrackCenters[NUMBER_OF_LINES];
@@ -32,7 +34,7 @@ namespace CameraAnalysis {
             int steeringAngle;
             
             /**
-             * update the image pointer to new image data
+             * update the image pointer to new image data 
              */
             void updateImage(uint32_t* pixelData);
 
@@ -43,9 +45,9 @@ namespace CameraAnalysis {
             u_int32_t* getImage();
 
             /**
-             * calcutlate the steering angle for the analysed image and store it into steeringAngle
+             * calcutlate the steering angle for the analysed image and store it
              * it calculates the distance from the track-center and normal track Center (VIDEO_RESOLUTION_Y)
-             * and scales the value to usable steering values 
+             * and scales the value to usable steering values for the servo 
              */
             void calculateSteeringAngle();
 

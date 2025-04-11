@@ -20,6 +20,8 @@
  
 namespace CameraAnalysis {
 
+    /* ------- public known methods ------------------ */
+
     //comment in .h
     void ImageAnalysis::updateImage(uint32_t* pixelData) {
         imageDataBuffer = pixelData;
@@ -40,11 +42,7 @@ namespace CameraAnalysis {
         //map value to usable size for steering
         tempSteeringAngle *= 0.1;
         
-        //make stronger angles stronger!
         float factor = 1.0;
-        if(tempSteeringAngle > 10) {
-            factor = 1.0;
-        }
 
         //square steering 
         if(tempSteeringAngle < 0) {
@@ -85,7 +83,7 @@ namespace CameraAnalysis {
             speed *= 1.1;
     }
 
-
+    //comment in .h
     void ImageAnalysis::printImage(int start /*= 0*/, int length /*= VIDEO_RESOLUTION_X*NUMBER_OF_LINES*/) {
         CameraAnalysis::printArray(imageDataBuffer, start, length, "print img:\t");
     }
