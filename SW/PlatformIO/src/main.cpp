@@ -17,6 +17,10 @@ void checkingForErrors(); //ToDo: Just to Debug
 
 bool setupSensor = true;
 
+/**
+ * setup the program
+ * call all specific setups for the components
+ */
 void setup() {
   #ifdef CONSOLE
     CONSOLE.begin(115200);
@@ -26,7 +30,7 @@ void setup() {
   Wire.begin();
   Wire1.begin();
   
-  //ToDo: remove - avoid i2c IO-Expander
+  //remove when using IO-Expander - avoid i2c IO-Expander
   pinMode(DIPSWITSCH1, INPUT_PULLUP);
   pinMode(DIPSWITSCH2, INPUT_PULLUP);
   pinMode(DIPSWITSCH3, INPUT_PULLUP);
@@ -46,6 +50,13 @@ void setup() {
   #endif
 }
 
+/**
+ * while loop of the programm
+ * runs the program endless to control the car through
+ * updating and analysing data and controling the car.
+ * 
+ * it also checks if there are Timeed tasks to run
+ */
 void loop() {
   BoardInput::update();
   CameraAnalysis::analyse(true);
@@ -53,6 +64,7 @@ void loop() {
   TimingControl::runTasks();
   
 
+  //ToF sensor just every 30 ms and when finishline is detected
   if(CameraAnalysis::TrackCenterAnalysis::finishLineDetected) {
 
     if (setupSensor) {
@@ -63,9 +75,5 @@ void loop() {
       }, 30, true, true);
 
     }
-    //Sensors::printData();
   }
-
-  //Sensors::printData();
-  //CONSOLE.println(micros());
 }
