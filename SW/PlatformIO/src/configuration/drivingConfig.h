@@ -1,4 +1,10 @@
-//Todo: check possibilities to change configuration dynamicly? if needed
+/**
+ * driving configuration - defines 
+ * all defines that contains to driving control 
+ * 
+ * @author Tom Seiffert
+ */
+
 #define DISTANCE_TO_STOP 230
 
 #define MAX_STEERING_ANGLE 145

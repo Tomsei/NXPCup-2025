@@ -2,7 +2,7 @@
  * servo - declaration
  * 
  * Controll the servo for driving to the correct direction.
- * This includes an engine setup and the control the steeringangle
+ * This includes an servo setup and the control the steeringangle
  * 
  * using the Library: servo.h (Arudio)
  * 
@@ -13,10 +13,6 @@
 #include "Arduino.h"
 
 namespace DrivingControl {
-
-    //ToDo determine the correct values! | ToDo: Move to driving Config
-    #define MAX_STEERING_ANGLE 145
-    #define MIN_STEERING_ANGLE 35
 
     namespace SteeringServo {
         

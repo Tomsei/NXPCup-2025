@@ -14,7 +14,7 @@
 #include "Arduino.h"
 #include "configuration/globalConfig.h"
 #ifndef SINGLE_COMPONENTS_TEST
-#ifndef ANALYSE_ON_CAMERA
+#ifndef ANALYSIS_ON_CAMERA
 
 namespace CameraAnalysis {
     

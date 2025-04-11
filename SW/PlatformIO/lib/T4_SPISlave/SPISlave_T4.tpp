@@ -109,13 +109,13 @@ extern volatile int spiBufferIdx;
 extern volatile int spiTransferComplete;
 extern volatile int imageAnalysIsComplete;
 
-#ifndef ANALYSE_ON_CAMERA
+#ifndef ANALYSIS_ON_CAMERA
 extern uint32_t spiRx[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
 extern uint32_t spiFrontBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
 extern uint32_t spiBackBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
 #endif
 
-#ifdef ANALYSE_ON_CAMERA
+#ifdef ANALYSIS_ON_CAMERA
 extern uint32_t spiRx[SPI_BUFFER_WIDTH];
 extern uint32_t spiFrontBuffer[SPI_BUFFER_WIDTH];
 extern uint32_t spiBackBuffer[SPI_BUFFER_WIDTH];
@@ -157,11 +157,11 @@ SPISlave_T4_FUNC void __attribute__((section(".fustrun"))) SPISlave_T4_OPT::SLAV
     spiBufferToWrite[spiBufferIdx] = SLAVE_RDR;
     
     //increment index depending on array size
-    #ifndef ANALYSE_ON_CAMERA
+    #ifndef ANALYSIS_ON_CAMERA
       if (spiBufferIdx < VIDEO_RESOLUTION_X*NUMBER_OF_LINES-1) spiBufferIdx++;
     #endif
     
-    #ifdef ANALYSE_ON_CAMERA
+    #ifdef ANALYSIS_ON_CAMERA
       if(VIDEO_RESOLUTION_X == 320) {
         spiBufferToWrite[spiBufferIdx] = spiBufferToWrite[spiBufferIdx] * 320 / 253; //mapping back from 0-253 to 0 - 320
       }

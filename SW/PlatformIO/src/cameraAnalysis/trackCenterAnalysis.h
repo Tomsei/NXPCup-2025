@@ -1,7 +1,7 @@
 #include "configuration/globalConfig.h"
 
 #ifndef SINGLE_COMPONENTS_TEST
-#ifdef ANALYSE_ON_CAMERA
+#ifdef ANALYSIS_ON_CAMERA
 
 #include "Arduino.h"
 #include "configuration/cameraAnalysisConfig.h"

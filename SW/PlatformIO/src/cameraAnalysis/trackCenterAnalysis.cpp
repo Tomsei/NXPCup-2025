@@ -1,6 +1,6 @@
 #include "configuration/globalConfig.h"
 #ifndef SINGLE_COMPONENTS_TEST
-#ifdef ANALYSE_ON_CAMERA //todo Change after copy
+#ifdef ANALYSIS_ON_CAMERA //todo Change after copy
 
 #include "cameraAnalysis/trackCenterAnalysis.h"
 #include "cameraAnalysis/camera.h"

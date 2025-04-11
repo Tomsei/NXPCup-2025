@@ -1,5 +1,5 @@
 /**
- * engin - definition
+ * engine - definition
  * 
  * Controll the engine for driving.
  * This includes an engine setup and the control of the engin speed
