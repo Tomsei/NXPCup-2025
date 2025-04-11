@@ -28,12 +28,14 @@ namespace CameraAnalysis {
         void setup();
 
         /**
-         * update image for the image analysis if there is a new image transfered
+         * update image for the image analysis if there is a new image transfered 
+         * approach if no ANALYSIS_ON_CAMERA
          */
         void updateImage();
 
         /**
          * update the trackCenters for the analyse if new track centers are transfered
+         * approach if ANALYSIS_ON_CAMERA
          */
         void updateTrackCenters();
     

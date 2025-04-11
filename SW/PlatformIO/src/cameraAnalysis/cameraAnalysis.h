@@ -1,10 +1,10 @@
 /**
- * camera analysis - definitions
+ * camera analysis - declarations
  * 
  * this file ist relevant if the camera sends image pixel data! (No analysis on camera)
  * 
  * handles everything belonging to the camera analysis.
- * this is the high level camera analysis which administrates the 
+ * This is the high level camera analysis which administrates the 
  * individual components for each task and provides the interface of the camera analysis 
  * 
  * administrates the following tasks:
@@ -33,10 +33,11 @@ namespace CameraAnalysis {
     void setup();
 
     /**
-     * analyse the picture data to get the speed and the steering angle
-     * trys to update Image and analyse it, if there is a new one
+     * trys to update Image and analyse it, 
+     * if there is a new one analyse the picture data 
+     * to get speed and steering angle
      * 
-     * triggers all sub-methods to analyse the image Data and stores the analysed trackCenter data
+     * triggers all sub-methods to analyse the image data and stores the analysed trackCenter data
      */
     void analyse();
 
@@ -47,7 +48,7 @@ namespace CameraAnalysis {
     int getSteeringAngle();
 
     /**
-     * method to geht the calculatet speed
+     * method to get the calculatet speed
      * @return speed
      */
     uint8_t getSpeed();
@@ -60,7 +61,7 @@ namespace CameraAnalysis {
      * @param length: the amout of values to print
      * @param linePrefix: prefix to print before the values
      * 
-     * template<typename IntArray> to make sure an uint8_t and uint16_t array can be printed 
+     * template<typename IntArray> to make sure an uint8_t and uint16_t array could get printed 
      * because it is a template it must be implementet in .h
      */
     template<typename IntArray>
