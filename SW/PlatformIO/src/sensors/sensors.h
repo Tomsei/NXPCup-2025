@@ -17,28 +17,20 @@
 namespace Sensors {
 
     //structure for basic sensor data
-    //ToDo: Remove imu single values (use imu.MotionData)
-    //ToDo: Check if readOnly is possible
     struct RawSensorData { 
         int tofDistance;
         int16_t opticalFlowX;
         int16_t opticalFlowY;
         Imu::MotionData imu;
-        int16_t imuAX;
-        int16_t imuAY;
-        int16_t imuAZ;
-        int16_t imuGX;
-        int16_t imuGY;
-        int16_t imuGZ;
         int ardLineFinder;
     };
 
+    //structure of used sensor data
     struct UsedSensorData {
         int tofDistance;
         int speed;
     };
     
-
     //make it "public" to read data when it is needed
     extern RawSensorData rawData;
     extern UsedSensorData usedData;
