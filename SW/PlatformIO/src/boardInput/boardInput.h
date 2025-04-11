@@ -40,12 +40,12 @@ namespace BoardInput {
     void update();
     
     /**
-     * function to print the current Board Data
+     * function to print the current board data
      */
     void printData();
     
     /**
-     * function got get the current board input Data
+     * function got get the current board input data
      * @return a pointer to the current data!
      */
     Data* getData();
