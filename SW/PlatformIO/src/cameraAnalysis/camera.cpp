@@ -31,12 +31,12 @@ volatile int spiBufferIdx = 0;
 volatile int spiTransferComplete = 0;
 volatile int imageAnalysIsComplete = 1;
 
-#ifndef ANALYSE_ON_CAMERA
+#ifndef ANALYSIS_ON_CAMERA
 uint32_t spiFrontBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
 uint32_t spiBackBuffer[VIDEO_RESOLUTION_X*NUMBER_OF_LINES];
 #endif
 
-#ifdef ANALYSE_ON_CAMERA
+#ifdef ANALYSIS_ON_CAMERA
 uint32_t spiFrontBuffer[SPI_BUFFER_WIDTH];
 uint32_t spiBackBuffer[SPI_BUFFER_WIDTH];
 #endif
@@ -50,11 +50,11 @@ namespace CameraAnalysis {
   SPISlave_T4<&SPI, SPI_8_BITS> mySPI;
 
 
-  #ifndef ANALYSE_ON_CAMERA
+  #ifndef ANALYSIS_ON_CAMERA
   extern ImageAnalysis currentImageAnalysis;
   #endif
 
-  #ifdef ANALYSE_ON_CAMERA
+  #ifdef ANALYSIS_ON_CAMERA
   extern TrackCenterAnalysis currentTrackCenterAnalysis;
   #endif
 
@@ -66,7 +66,7 @@ namespace CameraAnalysis {
     mySPI.swapPins(true);
     pinMode(CAM_SPI_MISO, OUTPUT); 
 
-    #ifdef ANALYSE_ON_CAMERA
+    #ifdef ANALYSIS_ON_CAMERA
       currentTrackCenterAnalysis.updateTrackCenters(spiBufferToRead);
     #endif
 
@@ -77,14 +77,14 @@ namespace CameraAnalysis {
 
 
   
-  #ifndef ANALYSE_ON_CAMERA
+  #ifndef ANALYSIS_ON_CAMERA
   
   //comment in .h
   void OpenMVCam::updateImage() {
 
     //reading SPI-data when transfer is finished!
     if(spiTransferComplete){
-      
+
       //just updating image if analysis is finished (otherwise skip the frame)
       if(imageAnalysIsComplete) {
         imageAnalysIsComplete = 0;
@@ -97,7 +97,7 @@ namespace CameraAnalysis {
   }
   #endif
 
-  #ifdef ANALYSE_ON_CAMERA //todo change!
+  #ifdef ANALYSIS_ON_CAMERA //todo change!
 
   //coment in .h
   void OpenMVCam::updateTrackCenters() {

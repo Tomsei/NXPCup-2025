@@ -14,7 +14,7 @@
 #include "Arduino.h"
 #include "configuration/globalConfig.h"
 #ifndef SINGLE_COMPONENTS_TEST
-#ifndef ANALYSE_ON_CAMERA
+#ifndef ANALYSIS_ON_CAMERA
 
 namespace CameraAnalysis {
     
@@ -53,7 +53,7 @@ namespace CameraAnalysis {
 
 
             /**
-             * calculate the speed for the analysed image and store it into speed
+             * calculate the speed for the analysed image and store it
              * depending on the straight lines ahead the the speed gets calculate
              * includes also a speed compensation in very hard turns
              */

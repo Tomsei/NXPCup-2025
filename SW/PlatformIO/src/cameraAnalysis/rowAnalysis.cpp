@@ -16,7 +16,7 @@
  */
 #include "configuration/globalConfig.h"
 #ifndef SINGLE_COMPONENTS_TEST
-#ifndef ANALYSE_ON_CAMERA
+#ifndef ANALYSIS_ON_CAMERA
 
 #include "cameraAnalysis/rowAnalysis.h"
 #include "cameraAnalysis/cameraAnalysis.h"
@@ -68,8 +68,6 @@ namespace CameraAnalysis {
         //default edges at end of line
         uint16_t leftEdge = 0;
         uint16_t rightEdge = VIDEO_RESOLUTION_X-2;
-
-        //ToDo: Check if the Edge is Big enaugh!
 
         //search left edge
         for(int i = startSearch; i >= 0; i--) {

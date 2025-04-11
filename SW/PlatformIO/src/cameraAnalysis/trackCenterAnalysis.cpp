@@ -1,6 +1,22 @@
+/**
+ * track center analysis - definitions
+ * 
+ * this file ist relevant if the camera sends track centeres! (analysis on camera)
+ * 
+ * handles everything belonging to the camera analysis.
+ * This is the high level camera analysis which administrates the 
+ * individual components for each task and provides the interface of the camera analysis 
+ * 
+ * administrates the following tasks:
+ * OpenMVCam: SPI connection to camera
+ * ImageAnalysis: analysis of the whole image
+ * rowAnalysis: analysis of a single row
+ * 
+ * @author Tom Seiffert
+ */
 #include "configuration/globalConfig.h"
 #ifndef SINGLE_COMPONENTS_TEST
-#ifdef ANALYSE_ON_CAMERA //todo Change after copy
+#ifdef ANALYSIS_ON_CAMERA //todo Change after copy
 
 #include "cameraAnalysis/trackCenterAnalysis.h"
 #include "cameraAnalysis/camera.h"
