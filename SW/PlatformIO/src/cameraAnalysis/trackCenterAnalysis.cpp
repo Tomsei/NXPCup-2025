@@ -21,18 +21,30 @@ namespace CameraAnalysis {
     TrackCenterAnalysis currentTrackCenterAnalysis;
 
     //Todo Move to config + work correkt!
-    #define MIN_STEERING_LINE 10
-    #define MAX_STEERING_LINE 80
     #define MAX_STEERING_LINE_SLOW 30 //take slow line - in front of car
-    #define MAX_STEERING_LINE_CUTTING 85
-    #define MAX_STEERING_LINE_TURN 75 //abhängig von der Ist Geschwindigkeit die Linie nach vorne verschieben!!
-
-    #define SPEED_HIGH 27
-    #define SPEED_MEDIUM 23
-    #define SPEED_SLOW 19
     
-    uint16_t maxSteeringLine = MAX_STEERING_LINE;
-    uint16_t maxSteeringLineTurn = MAX_STEERING_LINE_TURN;
+    #define MIN_STEERING_LINE 10
+    //#define MAX_STEERING_LINE 80
+    //#define MAX_STEERING_LINE_CUTTING 85
+    //#define MAX_STEERING_LINE_TURN 75 //abhängig von der Ist Geschwindigkeit die Linie nach vorne verschieben!!
+
+    #define HIGH_SPEED 27
+    #define HIGH_MAX_STEERING_LINE 80
+    #define HIGH_MAX_STEERING_LINE_TURN 75
+    //#define HIGH_MAX_STEERING_LINE_CUTTING 85
+
+    #define MEDIUM_SPEED 23
+    #define MEDIUM_MAX_STEERING_LINE 80
+    #define MEDIUM_MAX_STEERING_LINE_TURN 75
+    #define MEDIUM_BREAK_DISTANCE
+
+    #define SLOW_SPEED 19
+    #define SLOW_MAX_STEERING_LINE 80
+    #define SLOW_MAX_STEERING_LINE_TURN 75
+    //#define HIGH_MAX_STEERING_LINE_CUTTING 85
+    
+    uint16_t maxSteeringLine = SLOW_MAX_STEERING_LINE;
+    uint16_t maxSteeringLineTurn = SLOW_MAX_STEERING_LINE_TURN;
     
 
     //comment in .h
@@ -50,8 +62,8 @@ namespace CameraAnalysis {
 
         bool success = true;
     
-        //reed maxSteeringLine (cutting)
-        bool steeringLineCrossing = false;
+        //ToDo: use if needed//reed maxSteeringLine (cutting)
+        /*bool steeringLineCrossing = false;
         for (uint8_t i = 0; i < 3; i++) {
             if(i > 0 && steeringLineCrossing != !digitalRead(DIPSWITSCH4)) {
                 success = false; 
@@ -64,7 +76,7 @@ namespace CameraAnalysis {
         }
         else {
             maxSteeringLine = MAX_STEERING_LINE;
-        }
+        } */
 
         //read choosen speed //slow / Medium
         bool lowMediumSpeed = false;
@@ -76,10 +88,14 @@ namespace CameraAnalysis {
         }
 
         if(lowMediumSpeed) {
-            currentTrackCenterAnalysis.choosenSpeed = SPEED_MEDIUM;
+            currentTrackCenterAnalysis.choosenSpeed = MEDIUM_SPEED;
+            maxSteeringLine = MEDIUM_MAX_STEERING_LINE;
+            maxSteeringLineTurn = MEDIUM_MAX_STEERING_LINE_TURN;
         }
         else {
-            currentTrackCenterAnalysis.choosenSpeed = SPEED_SLOW;
+            currentTrackCenterAnalysis.choosenSpeed = SLOW_SPEED;
+            maxSteeringLine = SLOW_MAX_STEERING_LINE;
+            maxSteeringLineTurn = SLOW_MAX_STEERING_LINE_TURN;
         }
 
         // high speed
@@ -92,7 +108,9 @@ namespace CameraAnalysis {
         }
 
         if(highSpeed) {
-            currentTrackCenterAnalysis.choosenSpeed = SPEED_HIGH;
+            currentTrackCenterAnalysis.choosenSpeed = HIGH_SPEED;
+            maxSteeringLine = HIGH_MAX_STEERING_LINE;
+            maxSteeringLineTurn = HIGH_MAX_STEERING_LINE_TURN;
         }
 
         CONSOLE.print("Trackcenter successfull - max Steering Line: "); CONSOLE.println(maxSteeringLine);
@@ -235,7 +253,7 @@ namespace CameraAnalysis {
 
 
     uint8_t breakFrames = 0;
-    uint16_t breakCooldown = 15;
+    uint16_t breakCooldown = 0;
     
     //comment in .h
     void TrackCenterAnalysis::calculateSpeed() {
@@ -244,9 +262,9 @@ namespace CameraAnalysis {
             speed = choosenSpeed;
             speed += lastStraightLine/15;
             
-            if(BoardInput::data.speedMode > 9 && abs(steeringAngle) > 10 && breakFrames == 0 && breakCooldown == 0) {
-                breakFrames = 1;
-                breakCooldown = 15;
+            if(BoardInput::data.speedMode > 13 && abs(steeringAngle) > 20 && breakFrames == 0 && breakCooldown == 0) {
+                breakFrames = 2;
+                breakCooldown = 30;
             }
             if(breakFrames > 0) {
                 speed = 0;
