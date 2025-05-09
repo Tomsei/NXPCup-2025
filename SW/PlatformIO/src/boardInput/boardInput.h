@@ -22,6 +22,7 @@ namespace BoardInput {
         uint8_t dipSwitch;
         uint8_t button1;
         uint8_t button2;
+        uint16_t speedMode;
     };
 
     enum DipSwitchEnum : uint8_t {S1 = 1, S2 = 2, S3 = 4, S4 = 8};

@@ -6,6 +6,7 @@
 #include "cameraAnalysis/camera.h"
 #include "dataVisualization/display.h"
 #include "sensors/sensors.h"
+#include "boardInput/boardInput.h"
 
 namespace CameraAnalysis {
 
@@ -232,16 +233,35 @@ namespace CameraAnalysis {
     }
 
 
+
+    uint8_t breakFrames = 0;
+    uint16_t breakCooldown = 15;
     
     //comment in .h
     void TrackCenterAnalysis::calculateSpeed() {
         if(!TrackCenterAnalysis::finishLineDetected  || (!enableFinishLineDetection)) {
+
             speed = choosenSpeed;
             speed += lastStraightLine/15;
+            
+            if(BoardInput::data.speedMode > 9 && abs(steeringAngle) > 10 && breakFrames == 0 && breakCooldown == 0) {
+                breakFrames = 1;
+                breakCooldown = 15;
+            }
+            if(breakFrames > 0) {
+                speed = 0;
+                breakFrames--;
+            }
+            if(breakCooldown > 0) {
+                breakCooldown--;
+            }
         }
         else {
             speed = 13;
         }
+        CONSOLE.print("speed Mode: "); CONSOLE.print(BoardInput::data.speedMode);
+        CONSOLE.print(" steering Angle: "); CONSOLE.println(steeringAngle);
+        
         //CONSOLE.print(speed); CONSOLE.print(" <- speed - lastStraigLine -> "); CONSOLE.print(lastStraightLine); CONSOLE.print(" ----");
     }
 

@@ -15,7 +15,7 @@
 #define ANALYSE_ON_CAMERA
 
 /* serial definition (bluetooth / usb)*/
-#define CONSOLE Serial
+#define CONSOLE Serial8
 
 
 
@@ -58,3 +58,10 @@
 #define IO_EX_DIPSWITCH6 5
 #define IO_EX_DIPSWITCH7 6
 #define IO_EX_DIPSWITCH8 7
+
+ //Speed Mode pins
+ #define SPEED_MODE_PIN1 41
+ #define SPEED_MODE_PIN2 40
+ #define SPEED_MODE_PIN3 39
+ #define SPEED_MODE_PIN4 37
+ #define SPEED_MODE_PIN5 36

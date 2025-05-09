@@ -25,6 +25,8 @@ namespace BoardInput {
     int readPoti(int poti);
     uint8_t readButton(int button);
     uint8_t readDipSwitch();
+    uint16_t readSpeedMode();
+
 
     /* ------- public known methods ------------------ */
 
@@ -32,6 +34,11 @@ namespace BoardInput {
     void setup() {
         //setupIoExpander(); //ToDo: remove - avoid i2c IO-Expander
         setupData();
+        pinMode(SPEED_MODE_PIN1, INPUT);
+        pinMode(SPEED_MODE_PIN2, INPUT);
+        pinMode(SPEED_MODE_PIN3, INPUT);
+        pinMode(SPEED_MODE_PIN4, INPUT);
+        pinMode(SPEED_MODE_PIN5, INPUT);
     }
 
     // comment in .h file
@@ -39,6 +46,7 @@ namespace BoardInput {
     void update() {
         data.poti1 = readPoti(POTI1);
         data.poti2 = readPoti(POTI2);
+        data.speedMode = readSpeedMode();
         /*//ToDo: remove - avoid i2c IO-Expander
         data.button1 = readButton(IO_EX_BUTTON1);
         data.button2 = readButton(IO_EX_BUTTON2);
@@ -104,6 +112,7 @@ namespace BoardInput {
         data.button1 = 0;
         data.button2 = 0;
         data.dipSwitch = 0;
+        data.speedMode = 0;
     }
 
     /**
@@ -136,5 +145,20 @@ namespace BoardInput {
         dipSwitchvalue -= ioExpander.digitalRead(IO_EX_DIPSWITCH3) * 4;
         dipSwitchvalue -= ioExpander.digitalRead(IO_EX_DIPSWITCH4) * 8;
         return dipSwitchvalue;
+    }
+
+    /**
+     * read speed mode given from extern Teensy
+     * - create decimal representation of speed Mode
+     * @return: speed mode wich is send
+     */
+    uint16_t readSpeedMode() {
+        uint16_t speedMode = 0;
+        speedMode += digitalRead(SPEED_MODE_PIN1) * 1;
+        speedMode += digitalRead(SPEED_MODE_PIN2) * 2;
+        speedMode += digitalRead(SPEED_MODE_PIN3) * 4;
+        speedMode += digitalRead(SPEED_MODE_PIN4) * 8;
+        speedMode += digitalRead(SPEED_MODE_PIN5) * 16;
+        return speedMode;
     }
 }
